@@ -45,19 +45,21 @@ int main(int argc, char *argv[])
     rtt[j]=((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec));
     }
     avg=0;
-    for(j=0;j<10;j++)
+    for(j=1;j<10;j++)
     {
 	avg+=rtt[j];
     }
-    avg=avg/10;
+    avg=avg/9;
     std=0;
-    for(j=0;j<10;j++)
+    for(j=1;j<10;j++)
     {
        std+=pow(rtt[j]-avg,2);
 
     }
-    std=sqrt(std/10);
+    std=sqrt(std/9);
     printf("avg is %lf and std is %lf for process %d size= %d \n",avg,std, rank,i*sizeof(int));
+    free(buffer);
+    free(buffer2);
     }
     MPI_Finalize();
     return 0;
