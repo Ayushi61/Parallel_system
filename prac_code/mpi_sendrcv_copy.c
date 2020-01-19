@@ -10,6 +10,7 @@ int main(int argc, char *argv[])
     int *buffer, *buffer2;
     MPI_Request request;
     MPI_Status status;
+    //printf("size of int is %d\n",sizeof(int));
     char  hostname[MPI_MAX_PROCESSOR_NAME]; 
     MPI_Init(&argc,&argv);
     MPI_Comm_size(MPI_COMM_WORLD, &numproc);
@@ -39,14 +40,37 @@ int main(int argc, char *argv[])
      
     for(j=0;j<10;j++)
     {
+//    buffer=(int *)malloc(i*sizeof(int));
+//    buffer2=(int *)malloc(i*sizeof(int));
+//    *buffer=rank;
+    //printf ("Hello from task %d on %s!\n", rank, hostname);
+    //pair_rcv = (rank + 1) % numproc;
+    //pair_send = rank - 1;
+    //if (pair_send < 0)
+    //    pair_send = numproc - 1;
+//    if(rank<(numproc/2))
+//	{
+//		pair_send=(numproc/2)+rank;
+//		pair_rcv=pair_send;
+//	}
+//    else
+//	{
+//		pair_send=rank%(numproc/2);
+//		pair_rcv=pair_send;
+//	}
+    //printf("received message is %d\n",buffer2[0]);
+    //printf("message sending prco number : %d\n", rank);
     gettimeofday(&start, NULL);
     MPI_Sendrecv(buffer, i, MPI_INT, pair_send, 123, buffer2, i, MPI_INT, pair_rcv, 123, MPI_COMM_WORLD, &status);
     gettimeofday(&end, NULL);
     rtt[j]=((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec));
+    //printf("time taken for pair %d-%d is %ld for size %d\n", rank,pair_send, ((end.tv_sec * 1000000 + end.tv_usec) - (start.tv_sec * 1000000 + start.tv_usec)),i*sizeof(int));
+    //printf("received message is %d from %d\n",*buffer2,rank); 
     }
     for(j=1;j<10;j++)
     {
 	avg+=rtt[j];
+        //std+=pow(rtt[j])
     }
     avg=avg/9;
     for(j=1;j<10;j++)
@@ -56,6 +80,7 @@ int main(int argc, char *argv[])
     }
     std=sqrt(std/9);
     printf("avg is %lf and std is %lf for process %d size= %d \n",avg,std, rank,i*sizeof(int));
+    //printf("message sending prco number : %d size %d\n", rank,i*sizeof(int));
     }
     MPI_Finalize();
     return 0;
