@@ -20,14 +20,14 @@ int main(int argc, char *argv[])
     int rtt[10];
     struct timeval start, end;
     size=4;
-    if(rank<(numproc/2))
+    if(rank%2==0)
         {
-                pair_send=(numproc/2)+rank;
+                pair_send=rank+1;
                 pair_rcv=pair_send;
         }
     else
         {
-                pair_send=rank%(numproc/2);
+                pair_send=rank-1;
                 pair_rcv=pair_send;
         }
 
