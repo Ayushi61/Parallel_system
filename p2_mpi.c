@@ -41,11 +41,11 @@ int main (int argc, char *argv[])
 	int i;
 	int start;
 	int end;
-	int counts;
-	int disp;
+	int *counts=(int*)(malloc(sizeof(int)*numproc));
+	int *disp=(int*)(malloc(sizeof(int)*numproc));
 
-	//for(i=0; i<numproc; i++)
-	//{
+	for(i=0; i<numproc; i++)
+	{
 		if(rank < NGRID%numproc)
         	{
             		start = 1 + (NGRID/numproc)*rank + rank;
@@ -57,9 +57,9 @@ int main (int argc, char *argv[])
             		end = start + (NGRID/numproc) -1;
         	}
 	
-		counts = end - start + 1;
-		disp = start - 1;
-	//}
+		counts[i] = end - start + 1;
+		disp[i] = start - 1;
+	}
 
 	double dx;
 	double *xc =	(double *)malloc(sizeof(double) * (end-start+3));
@@ -84,9 +84,9 @@ int main (int argc, char *argv[])
 
 	if( gat_typ == 0 )
 	{
-		MPI_Gatherv( &xc[1], end-start+1, MPI_DOUBLE, fxc, &counts, &disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-		MPI_Gatherv( &yc[1], end-start+1, MPI_DOUBLE, fyc, &counts, &disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-		MPI_Gatherv( &dyc[1], end-start+1, MPI_DOUBLE, fdyc, &counts, &disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Gatherv( &xc[1], end-start+1, MPI_DOUBLE, fxc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Gatherv( &yc[1], end-start+1, MPI_DOUBLE, fyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Gatherv( &dyc[1], end-start+1, MPI_DOUBLE, fdyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 	}
 
 	if(rank==0)
