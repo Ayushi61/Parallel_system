@@ -72,10 +72,24 @@ int main (int argc, char *argv[])
 	for(i=start[rank]; i<=end[rank]; i++)
                 xc[i-start[rank]+1] = XI + (XF - XI) * (double)(i-1)/(double)(NGRID - 1);
 
-	dx = xc[2] - xc[1];
-	xc[0] = xc[1] - dx;
-	xc[end[rank]-start[rank]+2]= xc[end[rank]-start[rank]+1] + dx;
-
+	//dx = xc[2] - xc[1];
+	//double b_1,b_2;
+	//b_1 = xc[1] - dx;
+	//b_2= xc[end[rank]-start[rank]+1] + dx;
+	if(p2p_typ==0)
+	{
+		if(rank!=0)
+		{
+			MPI_Send(&xc[1],1,MPI_DOUBLE,rank-1,123,MPI_COMM_WORLD);
+			MPI_Recv(&xc[end[rank]-start[rank]+2],1,MPI_DOUBLE,rank+1,123,MPI_COMM_WORLD,&status);
+			
+		}
+		if((rank)!=numproc)
+		{
+			MPI_Send(&xc[end[rank]-start[rank]+1],1,MPI_DOUBLE,rank+1,123,MPI_COMM_WORLD);
+			MPI_Recv(&xc[0],1,MPI_DOUBLE,rank-1,123,MPI_COMM_WORLD,&status);
+		}	
+	}
 	for(i=start[rank]-1; i<=end[rank]+1; i++)
                 yc[i-start[rank]+1] = fn(xc[i-start[rank]+1]);
 
