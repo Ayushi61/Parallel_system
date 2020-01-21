@@ -46,14 +46,14 @@ int main (int argc, char *argv[])
 
 	for(i=0; i<numproc; i++)
 	{
-		if(rank < NGRID%numproc)
+		if(i < NGRID%numproc)
         	{
-            		start = 1 + (NGRID/numproc)*rank + rank;
+            		start = 1 + (NGRID/numproc)*i + i;
             		end = start + (NGRID/numproc);
         	}
         	else
         	{
-            		start = 1 + (NGRID/numproc)*rank +(NGRID%numproc);
+            		start = 1 + (NGRID/numproc)*i +(NGRID%numproc);
             		end = start + (NGRID/numproc) -1;
         	}
 	
