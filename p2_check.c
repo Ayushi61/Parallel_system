@@ -39,63 +39,63 @@ int main (int argc, char *argv[])
 	double start_time = MPI_Wtime();
 	
 	int i;
-	int start;
-	int end;
-	int *counts=(int *)(malloc(sizeof(int)*numproc));
-	int *disp=(int *)(malloc(sizeof(int)*numproc));
+	int *start= (int *)malloc(sizeof(int)*numproc);
+	int *end = (int *)malloc(sizeof(int)*numproc);
+	int *counts = (int *)malloc(sizeof(int)*numproc);
+	int *disp = (int *)malloc(sizeof(int)*numproc);
 
 	for(i=0; i<numproc; i++)
 	{
-		if(rank < NGRID%numproc)
+		if(i < NGRID%numproc)
         	{
-            		start = 1 + (NGRID/numproc)*rank + rank;
-            		end = start + (NGRID/numproc);
+            		start[i] = 1 + (NGRID/numproc)*i + i;
+            		end[i] = start[i] + (NGRID/numproc);
         	}
         	else
         	{
-            		start = 1 + (NGRID/numproc)*rank +(NGRID%numproc);
-            		end = start + (NGRID/numproc) -1;
+            		start[i] = 1 + (NGRID/numproc)*i +(NGRID%numproc);
+            		end[i] = start[i] + (NGRID/numproc) -1;
         	}
 	
-		counts[i] = end - start + 1;
-		disp[i] = start - 1;
+		counts[i] = end[i] - start[i] + 1;
+		disp[i] = start[i] - 1;
 	}
 
 	double dx;
-	double *xc =	(double *)malloc(sizeof(double) * (end-start+3));
-	double *yc =	(double *)malloc(sizeof(double) * (end-start+3));
-	double *dyc =	(double *)malloc(sizeof(double) * (end-start+2));
+	double *xc =	(double *)malloc(sizeof(double) * (end[rank]-start[rank]+3));
+	double *yc =	(double *)malloc(sizeof(double) * (end[rank]-start[rank]+3));
+	double *dyc =	(double *)malloc(sizeof(double) * (end[rank]-start[rank]+2));
 	double *fxc =	(double *)malloc(sizeof(double) * NGRID);
 	double *fyc =	(double *)malloc(sizeof(double) * NGRID);
 	double *fdyc =	(double *)malloc(sizeof(double) * NGRID);
 	
-	for(i=start; i<=end; i++)
-                xc[i-start+1] = XI + (XF - XI) * (double)(i-1)/(double)(NGRID - 1);
+	for(i=start[rank]; i<=end[rank]; i++)
+                xc[i-start[rank]+1] = XI + (XF - XI) * (double)(i-1)/(double)(NGRID - 1);
 
 	dx = xc[2] - xc[1];
 	xc[0] = xc[1] - dx;
-	xc[end-start+2]= xc[end-start+1] + dx;
+	xc[end[rank]-start[rank]+2]= xc[end[rank]-start[rank]+1] + dx;
 
-	for(i=start-1; i<=end+1; i++)
-                yc[i-start+1] = fn(xc[i-start+1]);
+	for(i=start[rank]-1; i<=end[rank]+1; i++)
+                yc[i-start[rank]+1] = fn(xc[i-start[rank]+1]);
 
-	for(i=start; i<=end; i++)
-                dyc[i-start+1] = (yc[i-start+2] - yc[i-start])/(2.0 * dx);
+	for(i=start[rank]; i<=end[rank]; i++)
+                dyc[i-start[rank]+1] = (yc[i-start[rank]+2] - yc[i-start[rank]])/(2.0 * dx);
 
 	if( gat_typ == 0 )
 	{
-		MPI_Gatherv( &xc[1], end-start+1, MPI_DOUBLE, fxc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-		MPI_Gatherv( &yc[1], end-start+1, MPI_DOUBLE, fyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
-		MPI_Gatherv( &dyc[1], end-start+1, MPI_DOUBLE, fdyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Gatherv( &xc[1], end[rank]-start[rank]+1, MPI_DOUBLE, fxc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Gatherv( &yc[1], end[rank]-start[rank]+1, MPI_DOUBLE, fyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
+		MPI_Gatherv( &dyc[1], end[rank]-start[rank]+1, MPI_DOUBLE, fdyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
 	}
 
 	if(rank==0)
 		print_function_data(NGRID, fxc, fyc, fdyc);
 	
-	//free(start);
-	//free(end);
-	//free(counts);
-	//free(disp);
+	free(start);
+	free(end);
+	free(counts);
+	free(disp);
 	free(xc);
 	free(yc);
 	free(dyc);
