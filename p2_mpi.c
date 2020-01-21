@@ -94,8 +94,8 @@ int main (int argc, char *argv[])
 	
 	//free(start);
 	//free(end);
-	//free(counts);
-	//free(disp);
+	free(counts);
+	free(disp);
 	free(xc);
 	free(yc);
 	free(dyc);
