@@ -97,6 +97,7 @@ int main (int argc, char *argv[])
         if( gat_typ == MAN_G && p2p_typ==NBLK )
             for( i=0; i<numproc; i++ )
             {
+                /* buggy - ayushi is working on it */
                 MPI_Isend(&xc[1], counts[rank], MPI_DOUBLE, 0, -------------, MPI_COMM_WORLD, &request1_send);
                 MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
             } 
@@ -105,6 +106,7 @@ int main (int argc, char *argv[])
         yc[0] = rank==0 ? fn(xc[0]) : 0;
         yc[my_end-my_start+2] = rank==numproc-1 ? fn(xc[my_end-my_start+2]) : 0;
 
+        /* setting up non-blocking recieve for yc edge values */
         if( p2p_typ == NBLK )
         {
             if( rank != 0 )
@@ -114,10 +116,12 @@ int main (int argc, char *argv[])
                 MPI_Irecv(&yc[my_end-my_start+2], 1, MPI_DOUBLE, rank+1, 123, MPI_COMM_WORLD, &right_rcv);
         }
         
+        /* Calculating my own YC */
         for(i=my_start; i<=my_end; i++)
             yc[i-my_start+1] = fn(xc[i-my_start+1]);
 
-        if( p2p_typ == BLK )
+        /* Send my edge YC for other nodes */    
+        if( p2p_typ == BLK ) /* When blocking send and recieve here - ayushi working on resolving deadlock risks */
         {
             if( rank != 0 )
             {
@@ -131,7 +135,7 @@ int main (int argc, char *argv[])
                 MPI_Recv(&yc[my_end-my_start+2], 1, MPI_DOUBLE, rank+1, 123, MPI_COMM_WORLD, &status);
             }	
         }
-        else
+        else /* Non-blocking sending of boundary values */
         {
             MPI_Isend(&yc[1], 1, MPI_DOUBLE, rank-1, 123, MPI_COMM_WORLD, &request1_send);
             MPI_Isend(&yc[my_end-my_start+1], 1, MPI_DOUBLE, rank+1, 123, MPI_COMM_WORLD, &request2_send);
@@ -139,7 +143,7 @@ int main (int argc, char *argv[])
         /* YC calculation section ends */
 
         /* wait for left and right to be recieved before proceeding for dyc */
-        if( p2p_typ==NBLK )
+        if( p2p_typ==NBLK ) /* Only applicable for non-blocking, blocking already garunteed to be receieved */
         {
             MPI_Wait(&left_rcv, &status);
             MPI_Wait(&right_rcv, &status);
@@ -153,33 +157,32 @@ int main (int argc, char *argv[])
             MPI_Gatherv( &yc[1], my_end-my_start+1, MPI_DOUBLE, fyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
             MPI_Gatherv( &dyc[1], my_end-my_start+1, MPI_DOUBLE, fdyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         }
-        else if(gat_typ==1 && p2p_typ==NBLK)
+        else if(gat_typ==MAN_G && p2p_typ==BLK) /* Blocking manual gathers */
         {
-            if(rank!=0)
+            if( rank!=0 )
             {	
-
-                MPI_Send(&xc[1], my_end-my_start+1, MPI_DOUBLE,0,123,MPI_COMM_WORLD);
-                MPI_Send(&yc[1], my_end-my_start+1, MPI_DOUBLE,0,124,MPI_COMM_WORLD);
-                MPI_Send(&dyc[1], my_end-my_start+1, MPI_DOUBLE,0,125,MPI_COMM_WORLD);
+                MPI_Send(&xc[1], my_end-my_start+1, MPI_DOUBLE, 0, 123, MPI_COMM_WORLD);
+                MPI_Send(&yc[1], my_end-my_start+1, MPI_DOUBLE, 0, 124, MPI_COMM_WORLD);
+                MPI_Send(&dyc[1], my_end-my_start+1, MPI_DOUBLE, 0, 125, MPI_COMM_WORLD);
             }
             else
             {	
-                for(i=1;i<=numproc-1;i++)
+                for(i=1; i<numproc; i++)
                 {
-                    MPI_Recv(fxc+disp[i],counts[i],MPI_DOUBLE,i,123,MPI_COMM_WORLD,&status);	
-                    MPI_Recv(fyc+disp[i],counts[i],MPI_DOUBLE,i,124,MPI_COMM_WORLD,&status);
-                    MPI_Recv(fdyc+disp[i],counts[i],MPI_DOUBLE,i,125,MPI_COMM_WORLD,&status);
+                    MPI_Recv( fxc+disp[i], counts[i], MPI_DOUBLE, i, 123, MPI_COMM_WORLD, &status);	
+                    MPI_Recv( fyc+disp[i], counts[i], MPI_DOUBLE, i, 124, MPI_COMM_WORLD, &status);
+                    MPI_Recv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, 125, MPI_COMM_WORLD, &status);
                 }
-                for(i=0;i<end[0];i++)
+                for(i=0; i<my_end; i++)
                 {
-                    fxc[i]=xc[i+1];
-                    fyc[i]=yc[i+1];
-                    fdyc[i]=dyc[i+1];
+                    fxc[i] = xc[i+1];
+                    fyc[i] = yc[i+1];
+                    fdyc[i] = dyc[i+1];
                 }
             }
         }
 
-        if(rank==0)
+        if(rank==0 && /* all recive complete*/)
             print_function_data(NGRID, fxc, fyc, fdyc);
         
         /* Freeing all the the allocated variables */
@@ -192,7 +195,7 @@ int main (int argc, char *argv[])
         free(fyc);
         free(fdyc);
 
-        printf("%d - %f\n", rank, MPI_Wtime()-start_time);
+        //printf("%d - %f\n", rank, MPI_Wtime()-start_time);
 
         MPI_Finalize();
     }
