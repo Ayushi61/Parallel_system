@@ -12,7 +12,7 @@
 #define MAN_G   1
 #define XC_TAG  4
 #define YC_TAG  5
-#define DYC_TAG 6
+#define DYC_TAG 7
 
 /* function declarations */
 double  fn(double);
