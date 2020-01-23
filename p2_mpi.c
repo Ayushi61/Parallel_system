@@ -101,7 +101,7 @@ int main (int argc, char *argv[])
         if( gat_typ == MAN_G && p2p_typ==NBLK )
         {
             if( rank != 0 )
-                    MPI_Isend( &xc[1], counts[i], MPI_DOUBLE, 0, XC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
+                    MPI_Isend( &xc[1], counts[rank], MPI_DOUBLE, 0, XC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
             else
                 for( i=1; i<numproc; i++ )
                     MPI_Irecv( fxc+disp[i], counts[i], MPI_DOUBLE, i, XC_TAG*i, MPI_COMM_WORLD, &gather_data[3*(i-1)]);
@@ -129,7 +129,7 @@ int main (int argc, char *argv[])
         if( gat_typ == MAN_G && p2p_typ==NBLK )
         {
             if( rank != 0 )
-                    MPI_Isend( &yc[1], counts[i], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
+                    MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
             else
                 for( i=1; i<numproc; i++)
                     MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, YC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
@@ -173,15 +173,14 @@ int main (int argc, char *argv[])
         for(i=my_start; i<=my_end; i++)
             dyc[i-my_start+1] = (yc[i-my_start+2] - yc[i-my_start])/(2.0 * dx);
 
-        //shrik
-        //need to send and gather dyc
+
         if( gat_typ == MAN_G && p2p_typ==NBLK )
         {
             if(rank!=0)
-                MPI_Isend( &dyc[1], counts[i], MPI_DOUBLE, 0, DYC_TAG*rank, MPI_COMM_WORLD, &send_dummy ); // need to use diff tags
+                MPI_Isend( &dyc[1], counts[rank], MPI_DOUBLE, 0, DYC_TAG*rank, MPI_COMM_WORLD, &send_dummy ); // need to use diff tags
             else
                 for(i=1;i<numproc; i++)
-                    MPI_Irecv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, DYC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] ); // diff tags
+                    MPI_Irecv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, DYC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] );
         }
 
         /* need to setup non-bloaking manual  */
@@ -220,34 +219,31 @@ int main (int argc, char *argv[])
                 }
         }
 
-	
-	//shrik	
-	if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
-	{
-		int count_flag = 0;	
-		i = 0;
-		int flag;
-		while(1)
-		{
-			if(gather_data[i] != MPI_REQUEST_NULL)
+        
+        if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
+        {
+			int count_flag = 0;
+			i = 0;
+			int flag;
+			while(1)
 			{
-				MPI_Test(&gather_data[i], &flag, &status);
-				count_flag += flag;
-				//printf("flag: %d, count_flag: %d\n",flag, count_flag);
+					if(gather_data[i] != MPI_REQUEST_NULL)
+					{
+							MPI_Test(&gather_data[i], &flag, &status);
+							count_flag += flag;
+							
+					}
+					if(count_flag == (3*numproc-4))
+					{
+							break;
+					}
+					if(i == 3*numproc -4)
+					{
+							i = -1;
+					}
+					i++;
 			}
-			if(count_flag == (3*numproc-4))
-			{
-				break;
-			}
-			if(i == 3*numproc -4)
-			{
-				i = -1;
-			}
-			i++;
-		}
-	}
-	
-        if(rank==0 /* all recive complete*/)
+        }
 
         end_time = MPI_Wtime()-start_time;
         MPI_Reduce( &end_time, &average_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
