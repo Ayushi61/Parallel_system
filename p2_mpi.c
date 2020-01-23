@@ -222,27 +222,27 @@ int main (int argc, char *argv[])
         
         if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
         {
-			int count_flag = 0;
-			i = 0;
-			int flag;
-			while(1)
+		int count_flag = 0;
+		i = 0;
+		int flag;
+		while(1)
+		{
+			if(gather_data[i] != MPI_REQUEST_NULL)
 			{
-					if(gather_data[i] != MPI_REQUEST_NULL)
-					{
-							MPI_Test(&gather_data[i], &flag, &status);
-							count_flag += flag;
-							
-					}
-					if(count_flag == (3*numproc-4))
-					{
-							break;
-					}
-					if(i == 3*numproc -4)
-					{
-							i = -1;
-					}
-					i++;
+				MPI_Test(&gather_data[i], &flag, &status);
+				count_flag += flag;
+					
 			}
+			if(count_flag == (3*numproc-3))
+			{
+				break;
+			}
+			if(i == 3*numproc -4)
+			{
+				i = -1;
+			}
+			i++;
+		}
         }
 
         end_time = MPI_Wtime()-start_time;
