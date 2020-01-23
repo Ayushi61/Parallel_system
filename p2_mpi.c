@@ -10,9 +10,9 @@
 #define NBLK    1
 #define MPI_G   0
 #define MAN_G   1
-#define XC_TAG  4
-#define YC_TAG  5
-#define DYC_TAG 7
+#define XC_TAG  13
+#define YC_TAG  17
+#define DYC_TAG 23
 
 /* function declarations */
 double  fn(double);
