@@ -225,7 +225,14 @@ int main (int argc, char *argv[])
                 }
         }
 
-        
+
+
+        if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
+	{
+		for(i=0;i<=numproc*3-4;i++)
+	        	MPI_Wait(&gather_data[i], &status);
+	}
+        /*
         if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
         {
 		int count_flag = 0;
@@ -250,7 +257,8 @@ int main (int argc, char *argv[])
 			i++;
 		}
         }
-
+	*/
+	
         end_time = MPI_Wtime()-start_time;
         MPI_Reduce( &end_time, &average_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
         average_time /= numproc;
