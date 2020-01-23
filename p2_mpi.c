@@ -28,8 +28,8 @@ int main (int argc, char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     MPI_Status status;
-    MPI_Request left_send, right_send, left_rcv, right_rcv;
-    MPI_Request gather_xc[numproc], gather_yc[numproc], gather_dyc[numproc];
+    MPI_Request left_send, right_send, left_rcv, right_rcv, request1_send,request2_send;
+    MPI_Request gather_xc[numproc], gather_yc[numproc], gather_dyc[numproc], gather_data[3*numproc];
 
     /* When all arguments are correct */
 	if( argc==4 && NGRID!=0 && (gat_typ==MAN_G || gat_typ==MPI_G) && (p2p_typ==BLK || p2p_typ==NBLK) )
@@ -94,14 +94,30 @@ int main (int argc, char *argv[])
         /* XC calculation section ends. */
 
         /* Start sending XC if manual gather and non-blocking */
-        if( gat_typ == MAN_G && p2p_typ==NBLK )
-            for( i=0; i<numproc; i++ )
+        //shrik
+	if( gat_typ == MAN_G && p2p_typ==NBLK )
+	{
+	    if(rank!=0)
+	    {
+            for( i=1; i<numproc; i++ )
             {
                 /* buggy - ayushi is working on it */
-                MPI_Isend(&xc[1], counts[rank], MPI_DOUBLE, 0, -------------, MPI_COMM_WORLD, &request1_send);
-                MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
-            } 
-        
+		MPI_Isend(&xc[1], counts[rank], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
+                //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
+            }
+	    }
+	    else
+	    {
+		//MPI_Irecv();
+		//receive all the xc and store the gather request in an array
+		for(i=1;i<numproc; i++)
+		{
+			MPI_Irecv(&xc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[3*(i-1)]);
+		}
+
+	    }
+	     
+        }
         /* YC calculation section */
         yc[0] = rank==0 ? fn(xc[0]) : 0;
         yc[my_end-my_start+2] = rank==numproc-1 ? fn(xc[my_end-my_start+2]) : 0;
@@ -120,7 +136,34 @@ int main (int argc, char *argv[])
         for(i=my_start; i<=my_end; i++)
             yc[i-my_start+1] = fn(xc[i-my_start+1]);
 
-        /* Send my edge YC for other nodes */    
+        //shrik
+        //need to send and gather yc
+	if( gat_typ == MAN_G && p2p_typ==NBLK )
+        {
+	    if(rank!=0)
+	    {
+            for( i=1; i<numproc; i++ )
+            {
+                /* buggy - ayushi is working on it */
+		MPI_Isend(&yc[1], counts[rank], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
+                //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
+            }
+	    }
+	    else
+	    {
+		//MPI_Irecv();
+		//receive all the xc and store the gather request in an array
+		for(i=1;i<numproc;i++)
+		{
+			MPI_Irecv(&yc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1]);
+		}
+
+	    }
+	     
+        }
+
+
+	/* Send my edge YC for other nodes */    
         if( p2p_typ == BLK ) /* When blocking send and recieve here - ayushi working on resolving deadlock risks */
         {
             if( rank != 0 )
@@ -152,9 +195,35 @@ int main (int argc, char *argv[])
         for(i=my_start; i<=my_end; i++)
             dyc[i-my_start+1] = (yc[i-my_start+2] - yc[i-my_start])/(2.0 * dx);
 
-        /* need to setup non-bloaking manual  */
-        /*Ayushi working on it*/
+        
 
+        //shrik
+        //need to send and gather dyc
+	if( gat_typ == MAN_G && p2p_typ==NBLK )
+        {
+	    if(rank!=0)
+	    {
+            for( i=1; i<numproc; i++ )
+            {
+                /* buggy - ayushi is working on it */
+		MPI_Isend(&dyc[1], counts[rank], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
+                //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
+            }
+	    }
+	    else
+	    {
+		//MPI_Irecv();
+		//receive all the xc and store the gather request in an array
+		for(i=1;i<numproc; i++)
+		{
+			MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[(3*(i-1))+2]);
+		}
+	    }
+        }
+
+
+	/* need to setup non-bloaking manual  */
+        /*Ayushi working on it*/
         if( gat_typ == MPI_G ) /* Blocking MPI gathers (0,0)*/
         {
             MPI_Gatherv( &xc[1], my_end-my_start+1, MPI_DOUBLE, fxc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
@@ -186,8 +255,27 @@ int main (int argc, char *argv[])
                 }
             }
         }
-
-        if(rank==0 && /* all recive complete*/)
+	
+	//shrik
+	int prod_flag = 1;
+	i = 3;
+	int flag;
+	while(1)
+	{
+		MPI_Test(&gather_data[i], &flag, &status);
+		prod_flag *= flag;
+		if(prod_flag != 0)
+		{
+			break;
+		}
+		if(i == 3*numproc -1)
+		{
+			i = 0;
+		}
+		i++;
+	}
+	
+        if(rank==0 /* all recive complete*/)
             print_function_data(NGRID, fxc, fyc, fdyc);
         
         /* Freeing all the the allocated variables */
