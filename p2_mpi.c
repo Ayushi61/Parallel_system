@@ -29,7 +29,7 @@ int main (int argc, char *argv[])
 
     MPI_Status status;
     MPI_Request left_send, right_send, left_rcv, right_rcv, request1_send,request2_send=MPI_REQUEST_NULL;
-    MPI_Request gather_xc[numproc], gather_yc[numproc], gather_dyc[numproc], gather_data[3*numproc];
+    MPI_Request  gather_data[3*numproc];
 
     /* When all arguments are correct */
 	if( argc==4 && NGRID!=0 && (gat_typ==MAN_G || gat_typ==MPI_G) && (p2p_typ==BLK || p2p_typ==NBLK) )
@@ -99,12 +99,7 @@ int main (int argc, char *argv[])
 	{
 	    if(rank!=0)
 	    {
-            	for( i=1; i<numproc; i++ )
-            	{
-                /* buggy - ayushi is working on it */
-			MPI_Isend(&xc[1], counts[i], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
-                //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
-            	}
+		MPI_Isend(&xc[1], counts[rank], MPI_DOUBLE, 0, rank, MPI_COMM_WORLD, &request1_send);
 	    }
 	    else
 	    {
@@ -126,10 +121,10 @@ int main (int argc, char *argv[])
         if( p2p_typ == NBLK )
         {
             if( rank != 0 )
-                MPI_Irecv(&yc[0], 1, MPI_DOUBLE, rank-1, i, MPI_COMM_WORLD, &left_rcv);
+                MPI_Irecv(&yc[0], 1, MPI_DOUBLE, rank-1, 123457, MPI_COMM_WORLD, &left_rcv);
 
             if( rank != numproc-1 )
-                MPI_Irecv(&yc[my_end-my_start+2], 1, MPI_DOUBLE, rank+1, i, MPI_COMM_WORLD, &right_rcv);
+                MPI_Irecv(&yc[my_end-my_start+2], 1, MPI_DOUBLE, rank+1, 123456, MPI_COMM_WORLD, &right_rcv);
         }
         
         /* Calculating my own YC */
@@ -142,12 +137,7 @@ int main (int argc, char *argv[])
         {
 	    if(rank!=0)
 	    {
-            	for( i=1; i<numproc; i++ )
-            	{
-                /* buggy - ayushi is working on it */
-			MPI_Isend(&yc[1], counts[i], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
-                //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
-            	}
+		MPI_Isend(&yc[1], counts[rank], MPI_DOUBLE, 0, rank, MPI_COMM_WORLD, &request1_send);
 	    }
 	    else
 	    {
@@ -182,11 +172,11 @@ int main (int argc, char *argv[])
         {
 		if( rank != 0 )
         	{
-        	    MPI_Isend(&yc[1], 1, MPI_DOUBLE, rank-1, i, MPI_COMM_WORLD, &request1_send);
+        	    MPI_Isend(&yc[1], 1, MPI_DOUBLE, rank-1, 123456, MPI_COMM_WORLD, &request1_send);
 		}
 		if(rank!=numproc-1)
 		{
-	            MPI_Isend(&yc[my_end-my_start+1], 1, MPI_DOUBLE, rank+1, i, MPI_COMM_WORLD, &request2_send);
+	            MPI_Isend(&yc[my_end-my_start+1], 1, MPI_DOUBLE, rank+1, 123457, MPI_COMM_WORLD, &request2_send);
 		}
         }
         /* YC calculation section ends */
@@ -215,10 +205,7 @@ int main (int argc, char *argv[])
         {
 	    if(rank!=0)
 	    {
-           	 for( i=1; i<numproc; i++ )
-            	{
-			MPI_Isend(&dyc[1], counts[i], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
-           	 }
+		MPI_Isend(&dyc[1], counts[rank], MPI_DOUBLE, 0, rank, MPI_COMM_WORLD, &request1_send);
 	    }
 	    else
 	    {
@@ -286,7 +273,7 @@ int main (int argc, char *argv[])
 			}
 			if(i == 3*numproc -4)
 			{
-				i = 0;
+				i = -1;
 			}
 			i++;
 		}
