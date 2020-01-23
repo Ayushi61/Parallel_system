@@ -253,11 +253,10 @@ int main (int argc, char *argv[])
             }
         }
 	
-	//shrik
-	
+	//shrik	
 	if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
 	{
-		int prod_flag = 1;
+		int count_flag = 0;	
 		i = 0;
 		int flag;
 		while(1)
@@ -265,9 +264,10 @@ int main (int argc, char *argv[])
 			if(gather_data[i] != MPI_REQUEST_NULL)
 			{
 				MPI_Test(&gather_data[i], &flag, &status);
-				prod_flag *= flag;
+				count_flag += flag;
+				//printf("flag: %d, count_flag: %d\n",flag, count_flag);
 			}
-			if(prod_flag != 0)
+			if(count_flag == (3*numproc-4))
 			{
 				break;
 			}
