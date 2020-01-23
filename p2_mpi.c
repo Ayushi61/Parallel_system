@@ -131,14 +131,19 @@ int main (int argc, char *argv[])
         if( gat_typ == MAN_G && p2p_typ==NBLK )
         {
             if( rank != 0 )
-                    MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
-                    //MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
+		{    
+			MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
+        		MPI_Wait(&send_dummy, &status);
+	        }
+		    //MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
             else
                 for( i=1; i<numproc; i++)
                     MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
                     //MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, YC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
         }
-        /* Send my edge YC for other nodes */    
+        
+
+	/* Send my edge YC for other nodes */    
         if( p2p_typ == BLK ) /* When blocking send and recieve here - ayushi working on resolving deadlock risks */
         {
             if( rank != 0 )
