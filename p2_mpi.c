@@ -195,8 +195,14 @@ int main (int argc, char *argv[])
         if( p2p_typ==NBLK ) /* Only applicable for non-blocking, blocking already garunteed to be receieved */
         {
             /* Non blocking manual gather to be setup here - ayushi working on it. */
+	    if(rank!=0)
+	   {	
             MPI_Wait(&left_rcv, &status);
+		}
+		if(rank!=numproc-1)
+		{
             MPI_Wait(&right_rcv, &status);
+		}
         }
         for(i=my_start; i<=my_end; i++)
             dyc[i-my_start+1] = (yc[i-my_start+2] - yc[i-my_start])/(2.0 * dx);
@@ -262,7 +268,7 @@ int main (int argc, char *argv[])
 	
 	//shrik
 	
-	if( gat_typ == MAN_G && p2p_typ==NBLK )
+	if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
 	{
 		int prod_flag = 1;
 		i = 0;
@@ -280,7 +286,7 @@ int main (int argc, char *argv[])
 			}
 			if(i == 3*numproc -4)
 			{
-				i = -1;
+				i = 0;
 			}
 			i++;
 		}
