@@ -213,7 +213,7 @@ int main (int argc, char *argv[])
 		//receive all the xc and store the gather request in an array
 		for(i=1;i<numproc; i++)
 		{
-			MPI_Irecv(fxc+disp[i], counts[i], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[(3*(i-1))+2]);
+			MPI_Irecv(fdyc+disp[i], counts[i], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[(3*(i-1))+2]);
 		}
 	    }
         }
@@ -265,7 +265,7 @@ int main (int argc, char *argv[])
 			{
 				MPI_Test(&gather_data[i], &flag, &status);
 				count_flag += flag;
-				//printf("flag: %d, count_flag: %d\n",flag, count_flag);
+				printf("flag: %d, count_flag: %d\n",flag, count_flag);
 			}
 			if(count_flag == (3*numproc-4))
 			{
