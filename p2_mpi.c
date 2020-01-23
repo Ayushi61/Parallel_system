@@ -28,7 +28,7 @@ int main (int argc, char *argv[])
 	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 
     MPI_Status status;
-    MPI_Request left_send, right_send, left_rcv, right_rcv, request1_send,request2_send;
+    MPI_Request left_send, right_send, left_rcv, right_rcv, request1_send,request2_send=MPI_REQUEST_NULL;
     MPI_Request gather_xc[numproc], gather_yc[numproc], gather_dyc[numproc], gather_data[3*numproc];
 
     /* When all arguments are correct */
@@ -99,12 +99,12 @@ int main (int argc, char *argv[])
 	{
 	    if(rank!=0)
 	    {
-            for( i=1; i<numproc; i++ )
-            {
+            	for( i=1; i<numproc; i++ )
+            	{
                 /* buggy - ayushi is working on it */
-		MPI_Isend(&xc[1], counts[rank], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
+			MPI_Isend(&xc[1], counts[i], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
                 //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
-            }
+            	}
 	    }
 	    else
 	    {
@@ -112,7 +112,7 @@ int main (int argc, char *argv[])
 		//receive all the xc and store the gather request in an array
 		for(i=1;i<numproc; i++)
 		{
-			MPI_Irecv(&xc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[3*(i-1)]);
+			MPI_Irecv(fxc+disp[i], counts[i], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[3*(i-1)]);
 		}
 
 	    }
@@ -126,10 +126,10 @@ int main (int argc, char *argv[])
         if( p2p_typ == NBLK )
         {
             if( rank != 0 )
-                MPI_Irecv(&yc[0], 1, MPI_DOUBLE, rank-1, 123, MPI_COMM_WORLD, &left_rcv);
+                MPI_Irecv(&yc[0], 1, MPI_DOUBLE, rank-1, i, MPI_COMM_WORLD, &left_rcv);
 
             if( rank != numproc-1 )
-                MPI_Irecv(&yc[my_end-my_start+2], 1, MPI_DOUBLE, rank+1, 123, MPI_COMM_WORLD, &right_rcv);
+                MPI_Irecv(&yc[my_end-my_start+2], 1, MPI_DOUBLE, rank+1, i, MPI_COMM_WORLD, &right_rcv);
         }
         
         /* Calculating my own YC */
@@ -142,12 +142,12 @@ int main (int argc, char *argv[])
         {
 	    if(rank!=0)
 	    {
-            for( i=1; i<numproc; i++ )
-            {
+            	for( i=1; i<numproc; i++ )
+            	{
                 /* buggy - ayushi is working on it */
-		MPI_Isend(&yc[1], counts[rank], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
+			MPI_Isend(&yc[1], counts[i], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
                 //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
-            }
+            	}
 	    }
 	    else
 	    {
@@ -155,7 +155,7 @@ int main (int argc, char *argv[])
 		//receive all the xc and store the gather request in an array
 		for(i=1;i<numproc;i++)
 		{
-			MPI_Irecv(&yc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1]);
+			MPI_Irecv(fyc+disp[i], counts[i], MPI_DOUBLE, i, i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1]);
 		}
 
 	    }
@@ -180,8 +180,14 @@ int main (int argc, char *argv[])
         }
         else /* Non-blocking sending of boundary values */
         {
-            MPI_Isend(&yc[1], 1, MPI_DOUBLE, rank-1, 123, MPI_COMM_WORLD, &request1_send);
-            MPI_Isend(&yc[my_end-my_start+1], 1, MPI_DOUBLE, rank+1, 123, MPI_COMM_WORLD, &request2_send);
+		if( rank != 0 )
+        	{
+        	    MPI_Isend(&yc[1], 1, MPI_DOUBLE, rank-1, i, MPI_COMM_WORLD, &request1_send);
+		}
+		if(rank!=numproc-1)
+		{
+	            MPI_Isend(&yc[my_end-my_start+1], 1, MPI_DOUBLE, rank+1, i, MPI_COMM_WORLD, &request2_send);
+		}
         }
         /* YC calculation section ends */
 
@@ -203,12 +209,10 @@ int main (int argc, char *argv[])
         {
 	    if(rank!=0)
 	    {
-            for( i=1; i<numproc; i++ )
-            {
-                /* buggy - ayushi is working on it */
-		MPI_Isend(&dyc[1], counts[rank], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
-                //MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, ------------, MPI_COMM_WORLD, &gather_xc[i]);
-            }
+           	 for( i=1; i<numproc; i++ )
+            	{
+			MPI_Isend(&dyc[1], counts[i], MPI_DOUBLE, 0, i, MPI_COMM_WORLD, &request1_send);
+           	 }
 	    }
 	    else
 	    {
@@ -216,7 +220,7 @@ int main (int argc, char *argv[])
 		//receive all the xc and store the gather request in an array
 		for(i=1;i<numproc; i++)
 		{
-			MPI_Irecv(&dyc[1+disp[rank]], counts[rank], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[(3*(i-1))+2]);
+			MPI_Irecv(fxc+disp[i], counts[i], MPI_DOUBLE, i, i,MPI_COMM_WORLD, &gather_data[(3*(i-1))+2]);
 		}
 	    }
         }
@@ -257,22 +261,29 @@ int main (int argc, char *argv[])
         }
 	
 	//shrik
-	int prod_flag = 1;
-	i = 3;
-	int flag;
-	while(1)
+	
+	if( gat_typ == MAN_G && p2p_typ==NBLK )
 	{
-		MPI_Test(&gather_data[i], &flag, &status);
-		prod_flag *= flag;
-		if(prod_flag != 0)
+		int prod_flag = 1;
+		i = 0;
+		int flag;
+		while(1)
 		{
-			break;
+			if(gather_data[i] != MPI_REQUEST_NULL)
+			{
+				MPI_Test(&gather_data[i], &flag, &status);
+				prod_flag *= flag;
+			}
+			if(prod_flag != 0)
+			{
+				break;
+			}
+			if(i == 3*numproc -4)
+			{
+				i = -1;
+			}
+			i++;
 		}
-		if(i == 3*numproc -1)
-		{
-			i = 0;
-		}
-		i++;
 	}
 	
         if(rank==0 /* all recive complete*/)
