@@ -49,10 +49,10 @@ int main (int argc, char *argv[])
 		double start_time = MPI_Wtime();
         
         int i, my_start, my_end;
-        int *start= (int *)malloc(sizeof(int)*numproc);
-        int *end = (int *)malloc(sizeof(int)*numproc);
-        int *counts = (int *)malloc(sizeof(int)*numproc);
-        int *disp = (int *)malloc(sizeof(int)*numproc);
+        int *start  =   (int *)malloc(sizeof(int) * numproc);
+        int *end    =   (int *)malloc(sizeof(int) * numproc);
+        int *counts =   (int *)malloc(sizeof(int) * numproc);
+        int *disp   =   (int *)malloc(sizeof(int) * numproc);
 
         /* Distribution of grid points among the ranks */
         for(i=0; i<numproc; i++)
@@ -145,19 +145,23 @@ int main (int argc, char *argv[])
         /* wait for left and right to be recieved before proceeding for dyc */
         if( p2p_typ==NBLK ) /* Only applicable for non-blocking, blocking already garunteed to be receieved */
         {
+            /* Non blocking manual gather to be setup here - ayushi working on it. */
             MPI_Wait(&left_rcv, &status);
             MPI_Wait(&right_rcv, &status);
         }
         for(i=my_start; i<=my_end; i++)
             dyc[i-my_start+1] = (yc[i-my_start+2] - yc[i-my_start])/(2.0 * dx);
 
-        if( gat_typ == MPI_G )
+        /* need to setup non-bloaking manual  */
+        /*Ayushi working on it*/
+
+        if( gat_typ == MPI_G ) /* Blocking MPI gathers (0,0)*/
         {
             MPI_Gatherv( &xc[1], my_end-my_start+1, MPI_DOUBLE, fxc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
             MPI_Gatherv( &yc[1], my_end-my_start+1, MPI_DOUBLE, fyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
             MPI_Gatherv( &dyc[1], my_end-my_start+1, MPI_DOUBLE, fdyc, counts, disp, MPI_DOUBLE, 0, MPI_COMM_WORLD);
         }
-        else if(gat_typ==MAN_G && p2p_typ==BLK) /* Blocking manual gathers */
+        else if( gat_typ==MAN_G && p2p_typ==BLK ) /* Blocking manual gathers (0,1)*/
         {
             if( rank!=0 )
             {	
@@ -173,6 +177,7 @@ int main (int argc, char *argv[])
                     MPI_Recv( fyc+disp[i], counts[i], MPI_DOUBLE, i, 124, MPI_COMM_WORLD, &status);
                     MPI_Recv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, 125, MPI_COMM_WORLD, &status);
                 }
+
                 for(i=0; i<my_end; i++)
                 {
                     fxc[i] = xc[i+1];
@@ -194,15 +199,12 @@ int main (int argc, char *argv[])
         free(fxc);
         free(fyc);
         free(fdyc);
-
         //printf("%d - %f\n", rank, MPI_Wtime()-start_time);
-
-        MPI_Finalize();
     }
     else
     {
         /* When arguments are incorrect, notify user of syntax and exit */
-        if(rank==0)
+        if( rank==0 )
         {
             printf("Invalid syntax.\n");
             printf("Please follow the syntax as: %s <number of grid points> <point-to-point_type> <gather_type>\n", argv[0]);
@@ -211,8 +213,9 @@ int main (int argc, char *argv[])
             printf("<gather_type> must be a 0 or 1\n\t0: With MPI_Gather\n\t1: With Manual gather\n");
             printf("Exiting...\n");
         }
-        MPI_Finalize();
     }
+
+    MPI_Finalize();
 }
 
 void print_function_data(int np, double *x, double *y, double *dydx)
