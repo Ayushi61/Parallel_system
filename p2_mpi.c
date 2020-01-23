@@ -220,30 +220,6 @@ int main (int argc, char *argv[])
                 }
         }
 
-        //shrik
-        if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
-        {
-            int prod_flag = 1;
-            i = 0;
-            int flag;
-
-            while(1)
-            {
-                if( gather_data[i] != MPI_REQUEST_NULL )
-                {
-                    MPI_Test(&gather_data[i], &flag, &status);
-                    prod_flag *= flag;
-                }
-
-                if(prod_flag != 0)
-                    break;
-
-                if(i == 3*numproc-4)
-                    i = -1;
-
-                i++;
-            }
-        }
 	
 	//shrik	
 	if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
