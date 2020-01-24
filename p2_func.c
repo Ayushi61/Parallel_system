@@ -3,6 +3,6 @@
 //returns the function y(x) = fn
 double fn(double x)
 {
-          // return x*x;
-          return sin(x);
+          return x*x;
+          //return sin(x);
 }
