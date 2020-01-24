@@ -133,7 +133,7 @@ int main (int argc, char *argv[])
             if( rank != 0 )
 		{    
 			MPI_Isend( &yc[1], counts[rank]-1, MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
-        		//MPI_Wait(&send_dummy, &status);
+        		MPI_Wait(&send_dummy, &status);
 	        }
 		    //MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
             else
@@ -232,14 +232,14 @@ int main (int argc, char *argv[])
 
 
 
-	/*
+	
         if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
 	{
 		for(i=0;i<=numproc*3-4;i++)
 	        	MPI_Wait(&gather_data[i], &status);
 	}
-	*/
-        
+	
+        /*
         if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
         {
 		int count_flag = 0;
@@ -264,7 +264,7 @@ int main (int argc, char *argv[])
 			i++;
 		}
         }
-	
+	*/
 	
         end_time = MPI_Wtime()-start_time;
         MPI_Reduce( &end_time, &average_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
