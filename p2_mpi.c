@@ -134,7 +134,7 @@ int main (int argc, char *argv[])
 		{    
 			MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
         		//check if this is needed
-			MPI_Wait(&send_dummy, &status);
+			//MPI_Wait(&send_dummy, &status);
 	        }
 		    //MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
             else
