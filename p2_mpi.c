@@ -138,7 +138,7 @@ int main (int argc, char *argv[])
 		    //MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
             else
                 for( i=1; i<numproc; i++)
-                    MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
+                    MPI_Irecv( fyc+disp[i], counts[i]-1, MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
                     //MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, YC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
         }
         
