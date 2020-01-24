@@ -239,7 +239,7 @@ int main (int argc, char *argv[])
  *         				        		}
  *         				        			*/
         
-        if( numproc!=1 && gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
+        if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
         {
 		int count_flag = 0;
 		i = 0;
