@@ -105,7 +105,7 @@ int main (int argc, char *argv[])
                     MPI_Isend( &xc[1], counts[rank]-1, MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
             else
                 for( i=1; i<numproc; i++ )
-                    MPI_Irecv( fxc+disp[i], counts[i], MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[3*(i-1)]);
+                    MPI_Irecv( fxc+disp[i], counts[i]-1, MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[3*(i-1)]);
                     //MPI_Irecv( fxc+disp[i], counts[i], MPI_DOUBLE, i, XC_TAG*i, MPI_COMM_WORLD, &gather_data[3*(i-1)]);
         }
 
@@ -190,7 +190,7 @@ int main (int argc, char *argv[])
                 //MPI_Isend( &dyc[1], counts[rank], MPI_DOUBLE, 0, DYC_TAG*rank, MPI_COMM_WORLD, &send_dummy ); // need to use diff tags
             else
                 for(i=1;i<numproc; i++)
-                    MPI_Irecv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] );
+                    MPI_Irecv( fdyc+disp[i], counts[i]-1, MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] );
                     //MPI_Irecv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, DYC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] );
         }
 
