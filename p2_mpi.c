@@ -1,3 +1,16 @@
+/*
+Syntax format:
+
+Please follow the syntax as: %s <number of grid points> <point-to-point_type> <gather_type>
+<number of grid points> must be a positive number.
+<point-to-point_type> must be a 0 or 1
+	0: For blocking communication.
+	1: For non-blocking communication
+<gather_type> must be a 0 or 1
+	0: With MPI_Gather
+	1: With Manual gather
+*/
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -102,10 +115,8 @@ int main (int argc, char *argv[])
         {
             if( rank != 0 )
                     MPI_Isend( &xc[1], counts[rank], MPI_DOUBLE, 0, XC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
-                    //MPI_Isend( &xc[1], counts[rank], MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
             else
                 for( i=1; i<numproc; i++ )
-                    //MPI_Irecv( fxc+disp[i], counts[i], MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[3*(i-1)]);
                     MPI_Irecv( fxc+disp[i], counts[i], MPI_DOUBLE, i, XC_TAG*i, MPI_COMM_WORLD, &gather_data[3*(i-1)]);
         }
 
@@ -133,19 +144,16 @@ int main (int argc, char *argv[])
             if( rank != 0 )
 		{    
 		   	 MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, YC_TAG*rank, MPI_COMM_WORLD, &send_dummy);
-			//MPI_Isend( &yc[1], counts[rank], MPI_DOUBLE, 0, 456, MPI_COMM_WORLD, &send_dummy);
-        		/*check if this is needed*/
 			MPI_Wait(&send_dummy, &status);
 	        }
             else
                 for( i=1; i<numproc; i++)
-                    //MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, 456, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
                     MPI_Irecv( fyc+disp[i], counts[i], MPI_DOUBLE, i, YC_TAG*i, MPI_COMM_WORLD, &gather_data[(3*(i-1))+1] );
         }
         
 
 	/* Send my edge YC for other nodes */    
-        if( p2p_typ == BLK ) /* When blocking send and recieve here - ayushi working on resolving deadlock risks */
+        if( p2p_typ == BLK ) /* When blocking send and recieve here */
         {
             if( rank != 0 )
             {
@@ -172,7 +180,7 @@ int main (int argc, char *argv[])
         /* wait for left and right to be recieved before proceeding for dyc */
         if( p2p_typ==NBLK ) /* Only applicable for non-blocking, blocking already garunteed to be receieved */
         {
-            /* Non blocking manual gather to be setup here - ayushi working on it. */
+            /* Non blocking manual gather here */
             if(rank != 0)
                 MPI_Wait(&left_rcv, &status);
 
@@ -183,19 +191,15 @@ int main (int argc, char *argv[])
         for(i=my_start; i<=my_end; i++)
             dyc[i-my_start+1] = (yc[i-my_start+2] - yc[i-my_start])/(2.0 * dx);
 
-
+	/* Start non-blocking sending data to full DYC once calc*/
         if( gat_typ == MAN_G && p2p_typ==NBLK )
         {
             if(rank!=0)
-                MPI_Isend( &dyc[1], counts[rank], MPI_DOUBLE, 0, 5678, MPI_COMM_WORLD, &send_dummy ); /* need to use diff tags*/
-                //MPI_Isend( &dyc[1], counts[rank], MPI_DOUBLE, 0, i*DYC_TAG, MPI_COMM_WORLD, &send_dummy ); /* need to use diff tags*/
+                MPI_Isend( &dyc[1], counts[rank], MPI_DOUBLE, 0, 5678, MPI_COMM_WORLD, &send_dummy );
             else
                 for(i=1;i<numproc; i++)
                     MPI_Irecv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, 5678, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] );
-                    //MPI_Irecv( fdyc+disp[i], counts[i], MPI_DOUBLE, i, i*DYC_TAG, MPI_COMM_WORLD, &gather_data[(3*(i-1))+2] );
         }
-
-        /* need to setup non-bloaking manual  */
 
         if( gat_typ == MPI_G ) /* Blocking MPI gathers (0,0)*/
         {
@@ -222,6 +226,7 @@ int main (int argc, char *argv[])
                     }
             }
 
+		/* Copying roots calculations to full data set */
             if(rank == 0 )
                 for(i=0; i<my_end; i++)
                 {
@@ -230,15 +235,8 @@ int main (int argc, char *argv[])
                     fdyc[i] = dyc[i+1];
                 }
         }
-
-	/*
- *         if( gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
- *         	{
- *         			for(i=0;i<=numproc*3-4;i++)
- *         				        	MPI_Wait(&gather_data[i], &status);
- *         				        		}
- *         				        			*/
         
+	/* Testing if all recieves are complete */
         if( numproc!= 1 && gat_typ == MAN_G && p2p_typ==NBLK && rank == 0 )
         {
 		int count_flag = 0;
@@ -250,7 +248,6 @@ int main (int argc, char *argv[])
 			{
 				MPI_Test(&gather_data[i], &flag, &status);
 				count_flag += flag;
-					
 			}
 			if(count_flag == (3*numproc-3))
 			{
@@ -264,7 +261,7 @@ int main (int argc, char *argv[])
 		}
         }
 	
-	
+	/* Calculating time consumed on all nodes in parallel */
         end_time = MPI_Wtime()-start_time;
         MPI_Reduce( &end_time, &average_time, 1, MPI_DOUBLE, MPI_SUM, 0, MPI_COMM_WORLD);
         average_time /= numproc;
@@ -282,6 +279,7 @@ int main (int argc, char *argv[])
         free(fyc);
         free(fdyc);
         
+	/* Printing time to plot performance */
         if( rank == 0 )
             printf("Processing time for %d parallels - %f seconds\n", numproc, end_time);
     }
