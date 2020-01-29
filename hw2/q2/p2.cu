@@ -122,7 +122,7 @@ __global__ void calc_area(double *area,double *xc,double *yc,double h,int N)
 	//printf("value of yc is idx %d %lf\n",idx,yc[idx]);
 	__syncthreads();
 
-	if(idx>0) area[idx]=(yc[idx]+yc[idx-1])*h/2;
+	if(idx>0) area[idx]=(yc[idx]+yc[idx-1])/2*h;
 //	printf("yc is %lf,h is %d,area is %lf\n",yc[idx],h,area[idx]);
 }
 
