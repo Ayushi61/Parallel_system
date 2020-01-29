@@ -119,11 +119,11 @@ __global__ void calc_area(double *area,double *xc,double *yc,double h,int N)
 
 	fn1(&xc[idx],&yc[idx]);
 	//fn1(&xc[idx-1],&y[1]);
-	//printf("value of yc is idx %d %lf\n",idx,yc[idx]);
+	printf("value of yc is idx %d %lf\n",idx,yc[idx]);
 	__syncthreads();
 
-	if(idx>0) area[idx]=(yc[idx]+yc[idx-1])/2*h;
-//	printf("yc is %lf,h is %d,area is %lf\n",yc[idx],h,area[idx]);
+	if(idx>0) area[idx]=(yc[idx]+yc[idx-1]) / 2 * h;
+	printf("yc is %lf,h is %lf,area is %lf\n",yc[idx],h,area[idx]);
 }
 
 __device__ void fn1(double* x,double* y)

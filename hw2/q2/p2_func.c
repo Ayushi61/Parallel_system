@@ -12,5 +12,6 @@ typedef   double   FP_PREC;
 //returns the function y(x) = fn
 FP_PREC fn(FP_PREC x)
 {
-  return x*x;
+	return sin(x);
+//  return x*x;
 }
