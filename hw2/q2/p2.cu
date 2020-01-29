@@ -128,7 +128,8 @@ __global__ void calc_area(double *area,double *xc,double *yc,double h,int N)
 
 __device__ void fn1(double* x,double* y)
 {
-  *y= *x * *x;
+  //*y= *x * *x;
+	*y=sin(*x);
  //  printf("fn is %lf\n",*y);
 }
 
