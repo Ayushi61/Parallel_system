@@ -1,3 +1,10 @@
+/*
+
+
+Single Author info:
+arajend4 Ayushi Rajendra Kumar
+
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
@@ -59,11 +66,11 @@ int main (int argc, char *argv[])
         inf[0] = 0.0;
         h = (XF - XI) / (NGRID - 1);
         
-	cudaMemcpy(xc_d,xc,sizeof(double)*(NGRID+1),cudaMemcpyHostToDevice);
+	cudaMemcpy(xc_d,&xc[1],sizeof(double)*(NGRID+1),cudaMemcpyHostToDevice);
 	cudaMemcpy(inf_d,inf,sizeof(double)*(NGRID+1),cudaMemcpyHostToDevice);
         calc_area<<<nBlocks,blockSize>>>(inf_d,xc_d,yc_d,h,NGRID);
-	cudaMemcpy(inf,inf_d,sizeof(double)*(NGRID+1),cudaMemcpyDeviceToHost);
-	cudaMemcpy(yc,yc_d,sizeof(double)*(NGRID+1),cudaMemcpyDeviceToHost);
+	cudaMemcpy(&inf[1],inf_d,sizeof(double)*(NGRID),cudaMemcpyDeviceToHost);
+	cudaMemcpy(&yc[1],yc_d,sizeof(double)*(NGRID),cudaMemcpyDeviceToHost);
         for(i = 1 ; i <= NGRID; ++i){
            //  x += h;
            //  y2 = fn(x);
@@ -112,10 +119,10 @@ __global__ void calc_area(double *area,double *xc,double *yc,double h,int N)
 
 	fn1(&xc[idx],&yc[idx]);
 	//fn1(&xc[idx-1],&y[1]);
-//	printf("value of yc is %lf\n",yc[idx]);
+	//printf("value of yc is idx %d %lf\n",idx,yc[idx]);
 	__syncthreads();
 
-	if(idx<N && idx>0) area[idx]=(yc[idx]+yc[idx-1])*h/2;
+	if(idx>0) area[idx]=(yc[idx]+yc[idx-1])*h/2;
 //	printf("yc is %lf,h is %d,area is %lf\n",yc[idx],h,area[idx]);
 }
 
