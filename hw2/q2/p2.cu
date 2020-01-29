@@ -11,7 +11,7 @@ typedef   double   FP_PREC;
 double     fn(double);
 void        print_function_data(int, double*, double*, double*);
 int         main(int, char**); 
-__global__ void calc_area(double*,double*,int,int);
+__global__ void calc_area(double*,double*,double*,double,int);
 __device__ void fn1(double*, double*);
 int main (int argc, char *argv[])
 {
@@ -32,8 +32,10 @@ int main (int argc, char *argv[])
         double  *yc = (double*)malloc(sizeof(double) * (NGRID + 1));
         double *inf_d;
 	double *xc_d;
+	double *yc_d;
 	cudaMalloc((void ** )&inf_d,sizeof(double)*(NGRID+1)); 
 	cudaMalloc((void ** )&xc_d,sizeof(double)*(NGRID+1)); 
+	cudaMalloc((void ** )&yc_d,sizeof(double)*(NGRID+1)); 
 	int blockSize=4;
 	int nBlocks = (NGRID)/blockSize + ((NGRID)%blockSize == 0?0:1);
         //construct grid
@@ -59,8 +61,9 @@ int main (int argc, char *argv[])
         
 	cudaMemcpy(xc_d,xc,sizeof(double)*(NGRID+1),cudaMemcpyHostToDevice);
 	cudaMemcpy(inf_d,inf,sizeof(double)*(NGRID+1),cudaMemcpyHostToDevice);
-        calc_area<<<nBlocks,blockSize>>>(inf_d,xc_d,h,NGRID);
-	cudaMemcpy(inf_d,inf,sizeof(double)*(NGRID+1),cudaMemcpyDeviceToHost);
+        calc_area<<<nBlocks,blockSize>>>(inf_d,xc_d,yc_d,h,NGRID);
+	cudaMemcpy(inf,inf_d,sizeof(double)*(NGRID+1),cudaMemcpyDeviceToHost);
+	cudaMemcpy(yc,yc_d,sizeof(double)*(NGRID+1),cudaMemcpyDeviceToHost);
         for(i = 1 ; i <= NGRID; ++i){
            //  x += h;
            //  y2 = fn(x);
@@ -73,6 +76,7 @@ int main (int argc, char *argv[])
 
 	cudaFree(inf_d);
 	cudaFree(xc_d);
+	cudaFree(yc_d);
         //free allocated memory 
         free(xc);
         free(yc);
@@ -100,21 +104,25 @@ void print_function_data(int np, double *x, double *y, double *dydx)
 }
 
 
-__global__ void calc_area(double *area,double *xc,int h,int N)
+__global__ void calc_area(double *area,double *xc,double *yc,double h,int N)
 {
 	int idx=blockIdx.x*blockDim.x + threadIdx.x;
-	double y[2];
+	//double y[2];
 	
 
-	fn1(&xc[idx],&y[0]);
-	fn1(&xc[idx-1],&y[1]);
+	fn1(&xc[idx],&yc[idx]);
+	//fn1(&xc[idx-1],&y[1]);
+//	printf("value of yc is %lf\n",yc[idx]);
+	__syncthreads();
 
-	if(idx<N && idx>0) area[idx]=(y[0]+y[1])*h/2;
+	if(idx<N && idx>0) area[idx]=(yc[idx]+yc[idx-1])*h/2;
+//	printf("yc is %lf,h is %d,area is %lf\n",yc[idx],h,area[idx]);
 }
 
 __device__ void fn1(double* x,double* y)
 {
   *y= *x * *x;
+ //  printf("fn is %lf\n",*y);
 }
 
 
