@@ -76,13 +76,14 @@ int MPI_Init(int *argc, char **argv[])
 	pthread_t threads[1];
 	int rc;
    	long t;
+	/* check threads */
     	//for(t=0; t<numproc; t++){
-	/*	printf("In main: creating thread %ld\n", 0);
-	       rc = pthread_create(&threads[0], NULL, server_1,NULL);
-		if (rc){
-        	  printf("ERROR; return code from pthread_create() is %d\n", rc);
-         	 exit(-1);
-      		 }*/
+	//	printf("In main: creating thread %ld\n", 0);
+	  //     rc = pthread_create(&threads[0], NULL, server_1,NULL);
+	//	if (rc){
+        //	  printf("ERROR; return code from pthread_create() is %d\n", rc);
+         //	 exit(-1);
+      	//	 }
 	//}
 	int sockfd, portno, n;
     struct sockaddr_in serv_addr;
@@ -95,9 +96,11 @@ int MPI_Init(int *argc, char **argv[])
     if (sockfd < 0) 
         error("ERROR opening socket");
 	//strcpy(server2,host_char);
+	strcpy(host_char,hostbuffer);
+	printf("%s\n",host_char);
 	server2=gethostbyname(host_char);
 	 
-	//server2=gethostbyname(hostname);
+	//server2=gethostbyname(hostbuffer);
 
 	if (server2 == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
