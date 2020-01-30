@@ -30,5 +30,5 @@ for curNode in `cat $NODEFILE`; do
   (( rank++ ))
 done
 
-rm $NODEFILE
+#rm $NODEFILE
 
