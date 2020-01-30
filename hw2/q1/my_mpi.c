@@ -77,12 +77,12 @@ int MPI_Init(int *argc, char **argv[])
 	int rc;
    	long t;
     	//for(t=0; t<numproc; t++){
-		printf("In main: creating thread %ld\n", 0);
+	/*	printf("In main: creating thread %ld\n", 0);
 	       rc = pthread_create(&threads[0], NULL, server_1,NULL);
 		if (rc){
         	  printf("ERROR; return code from pthread_create() is %d\n", rc);
          	 exit(-1);
-      		 }
+      		 }*/
 	//}
 	int sockfd, portno, n;
     struct sockaddr_in serv_addr;
@@ -91,18 +91,28 @@ int MPI_Init(int *argc, char **argv[])
     char buffer[256];
 	portno=30014;
 	sockfd = socket(AF_INET, SOCK_STREAM, 0);
+
     if (sockfd < 0) 
         error("ERROR opening socket");
-	server2=host_char;
+	//strcpy(server2,host_char);
+	server2=gethostbyname(host_char);
+	 
+	//server2=gethostbyname(hostname);
+
 	if (server2 == NULL) {
         fprintf(stderr,"ERROR, no such host\n");
         exit(0);
     }
 
+
 	bzero((char *) &serv_addr, sizeof(serv_addr));
     serv_addr.sin_family = AF_INET;
     bcopy((char *)server2->h_addr,(char *)&serv_addr.sin_addr.s_addr,server2->h_length);
+	printf("iiiiin here\n");
     serv_addr.sin_port = htons(portno);
+
+	
+
     if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
         error("ERROR connecting");
 	bzero(buffer,256);
