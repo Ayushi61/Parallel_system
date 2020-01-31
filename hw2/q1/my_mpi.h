@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-
+#define MPI_MAX_PROCESSOR_NAME 128
 #define MPI_INT 4
 #define MPI_DOUBLE 8
 #define HOST_LEN 256
@@ -9,11 +9,12 @@ typedef struct mpi_Comm{
 	int rank;
 	int numproc;
 	char **hostnames;
+	//char *root_host;
 
 }MPI_Comm;
-MPI_Comm MPI_COMM_WORLD;
+//MPI_Comm MPI_COMM_WORLD;
 typedef int MPI_Status;
-
+typedef int MPI_Request;
 typedef int MPI_Datatype;
 int MPI_Init(int *argc, char **argv[]);
 int MPI_Barrier( MPI_Comm comm);
