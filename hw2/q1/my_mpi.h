@@ -3,9 +3,15 @@
 
 #define MPI_INT 4
 #define MPI_DOUBLE 8
+#define HOST_LEN 256
+//#define MPI_COMM_WORLD 0
+typedef struct mpi_Comm{
+	int rank;
+	int numproc;
+	char **hostnames;
 
-#define MPI_COMM_WORLD 0
-typedef int MPI_Comm;
+}MPI_Comm;
+MPI_Comm MPI_COMM_WORLD;
 typedef int MPI_Status;
 
 typedef int MPI_Datatype;

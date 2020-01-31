@@ -58,90 +58,58 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 //	printf("%p\n",rank_ret);
  //   return rank_ret;
 }
-int MPI_Init(int *argc, char **argv[])
+
+void client(char* hostname,int portno)
 {
-	char* hostname;
-	char hostbuffer[256];
-    int num_rank[2];
-      int numproc;
-        int rank;
-        char* host_char;
-        host_char=(char *)malloc(sizeof(char)*10);
-    hostname = gethostname(hostbuffer, sizeof(hostbuffer));
-    printf("Hostname: %s\n", hostbuffer);
-    getNumProcRank(hostbuffer,num_rank,&host_char);
-         rank=num_rank[0];
-         numproc=num_rank[1];
-         printf("numproc is %d, and rank is %d, and rank 0 is host %s\n",numproc,rank,host_char);
-        
-	pthread_t threads[1];
-	int rc;
-   	long t;
-	/* check threads */
-    	//for(t=0; t<numproc; t++){
-		printf("In main: creating thread %ld\n", 0);
-	       rc = pthread_create(&threads[0], NULL, server_1,NULL);
-		if (rc){
-        	  printf("ERROR; return code from pthread_create() is %d\n", rc);
-         	 exit(-1);
-      		 }
-	//}
-	//server_1();
-	//while(flag2!=true);
-	sleep(2);
-	if(rank!=0)
-	{
-		int sockfd, portno, n;
-   		struct sockaddr_in serv_addr;
-		struct hostent *server2;
-		char buffer[256];
-		portno=30014;
-		sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    int sockfd, n;
+    struct sockaddr_in serv_addr;
+    struct hostent *server;
 
-    		if (sockfd < 0) 
-        		error("ERROR opening socket");
-	//strcpy(server2,host_char);
-		//strcpy(host_char,hostbuffer);
-    		printf("%s\n",host_char);
-    		server2=gethostbyname(&host_char);
-	 
-	//server2=gethostbyname(hostbuffer);
-    		if (server2 == NULL) {
-    			fprintf(stderr,"ERROR, no such host\n");
-    			exit(0);
-    		}
+    char buffer[256];
+    /*if (argc < 3) {
+       fprintf(stderr,"usage %s hostname port\n", argv[0]);
+       exit(0);
+    }*/
+    //portno = atoi(argv[2]);
+    sockfd = socket(AF_INET, SOCK_STREAM, 0);
+    if (sockfd < 0) 
+        error("ERROR opening socket");
+    server = gethostbyname(hostname);
+    if (server == NULL) {
+        fprintf(stderr,"ERROR, no such host\n");
+        exit(0);
+    }
+    bzero((char *) &serv_addr, sizeof(serv_addr));
+    serv_addr.sin_family = AF_INET;
+    bcopy((char *)server->h_addr, 
+         (char *)&serv_addr.sin_addr.s_addr,
+         server->h_length);
+    serv_addr.sin_port = htons(portno);
+    if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
+        error("ERROR connecting");
+    printf("Please enter the message: ");
+    bzero(buffer,256);
+    //fgets(buffer,255,stdin);
+    strcpy(buffer,"hi");
+    //int a[]={1,2,3,4,5};
+    n = write(sockfd,buffer,255);
+    if (n < 0) 
+         error("ERROR writing to socket");
+    bzero(buffer,256);
+    n = read(sockfd,buffer,255);
+    if (n < 0) 
+         error("ERROR reading from socket");
+    printf("%s\n",buffer);
+    close(sockfd);
+	//return 1;
 
 
-    		bzero((char *) &serv_addr, sizeof(serv_addr));
-    		serv_addr.sin_family = AF_INET;
-    		bcopy((char *)server2->h_addr,(char *)&serv_addr.sin_addr.s_addr,server2->h_length);
-    		printf("iiiiin here\n");
-    		serv_addr.sin_port = htons(portno);
-
-	
-
-    		if (connect(sockfd,(struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
-        		error("ERROR connecting");
-		bzero(buffer,256);
-	//buffer=hostname;
-		strcpy(buffer,hostname);
-		n = write(sockfd,buffer,strlen(buffer));
-		if (n < 0) 
-         		error("ERROR writing to socket");
-    		bzero(buffer,256);
-	
-		printf("in mpi_init\n");
-    		n = read(sockfd,buffer,255);
-		printf("acknowledged by %s\n",buffer);
-		close(sockfd);
-	}
- return 1;
 }
 
-void server_1()
+void server_1(int portno)
 {
 
- int sockfd, newsockfd, portno;
+ int sockfd, newsockfd;
      socklen_t clilen;
      char buffer[256];
      struct sockaddr_in serv_addr, cli_addr;
@@ -155,39 +123,101 @@ void server_1()
      if (sockfd < 0) 
         error("ERROR opening socket");
      bzero((char *) &serv_addr, sizeof(serv_addr));
-     portno = 30014;
+     //portno = 30014;
      serv_addr.sin_family = AF_INET;
      serv_addr.sin_addr.s_addr = INADDR_ANY;
      serv_addr.sin_port = htons(portno);
-     if (bind(sockfd, (struct sockaddr *) &serv_addr,
-              sizeof(serv_addr)) < 0) 
-              error("ERROR on binding");
+     if (bind(sockfd, (struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
+        error("ERROR on binding");
 	printf("ok till here\n");
-	//while(flag==false)
-//	{ 
-    listen(sockfd,5);
-     	printf("checking \n");
+	while(flag==false)
+	{ 
+	    listen(sockfd,5);
+     		printf("checking \n");
 
-	clilen = sizeof(cli_addr);
+		clilen = sizeof(cli_addr);
 	//flag2=true;
-     newsockfd = accept(sockfd, 
+   	  newsockfd = accept(sockfd, 
                  (struct sockaddr *) &cli_addr, 
                  &clilen);
-	printf("inside server while\n");
+		printf("inside server while\n");
 	//flag2=true;
-     if (newsockfd < 0) 
-          error("ERROR on accept");
-     bzero(buffer,256);
-     n = read(newsockfd,buffer,255);
-     if (n < 0) error("ERROR reading from socket");
-     printf("Here is the message: %s\n",buffer);
-     n = write(newsockfd,"I got your message",18);
-     if (n < 0) error("ERROR writing to socket");
-//	}
-     close(newsockfd);
-     close(sockfd);
+	     if (newsockfd < 0) 
+        	  error("ERROR on accept");
+     	bzero(buffer,256);
+     	//int buff[5]={0};
+	n = read(newsockfd,buffer,255);
+     	if (n < 0) error("ERROR reading from socket");
+     	printf("Here is the message: %s\n",buffer);
+     	n = write(newsockfd,"I got your message\n",18);
+     	if (n < 0) error("ERROR writing to socket");
+	}
+     	close(newsockfd);
+     	close(sockfd);
 	pthread_exit(NULL);
      
+}
+int MPI_Init(int *argc, char **argv[])
+{
+	char* hostname;
+	char hostbuffer[256];
+    	int num_rank[2];
+      	int numproc;
+        int rank;
+        const char* host_char;
+        host_char=(char *)malloc(sizeof(char)*10);
+   	hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+    	printf("Hostname: %s\n", hostbuffer);
+    	getNumProcRank(hostbuffer,num_rank,&host_char);
+        rank=num_rank[0];
+        numproc=num_rank[1];
+        printf("numproc is %d, and rank is %d, and rank 0 is host %s\n",numproc,rank,host_char);
+        if(rank==0)
+		sleep(2);
+	pthread_t *threads;
+	threads=(pthread_t *)malloc(sizeof(pthread_t)*numproc);
+	int rc;
+   	int t;
+	/* check threads */
+	if(rank==0)
+	{
+		for(t=0; t<numproc-1; t++){
+			rc = pthread_create(&threads[t], NULL, server_1,30014+t);
+			 if (rc){
+                printf("ERROR; return code from pthread_create() is %d\n", rc);
+                exit(-1);
+        		}
+		}
+
+	}
+	else
+	{
+    	//for(t=0; t<numproc; t++){
+	printf("In main: creating thread %ld\n", 0);
+	rc = pthread_create(&threads[0], NULL, server_1,NULL);
+	if (rc){
+        	printf("ERROR; return code from pthread_create() is %d\n", rc);
+         	exit(-1);
+      	}
+	}
+	//}
+	//server_1();
+	//while(flag2!=true);
+	sleep(2);
+	if(rank!=0)
+	{
+		client(host_char,30014+rank-1);
+	}
+//	pthread_cancel(&threads[0]);
+//	(void) pthread_join(&threads[0],NULL);
+ return 1;
+}
+
+int MPI_Barrier( MPI_Comm comm)
+{
+	return 1;
+
+
 }
 
 int main(int argc,char *argv[])
