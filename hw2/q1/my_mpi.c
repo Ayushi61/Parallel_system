@@ -31,7 +31,13 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 	char* fileName="nodefile.txt";
 	fp=fopen(fileName,"r");
 	char str[100];
-	char line[128][10];
+	char **line;
+	line=(char **) malloc(sizeof(char *)*128);
+	int k;
+	for(k=0;k<128;k++)
+	{
+		*(line+k)=(char *)malloc(sizeof(char)*1000);
+	}
 	char c;
 	//printf("in func %p\n",hostName);
     if (fp == NULL){
@@ -49,8 +55,8 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 			printf("%s and rank is %d\n",line[i],i);
 			rank_ret[0]=i;
 		}
-			hostName[i]=&line[i];
-			//printf("%s\n",hostName[i]);
+			strcpy(&hostName[i],&line[i]);
+			printf(" addr to mactch is %s\n",hostName[i]);
 
 		i++;
 	}
@@ -201,7 +207,7 @@ int MPI_Init(int *argc, char **argv[])
 		
 	}
 	printf("numproc is %d, and rank is %d\n",numproc,rank);
-        if(rank==0)
+        if(rank!=0)
 		sleep(2);
 	pthread_t *threads;
 	threads=(pthread_t *)malloc(sizeof(pthread_t)*numproc);
@@ -253,6 +259,7 @@ int MPI_Barrier( MPI_Comm comm)
         if(comm.rank!=0)
         {
 		strcpy(host_char,comm.hostnames[0]);
+		printf("in client host name is %s\n",host_char);
                 client(host_char/*"c45"*/,30014+comm.rank,MPI_COMM_WORLD,sizeof(int),msg);
         }
 	if(comm.rank==0)
@@ -274,6 +281,7 @@ int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int ta
 	char * host_char;
 	
 	printf("hostname %d is %s\n",dest,MPI_COMM_WORLD.hostnames[0]);
+	printf("!!!!!1 addr to mactch is %p\n",MPI_COMM_WORLD.hostnames[0]);
 	host_char=(char *)malloc(strlen(comm.hostnames[dest])*sizeof(char));
 	strcpy(host_char,comm.hostnames[0]);
 	
@@ -322,8 +330,9 @@ int main(int argc,char *argv[])
 	int *bufferRecv;
 	char hostname[MPI_MAX_PROCESSOR_NAME];
 	MPI_Init(&argc,&argv);
+	printf("contents of hostname is %s\n",MPI_COMM_WORLD.hostnames[0]);
 	printf("%d is rank global mpi\n",MPI_COMM_WORLD.rank);
-	MPI_Comm_size(MPI_COMM_WORLD, &numproc);
+	/*MPI_Comm_size(MPI_COMM_WORLD, &numproc);
     	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Get_processor_name(hostname, &len);
 	MPI_Status status;
@@ -345,7 +354,7 @@ int main(int argc,char *argv[])
 	MPI_Send(bufferSend,32*sizeof(int),MPI_INT,pair_send,123,MPI_COMM_WORLD);
 	printf("data sent---------------------\n");
 	//MPI_Recv(bufferRecv,32*sizeof(int),MPI_INT,pair_recv,123,MPI_COMM_WORLD,&status);
-	printf("data recvd---------------\n");
+	printf("data recvd---------------\n");*/
 	return 0;
 
 
