@@ -37,7 +37,7 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 	int k;
 	for(k=0;k<128;k++)
 	{
-		*(line+k)=(char *)malloc(sizeof(char)*10);
+		*(line+k)=(char *)malloc(sizeof(char)*1000);
 	}
 	char c;
 	//printf("in func %p\n",hostName);
@@ -56,7 +56,7 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 			printf("%s and rank is %d\n",line[i],i);
 			rank_ret[0]=i;
 		}
-			strcpy(hostName[i],line[i]);
+			strcpy(&hostName[i],&line[i]);
 			printf(" addr to mactch is %s\n",hostName[i]);
 
 		i++;
@@ -88,7 +88,7 @@ void client(char* hostname,int portno,MPI_Comm comm,int bytes,int *msg)
         (char *)&serv_addr.sin_addr.s_addr,
         server->h_length);
     	serv_addr.sin_port = htons(portno);
-	int ctr=0;
+	/*int ctr=0;
 	while(ctr!=3)
 	{
 	
@@ -101,7 +101,7 @@ void client(char* hostname,int portno,MPI_Comm comm,int bytes,int *msg)
 			break;
 	}
 	if(ctr==3)
-		error("ERROR connecting");
+		error("ERROR connecting");*/
     	printf("Please enter the message: ");
 	//bzero(buffer,256);
 	printf("message is %d to %s\n",msg[0],hostname);
@@ -157,8 +157,8 @@ void server_1(arg * args )
 
      		printf("checking--------------------- \n");
 		clilen = sizeof(cli_addr);
-	//	if(portno!=30014)
-	//	{
+		if(portno!=30014)
+		{
    	 		newsockfd = accept(sockfd, 
                  	(struct sockaddr *) &cli_addr, &clilen);
 			printf("inside server while\n");
@@ -180,11 +180,6 @@ void server_1(arg * args )
 				printf("comm.portno-30014+1 is %d\n",args->portno-30014);
 				buff_glob_0[args->portno-30014]=buff_glob[0];
 			}
-			else
-                        {
-                                printf("#####################is #################%d\n",buff_glob[0]);
-                                buff_glob_0[0]=buff_glob[0];
-                        }
 			printf("server got---> %d\n",buff_glob[1]);
      			if (n < 0) error("ERROR reading from socket");
      			/*n = write(newsockfd,"I got your message\n",18);
@@ -193,20 +188,20 @@ void server_1(arg * args )
     		     }
 			else close(newsockfd);*/
 
-	//	}	
-	/*	else
+		}	
+		else
 		{
 	 		newsockfd = accept(sockfd,
          	        (struct sockaddr *) &cli_addr, &clilen);
                 	printf("inside server while\n");
              		if (newsockfd < 0)
-                  		error("ERROR on accept");*/
+                  		error("ERROR on accept");
 			/*pid=fork();
         		if(pid<0)
                  	error("ERROR on fork");
          		if (pid == 0)  {
              		close(sockfd);*/
-			/*
+			
         		bzero(buffer,256);
         		int * buff_glob;
         		buff_glob=(int *)malloc(sizeof(int)*(524288+1));
@@ -222,7 +217,7 @@ void server_1(arg * args )
 				buff_glob_0[0]=buff_glob[0];
 			}
         		printf("server got---> %d\n",buff_glob[1]);
-        		if (n < 0) error("ERROR reading from socket");*/
+        		if (n < 0) error("ERROR reading from socket");
         		/*n = write(newsockfd,"I got your message\n",18);
         		if (n < 0) error("ERROR writing to socket");*/
                       	/*exit(0);
@@ -231,7 +226,7 @@ void server_1(arg * args )
         
 
 	
-		/*}*/
+		}
 	}
 	//close(newsockfd_glob);
      	close(newsockfd);
@@ -247,13 +242,8 @@ int MPI_Init(int *argc, char **argv[])
       	int numproc;
         int rank;
         const char** host_char;
-        host_char=(char **)malloc(sizeof(char *)*128);
-   	int k;
-	for(k=0;k<128;k++)
-	{
-		*(host_char+k)=(char *)malloc(sizeof(char)*10);
-	}
-	hostname = gethostname(hostbuffer, sizeof(hostbuffer));
+        host_char=(char **)malloc(sizeof(char *)*10);
+   	hostname = gethostname(hostbuffer, sizeof(hostbuffer));
     	printf("Hostname: %s\n", hostbuffer);
     	getNumProcRank(hostbuffer,num_rank,host_char);
         rank=num_rank[0];
@@ -322,9 +312,8 @@ int MPI_Barrier( MPI_Comm comm)
 	sleep(2);
 	char * host_char;
 	int len=strlen(comm.hostnames[0]);
-	int *msg;
-	msg=(int *)malloc(sizeof(int));
-	*msg=comm.rank;
+	int msg[1];
+	msg[0]=comm.rank;
 	host_char=(char *)malloc(len*sizeof(char));
         if(comm.rank!=0)
         {
@@ -338,20 +327,18 @@ int MPI_Barrier( MPI_Comm comm)
 		for(i=1;i<comm.numproc;i++)
 		{
 			printf("checking barrier %d\n",buff_glob_0[i]);
-			while(buff_glob_0[i]!=i);
-			//sleep(2);
+			//while(buff_glob_0[i]!=i);
+			sleep(2);
 			printf("--> post checking barrier %d\n",buff_glob_0[i]);	
 		}
-		
-		for(i=1;i<comm.numproc;i++)
+		/*for(i=1;i<comm.numproc;i++)
 		{
-			sleep(1);
 			strcpy(host_char,comm.hostnames[i]);
 			printf("sending ack %s \n",host_char);
-			client(host_char,30014,MPI_COMM_WORLD,sizeof(int),msg);
+			//client(host_char,30014,MPI_COMM_WORLD,sizeof(int),msg);
 			//break;
 
-		}
+		}*/
 	}
 	else
 	{
