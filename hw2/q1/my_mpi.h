@@ -12,7 +12,7 @@ typedef struct mpi_Comm{
 	//char *root_host;
 
 }MPI_Comm;
-//MPI_Comm MPI_COMM_WORLD;
+MPI_Comm MPI_COMM_WORLD;
 typedef int MPI_Status;
 typedef int MPI_Request;
 typedef int MPI_Datatype;
