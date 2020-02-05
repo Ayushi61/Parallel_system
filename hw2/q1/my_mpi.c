@@ -28,7 +28,7 @@ int *buff_glob_0;
 int newsockfd_glob=-1;
 bool barrier=false;
 bool rcv_flag=false;
-int **rcv_ptr;
+int *rcv_ptr;
 int rcv_cnt;
 int cnt_rcv;
 MPI_Comm MPI_COMM_WORLD;
@@ -200,6 +200,8 @@ void server_1(arg * args )
 				int * buff_glob;
 				buff_glob=(int *)malloc(100*sizeof(int));
 				n = read(newsockfd,buff_glob,(100*sizeof(int)));
+				
+				printf("rcvd %d bytes \n",n);
 				printf("rcvd!!!!!!! %d\n",buff_glob[0]);
 				if(comm.rank==0)
 				{
@@ -225,6 +227,7 @@ void server_1(arg * args )
         			int * buff_glob;
      		   		buff_glob=(int *)malloc(100*sizeof(int));
         			n = read(newsockfd,buff_glob,(100*sizeof(int)));
+				printf("rcvd %d bytes \n",n);
 				printf("#####################is #################%d\n",buff_glob[0]);
 				buff_glob_0[0]=buff_glob[0];
 	        		printf("server got---> %d\n",buff_glob[1]);
@@ -234,7 +237,7 @@ void server_1(arg * args )
 			else
 			{
 
-				int itr=0;
+				/*int itr=0;
 				int ii=rcv_cnt;
 				while(ii>262144)
 				{
@@ -243,10 +246,47 @@ void server_1(arg * args )
 					printf("2nd-----msg\n");
 					itr++;
 					ii-=262144;
+				}*/
+				bzero(rcv_ptr,rcv_cnt);
+				printf(" void size %d\n",sizeof(void));
+				void *buffer_rcv=(void *)malloc(rcv_cnt);
+				//int * bff=(int *)malloc(rcv_cnt/sizeof(int));
+				bzero(buffer_rcv,rcv_cnt);
+				n=read(newsockfd,buffer_rcv,rcv_cnt);
+				//bcopy(buffer_rcv,bff,n);
+				//memcpy(bff,(int *)buffer_rcv,n/sizeof(int));
+				//printf("%d is %d rcv\n",*(bff+127),n/sizeof(int));
+				//printf()		
+				while(n<0)
+				{
+
+					n=read(newsockfd,buffer_rcv,rcv_cnt);
 				}
-				n=read(newsockfd,*rcv_ptr,rcv_cnt);
-                                printf("i recieved\n");
+						
+				int n1=n;
+				buffer_rcv+=n;
+                                while(n1<rcv_cnt)
+				{
+					n=read(newsockfd,buffer_rcv,rcv_cnt);
+					printf("rcvd %d bytes and %d \n",n1,n);
+					while(n<0)
+                                {
+
+                                        n=read(newsockfd,buffer_rcv,rcv_cnt);
+                                }
+
+					n1+=n;
+					//printf("ptr is %p\n",rcv_ptr);
+					//bcopy(buffer_rcv,bff,n);
+					buffer_rcv+=n;
+					
+				}
+				memcpy(rcv_ptr,(int *)(buffer_rcv-n1),rcv_cnt/sizeof(int));
+				printf("rcvd %d bytes \n",n1);
+				printf("i recieved %d\n",*(rcv_ptr+127));
 				rcv_flag=false;
+				free(buffer_rcv-n1);
+				//free(bff);
 
 
 			}
@@ -395,8 +435,8 @@ int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int ta
 	
 	host_char=(char *)malloc(strlen(comm.hostnames[dest])*sizeof(char));
 	strcpy(host_char,comm.hostnames[dest]);
-	
-	printf("%s host_char\n",host_char);
+	int buffer=*((int *)buf+127);
+	printf("%s host_char and mesg sent %d\n",host_char,buffer);
 	int i=count;
 	int itr=0;
 	while(i>262144)
@@ -510,7 +550,7 @@ int main(int argc,char *argv[])
                 pair_rcv=pair_send;
         }
 	bufferSend=(int *)malloc(1024*1024);
-	bufferRecv=(int *)malloc(1024*1022);
+	bufferRecv=(int *)malloc(1024*1024);
 	*(bufferSend+127)=32;
 	MPI_Sendrecv(bufferSend, 1024*1024, MPI_INT, pair_send, 123, bufferRecv, 1024*1024, MPI_INT, pair_rcv, 123, MPI_COMM_WORLD, &status);
 	//MPI_Send(bufferSend,1024*1024,MPI_INT,pair_send,123,MPI_COMM_WORLD);
