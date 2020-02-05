@@ -18,7 +18,8 @@
 #include <stdbool.h>
 #include "my_mpi.h"
 #include <netdb.h>
-
+//int MPI_Barrier( MPI_Comm);
+//void server_1();
 /*setting global variables for use throughout the functions*/
 bool flag=false;
 bool flag2=false;
@@ -31,7 +32,7 @@ bool rcv_flag=false;
 int *rcv_ptr;
 int rcv_cnt;
 int cnt_rcv;
-extern MPI_Comm MPI_COMM_WORLD;
+extern  MPI_Comm MPI_COMM_WORLD;
 char * buffer_client;
 /*structure to pass to server thread */
 typedef	struct topass{
@@ -60,7 +61,7 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 	}
 	char c;
     	if (fp == NULL){
-        	//printf("Could not open file %s",fileName);
+        	printf("Could not open file %s",fileName);
     	}
 	int i=0;
     	while (fgets(line[i], 128, fp))
@@ -71,15 +72,15 @@ void getNumProcRank(char* rank,int* rank_ret,char** hostName)
 		
         	if(strcmp(rank,line[i])==0)
 		{
-			//printf("%s and rank is %d\n",line[i],i);
+			printf("%s and rank is %d\n",line[i],i);
 			rank_ret[0]=i;
 		}
 			strcpy(hostName[i],line[i]);
-			//printf(" addr to mactch is %s\n",hostName[i]);
+			printf(" addr to mactch is %s\n",hostName[i]);
 
 		i++;
 	}
-	//printf("numproc=%d\n",i);
+	printf("numproc=%d\n",i);
 	rank_ret[1]=i;
     	fclose(fp);
 	for(k=0;k<128;k++)
@@ -95,7 +96,7 @@ void client(char* hostname,int portno,MPI_Comm comm,int bytes,int *msg)
    	struct sockaddr_in serv_addr;
     	struct hostent *server;
     	sockfd = socket(AF_INET, SOCK_STREAM, 0);
-	//printf("entered client ---%d,%s\n",portno,hostname);
+	printf("entered client ---%d,%s\n",portno,hostname);
     	if (sockfd < 0) 
         	error("ERROR opening socket");
     	server = gethostbyname(hostname);
@@ -124,8 +125,8 @@ void client(char* hostname,int portno,MPI_Comm comm,int bytes,int *msg)
 	}
 	if(ctr==3)
 		error("ERROR connecting");
-    	//printf("Please enter the message: ");
-	//printf("message is %d to %s\n",msg[0],hostname);
+    	printf("Please enter the message: ");
+	printf("message is %d to %s\n",msg[0],hostname);
     	if(barrier==true)
 	{
 		int *buff;
@@ -165,8 +166,8 @@ void server_1(arg * args )
      	int n;
 	int portno=args->portno;
 	MPI_Comm comm=args->comm;
-	//printf("%d port num\n",portno);
-	//printf("here rank is %d\n",comm.rank);
+	printf("%d port num\n",portno);
+	printf("here rank is %d\n",comm.rank);
      	sockfd = socket(AF_INET, SOCK_STREAM, 0);
      	if (sockfd < 0) 
         	error("ERROR opening socket");
@@ -176,7 +177,7 @@ void server_1(arg * args )
      	serv_addr.sin_port = htons(portno);
      	if (bind(sockfd, (struct sockaddr *) &serv_addr,sizeof(serv_addr)) < 0) 
        		error("ERROR on binding");
-	//printf("ok till here\n");
+	printf("ok till here\n");
 	
 
 	listen(sockfd,5);
@@ -184,13 +185,13 @@ void server_1(arg * args )
 	{
 	 	
 
-     		//printf("checking--------------------- \n");
+     		printf("checking--------------------- \n");
 		clilen = sizeof(cli_addr);
 		if(portno!=30014)
 		{
    	 		newsockfd = accept(sockfd, 
                  	(struct sockaddr *) &cli_addr, &clilen);
-			//printf("inside server while\n");
+			printf("inside server while\n");
 	     		if (newsockfd < 0) 
         	  		error("ERROR on accept");
 			while(barrier==false);
@@ -201,14 +202,14 @@ void server_1(arg * args )
 				buff_glob=(int *)malloc(100*sizeof(int));
 				n = read(newsockfd,buff_glob,(100*sizeof(int)));
 				
-				//printf("rcvd %d bytes \n",n);
-				//printf("rcvd!!!!!!! %d\n",buff_glob[0]);
+				printf("rcvd %d bytes \n",n);
+				printf("rcvd!!!!!!! %d\n",buff_glob[0]);
 				if(comm.rank==0)
 				{
-					//printf("comm.portno-30014+1 is %d\n",args->portno-30014);
+					printf("comm.portno-30014+1 is %d\n",args->portno-30014);
 					buff_glob_0[args->portno-30014]=buff_glob[0];
 				}
-				//printf("server got---> %d\n",buff_glob[1]);
+				printf("server got---> %d\n",buff_glob[1]);
      				if (n < 0) error("ERROR reading from socket");
 				free(buff_glob);
 			}
@@ -217,7 +218,7 @@ void server_1(arg * args )
 		{
 	 		newsockfd = accept(sockfd,
          	        (struct sockaddr *) &cli_addr, &clilen);
-                	//printf("inside server while\n");
+                	printf("inside server while\n");
              		if (newsockfd < 0)
                   		error("ERROR on accept");
 			while(barrier==false && rcv_flag==false);
@@ -227,10 +228,10 @@ void server_1(arg * args )
         			int * buff_glob;
      		   		buff_glob=(int *)malloc(100*sizeof(int));
         			n = read(newsockfd,buff_glob,(100*sizeof(int)));
-				//printf("rcvd %d bytes \n",n);
-				//printf("#####################is #################%d\n",buff_glob[0]);
+				printf("rcvd %d bytes \n",n);
+				printf("#####################is #################%d\n",buff_glob[0]);
 				buff_glob_0[0]=buff_glob[0];
-	        		//printf("server got---> %d\n",buff_glob[1]);
+	        		printf("server got---> %d\n",buff_glob[1]);
         			if (n < 0) error("ERROR reading from socket");
         			free(buff_glob);
 			}
@@ -243,47 +244,37 @@ void server_1(arg * args )
 				{
 					n = read(newsockfd,*rcv_ptr+itr*65536,262144);
 					newsockfd = accept(sockfd, (struct sockaddr *) &cli_addr, &clilen);
-					//printf("2nd-----msg\n");
+					printf("2nd-----msg\n");
 					itr++;
 					ii-=262144;
 				}*/
 				bzero(rcv_ptr,rcv_cnt);
-				//printf(" void size %d\n",sizeof(void));
+				printf(" void size %d\n",sizeof(void));
 				void *buffer_rcv=(void *)malloc(rcv_cnt);
 				//int * bff=(int *)malloc(rcv_cnt/sizeof(int));
 				bzero(buffer_rcv,rcv_cnt);
-				n=read(newsockfd,buffer_rcv,rcv_cnt);
+				//n=read(newsockfd,buffer_rcv,rcv_cnt);
 				//bcopy(buffer_rcv,bff,n);
 				//memcpy(bff,(int *)buffer_rcv,n/sizeof(int));
-				////printf("%d is %d rcv\n",*(bff+127),n/sizeof(int));
-				////printf()		
-				while(n<0)
-				{
-
-					n=read(newsockfd,buffer_rcv,rcv_cnt);
-				}
+				//printf("%d is %d rcv\n",*(bff+127),n/sizeof(int));
+				//printf()		
 						
-				int n1=n;
-				buffer_rcv+=n;
+				int n1=0;
+				//buffer_rcv+=n;
                                 while(n1<rcv_cnt)
 				{
 					n=read(newsockfd,buffer_rcv,rcv_cnt);
-					////printf("rcvd %d bytes and %d \n",n1,n);
-					while(n<0)
-                                {
-
-                                        n=read(newsockfd,buffer_rcv,rcv_cnt);
-                                }
+					printf("rcvd %d bytes and %d \n",n1,n);
 					//sleep(1);
 					n1+=n;
-					////printf("ptr is %p\n",rcv_ptr);
+					//printf("ptr is %p\n",rcv_ptr);
 					//bcopy(buffer_rcv,bff,n);
 					buffer_rcv+=n;
 					
 				}
 				memcpy(rcv_ptr,(int *)(buffer_rcv-n1),rcv_cnt/sizeof(int));
-				//printf("rcvd %d bytes \n",n1);
-				//printf("i recieved %d\n",*(rcv_ptr+127));
+				printf("rcvd %d bytes \n",n1);
+				printf("i recieved %d\n",*(rcv_ptr+127));
 				rcv_flag=false;
 				free(buffer_rcv-n1);
 				//free(bff);
@@ -299,7 +290,7 @@ void server_1(arg * args )
      
 }
 /*this func initializes all the nodes ad calls barrier internally to let all functions start the server thread*/
-extern int MPI_Init(int *argc, char **argv[])
+ int MPI_Init(int *argc, char **argv[])
 {
 	char* hostname;
 	char hostbuffer[256];
@@ -315,7 +306,7 @@ extern int MPI_Init(int *argc, char **argv[])
 	}
 
 	hostname = gethostname(hostbuffer, sizeof(hostbuffer));
-    	//printf("Hostname: %s\n", hostbuffer);
+    	printf("Hostname: %s\n", hostbuffer);
     	getNumProcRank(hostbuffer,num_rank,host_char);
         rank=num_rank[0];
         numproc=num_rank[1];
@@ -348,10 +339,10 @@ extern int MPI_Init(int *argc, char **argv[])
 			args=(arg *)malloc(sizeof(arg));
 			args->comm=MPI_COMM_WORLD;
 			args->portno=30014+t;
-			//printf("thread %d,%d\n",t,args->portno);
+			printf("thread %d,%d\n",t,args->portno);
 			rc = pthread_create(&threads[t-1], NULL, server_1,args);
 			if (rc){
-                		//printf("ERROR; return code from pthread_create() is %d\n", rc);
+                		printf("ERROR; return code from pthread_create() is %d\n", rc);
                 		exit(-1);
         		}
 		}
@@ -362,14 +353,15 @@ extern int MPI_Init(int *argc, char **argv[])
 	args->portno=30014;
 	rc = pthread_create(&threads[0], NULL, server_1,args);
 	if (rc){
-        	//printf("ERROR; return code from pthread_create() is %d\n", rc);
+        	printf("ERROR; return code from pthread_create() is %d\n", rc);
          	exit(-1);
       	}
 	MPI_Barrier(MPI_COMM_WORLD);
+	//exit(1);	
 	return 1;
 }
 /*blocking and syncying call within inti and finalize to let all functions finish there server threads spawinging, comminicates to rank 0 and gets acknowledged to move ahead */
-extern int MPI_Barrier( MPI_Comm comm)
+ int MPI_Barrier( MPI_Comm comm)
 {
 	sleep(1);
 	barrier=true;
@@ -390,16 +382,16 @@ extern int MPI_Barrier( MPI_Comm comm)
 		//cnt_rcv=0;
 		for(i=1;i<comm.numproc;i++)
 		{
-			//printf("checking barrier %d\n",buff_glob_0[i]);
+			printf("checking barrier %d\n",buff_glob_0[i]);
 			while(buff_glob_0[i]!=i);
-			//printf("--> post checking barrier %d\n",buff_glob_0[i]);	
+			printf("--> post checking barrier %d\n",buff_glob_0[i]);	
 			//cnt_rcv++;
 		}
 		
 		for(i=1;i<comm.numproc;i++)
 		{
 			strcpy(host_char,comm.hostnames[i]);
-			//printf("sending ack %s \n",host_char);
+			printf("sending ack %s \n",host_char);
 			client(host_char,30014,MPI_COMM_WORLD,sizeof(int),msg);
 
 		}
@@ -407,9 +399,9 @@ extern int MPI_Barrier( MPI_Comm comm)
 	else
 	{
 
-		//printf("%d recieved buffer_client\n",buff_glob_0[0]);
+		printf("%d recieved buffer_client\n",buff_glob_0[0]);
 		while(buff_glob_0[0]!=0);	
-		//printf("-->post sleep %d recieved buffer_client\n",buff_glob_0[0]);
+		printf("-->post sleep %d recieved buffer_client\n",buff_glob_0[0]);
 
 	}
 	int i;
@@ -427,7 +419,7 @@ extern int MPI_Barrier( MPI_Comm comm)
 
 }
 /*used to send message to all other nodes , uses client call interally*/
-extern int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
+ int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest, int tag, MPI_Comm comm)
 {
 	if(dest!=comm.rank)
 	{	
@@ -436,8 +428,8 @@ extern int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest,
 	host_char=(char *)malloc(strlen(comm.hostnames[dest])*sizeof(char));
 	strcpy(host_char,comm.hostnames[dest]);
 	int buffer=*((int *)buf+127);
-	//printf("%s host_char and mesg sent %d\n",host_char,buffer);
-	int i=count;
+	printf("%s host_char and mesg sent %d\n",host_char,buffer);
+	/*int i=count;
 	int itr=0;
 	while(i>262144)
 	{
@@ -447,8 +439,8 @@ extern int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest,
 		itr++;
 		//if(itr==4)
 		//	break;
-	}
-	client(host_char,30014,comm,i,buf+itr*(65536));
+	}*/
+	client(host_char,30014,comm,count,buf);
 	free(host_char);
 	}
 	return 1;
@@ -456,13 +448,13 @@ extern int MPI_Send(const void *buf, int count, MPI_Datatype datatype, int dest,
 
 }
 /*checks flags that server sets. */
-extern int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status)
+ int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int tag, MPI_Comm comm, MPI_Status *status)
 {
 	if(source!=comm.rank)
 	{
-	int i=count;
-	int itr=0;
-	while(i>262144)
+//	int i=count;
+//	int itr=0;
+/*	while(i>262144)
 	{
 		rcv_ptr=buf+itr*65536;
 		rcv_cnt=262144;
@@ -472,9 +464,9 @@ extern int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int
 		i-=262144;
 		//if(itr==4)
 		//	break;
-	}
-	rcv_ptr=buf+itr*65536;
-	rcv_cnt=i;
+	}*/
+	rcv_ptr=buf;
+	rcv_cnt=count;
 	rcv_flag=true;
 	while(rcv_flag!=false);
 	}
@@ -482,19 +474,19 @@ extern int MPI_Recv(void *buf, int count, MPI_Datatype datatype, int source, int
 
 }
 /*returns number of nodes*/
-extern int MPI_Comm_size(MPI_Comm comm, int *size)
+int MPI_Comm_size(MPI_Comm comm, int *size)
 {
 	*size=comm.numproc;
 	return 1;
 }
 /*return rank ofr the nodes*/
-extern int MPI_Comm_rank(MPI_Comm comm,int *rank)
+int MPI_Comm_rank(MPI_Comm comm,int *rank)
 {
 	*rank=comm.rank;
 	return 1;
 }
 /*returns processor name*/
-extern int MPI_Get_processor_name(char* hostname,int *len)
+ int MPI_Get_processor_name(char* hostname,int *len)
 {
 	char line[1024];
 	FILE *cpuinfo = fopen("/proc/cpuinfo","rb");
@@ -511,7 +503,7 @@ extern int MPI_Get_processor_name(char* hostname,int *len)
 
 }
 /*blocking call before all servers threads can be killed */
-extern int MPI_Finalize(void)
+ int MPI_Finalize(void)
 {
 	//sleep(5);
 	MPI_Barrier(MPI_COMM_WORLD);
@@ -519,7 +511,7 @@ extern int MPI_Finalize(void)
 }
 
 
-int MPI_Sendrecv(const void *sendbuff, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status)
+ int MPI_Sendrecv(const void *sendbuff, int sendcount, MPI_Datatype sendtype,int dest, int sendtag,void *recvbuf, int recvcount, MPI_Datatype recvtype,int source, int recvtag,MPI_Comm comm, MPI_Status *status)
 {
 
 	MPI_Send(sendbuff,sendcount,sendtype,dest,sendtag,comm);
@@ -527,17 +519,17 @@ int MPI_Sendrecv(const void *sendbuff, int sendcount, MPI_Datatype sendtype,int 
 
 	return 1;
 }
-/*int main(int argc,char *argv[])
-
+/*
+int main(int argc,char *argv[])
 {
 	int  numproc,rank,len, pair_send, pair_rcv;
 	int *bufferSend;
 	int *bufferRecv;
 	char hostname[MPI_MAX_PROCESSOR_NAME];
-	//printf("before init\n");
+	printf("before init\n");
 	MPI_Init(&argc,&argv);
-	//printf("contents of hostname is %s\n",MPI_COMM_WORLD.hostnames[0]);
-	//printf("%d is rank global mpi\n",MPI_COMM_WORLD.rank);
+	printf("contents of hostname is %s\n",MPI_COMM_WORLD.hostnames[0]);
+	printf("%d is rank global mpi\n",MPI_COMM_WORLD.rank);
 	MPI_Comm_size(MPI_COMM_WORLD, &numproc);
     	MPI_Comm_rank(MPI_COMM_WORLD, &rank);
 	MPI_Get_processor_name(hostname, &len);

@@ -6,12 +6,22 @@
 #include <math.h>
 int main(int argc, char *argv[])
 {
-    int  numproc,rank,len, pair_send, pair_rcv;
+        int  numproc,rank,len, pair_send, pair_rcv;
+        int *bufferSend;
+        int *bufferRecv;
+        char hostname[MPI_MAX_PROCESSOR_NAME];
+        printf("before init\n");
+       	MPI_Init(&argc,&argv);
+        //printf("contents of hostname is %s\n",MPI_COMM_WORLD.hostnames[0]);
+        //printf("%d is rank global mpi\n",MPI_COMM_WORLD.rank);
+
+/*    int  numproc,rank,len, pair_send, pair_rcv;
     int *buffer, *buffer2;
     MPI_Request request;
     MPI_Status status;
     char  hostname[MPI_MAX_PROCESSOR_NAME]; 
     MPI_Init(&argc,&argv);
+    printf("%d\n",MPI_COMM_WORLD.numproc);
     MPI_Comm_size(MPI_COMM_WORLD, &numproc);
     MPI_Comm_rank(MPI_COMM_WORLD, &rank);
     MPI_Get_processor_name(hostname, &len);
@@ -60,7 +70,7 @@ int main(int argc, char *argv[])
     printf("avg is %lf and std is %lf for process %d size= %d \n",avg,std, rank,i*sizeof(int));
     free(buffer);
     free(buffer2);
-    }
-    MPI_Finalize();
+    }*/
+    //MPI_Finalize();
     return 0;
 }
