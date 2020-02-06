@@ -28,10 +28,14 @@ int main(int argc,char *argv[])
         bufferRecv=(int *)malloc(2*1024*1024);
         *(bufferSend+127)=32;
         MPI_Sendrecv(bufferSend, 2*1024*1024, MPI_INT, pair_send, 123, bufferRecv, 2*1024*1024, MPI_INT, pair_rcv, 123, MPI_COMM_WORLD, &status);
-        //MPI_Send(bufferSend,1024*1024,MPI_INT,pair_send,123,MPI_COMM_WORLD);
+        //if(rank==0)
+        //MPI_Send(bufferSend,2*1024*1024,MPI_INT,1,123,MPI_COMM_WORLD);
         printf("data sent---------------------\n");
-        //MPI_Recv(bufferRecv,1024*1024,MPI_INT,pair_rcv,123,MPI_COMM_WORLD,&status);
-        printf("data recvd-------------%d\n",bufferRecv[127]);
+	//if(rank==1)
+	//{
+        //MPI_Recv(bufferRecv,2*1024*1024,MPI_INT,0,123,MPI_COMM_WORLD,&status);
+        printf("------------------------data recvd-------------%d\n",bufferRecv[127]);
+	//}
         free(bufferSend);
         free(bufferRecv);
         MPI_Finalize();
