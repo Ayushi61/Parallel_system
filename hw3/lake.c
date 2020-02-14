@@ -223,7 +223,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         idx = j + i * n;
         
         /* impose the u|_s = 0 boundary conditions */
-        if( i <= 1 || i <= n - 2 || j <= 1 || j <= n - 2)
+        if( i <= 1 || i >= n - 2 || j <= 1 || j >= n - 2)
         {
           un[idx] = 0.;
         }
