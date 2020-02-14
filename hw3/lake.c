@@ -232,19 +232,14 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         /* otherwise do the FD scheme */
         else
         {
-		
-		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
+	un[idx] = 2*uc[idx] - uo[idx] + VSQR *(dt * dt) * (( uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25*(uc[idx + n-1] + uc[idx + n+1] + uc[idx - n -1] + uc[idx - n +1]) + 0.125*(uc[idx-2] + uc[idx+2] + uc[idx + 2*n] + uc[idx - 2*n]) - 5.5 * uc[idx])/(h * h) + f(pebbles[idx],t));	
         }
       }
     }
 
     /* update the calculation arrays for the next time step */    
-    //memcpy(uo, uc, sizeof(double) * n * n);
-    //memcpy(uc, un, sizeof(double) * n * n);
-    t=u0;
-    u0=uc;
-    uc=un;
-    un=t;
+    memcpy(uo, uc, sizeof(double) * n * n);
+    memcpy(uc, un, sizeof(double) * n * n);
 
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
