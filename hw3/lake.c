@@ -223,7 +223,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         idx = j + i * n;
         
         /* impose the u|_s = 0 boundary conditions */
-        if( i <= 1 || i >= n - 2 || j <= 1 || j >= n - 2)
+        if( i == 1 || i==0 || j==0 || j==1 || i ==n-1 || i == n-2 || j== n-1 || j == n-2)
         {
           un[idx] = 0.;
         }
@@ -232,11 +232,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         else
         {
 		
-     		un[idx] = (2*uc[idx] - uo[idx] + VSQR * (dt *dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n]) + 
-					0.25*(uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) 
-					+ 0.125*(uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])
-					- 5.5* uc[idx])/(h*h) + f(pebbles[idx], t));  
-
+		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
         }
       }
     }
