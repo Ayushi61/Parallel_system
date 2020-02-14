@@ -31,7 +31,7 @@
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
-
+#include "omp.h"
 #include "./lake.h"
 #include "./lake_util.h"
 
@@ -216,6 +216,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
 
     /* run a central finite differencing scheme to solve
  *      * the wave equation in 2D */
+     double t;
     for( i = 0; i < n; i++)
     {
       for( j = 0; j < n; j++)
@@ -238,12 +239,17 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     }
 
     /* update the calculation arrays for the next time step */    
-    memcpy(uo, uc, sizeof(double) * n * n);
-    memcpy(uc, un, sizeof(double) * n * n);
+    //memcpy(uo, uc, sizeof(double) * n * n);
+    //memcpy(uc, un, sizeof(double) * n * n);
+    t=u0;
+    u0=uc;
+    uc=un;
+    un=t;
 
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
+  un=uc;
   /* cpy the last updated to the output array */
   memcpy(u, un, sizeof(double) * n * n);
 }
