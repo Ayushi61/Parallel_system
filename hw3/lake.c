@@ -232,8 +232,10 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         else
         {
 		
-		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
-      
+     		un[idx] = (2*uc[idx] - uo[idx] + VSQR * (dt *dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n]) + 
+					0.25*(uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) 
+					+ 0.125*(uc[idx+2] + uc[idx-2] + uc[idx+2n] + uc[idx-2n])
+					- 5.5* uc[idx])/(h*h) + f(pebbles[idx], t));  
 
         }
       }
