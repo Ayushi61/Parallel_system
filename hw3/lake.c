@@ -209,14 +209,14 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
  *                      * model.  The condition dt = h/2. should suffice, but 
  *                         * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
-  double *temp;
+ // double *temp;
   /* loop until time >= end_time */
   while(1)
   {
 
     /* run a central finite differencing scheme to solve
  *      * the wave equation in 2D */
-     double t;
+     //double t;
     for( i = 0; i < n; i++)
     {
       for( j = 0; j < n; j++)
@@ -242,15 +242,21 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     //memcpy(uo, uc, sizeof(double) * n * n);
     //memcpy(uc, un, sizeof(double) * n * n);
-    temp=u0;
-    u0=uc;
-    uc=un;
-    un=temp;
+    //temp=u0;
+    //u0=uc;
+    //uc=un;
+    //un=temp;
+    #pragma omp parallel for
+    for(i=0;i<n*n;i++)
+	{	
+		u0[i]=uc[i];
+		uc[i]=un[i];
+	}
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
   /* cpy the last updated to the output array */
-  un=uc;
+  //un=uc;
   memcpy(u, un, sizeof(double) * n * n);
 }
 
