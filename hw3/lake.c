@@ -209,7 +209,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
  *                      * model.  The condition dt = h/2. should suffice, but 
  *                         * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
-
+  double *temp;
   /* loop until time >= end_time */
   while(1)
   {
@@ -224,28 +224,33 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         idx = j + i * n;
         
         /* impose the u|_s = 0 boundary conditions */
-        if( i == 1 || i==0 || j==0 || j==1 || i ==n-1 || i == n-2 || j== n-1 || j == n-2)
-        {
+       	if( idx<2*n || idx>(n*n)-(2*n) || idx%n<=1 || idx%n>=n-2 )
+       	{
           un[idx] = 0.;
         }
 
         /* otherwise do the FD scheme */
         else
         {
-	un[idx] = 2*uc[idx] - uo[idx] + VSQR *(dt * dt) * (( uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25*(uc[idx + n-1] + uc[idx + n+1] + uc[idx - n -1] + uc[idx - n +1]) + 0.125*(uc[idx-2] + uc[idx+2] + uc[idx + 2*n] + uc[idx - 2*n]) - 5.5 * uc[idx])/(h * h) + f(pebbles[idx],t));	
+		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
+
         }
+
       }
     }
 
     /* update the calculation arrays for the next time step */    
-    memcpy(uo, uc, sizeof(double) * n * n);
-    memcpy(uc, un, sizeof(double) * n * n);
-
+    //memcpy(uo, uc, sizeof(double) * n * n);
+    //memcpy(uc, un, sizeof(double) * n * n);
+    temp=u0;
+    u0=uc;
+    uc=un;
+    un=temp;
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
-  un=uc;
   /* cpy the last updated to the output array */
+  un=uc;
   memcpy(u, un, sizeof(double) * n * n);
 }
 
