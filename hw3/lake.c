@@ -344,7 +344,7 @@ int tpdt(double *t, double dt, double tf)
 void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
-
+  #pragma omp parallel for private(i,j,idx) num_threads(nthreads)
   for(i = 0; i < n ; i++)
   {
     for(j = 0; j < n ; j++)
