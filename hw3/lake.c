@@ -198,7 +198,7 @@ void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h
  // memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
  /*omp_set_num_threads(nthreads);
- #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n/16)
+ #pragma omp parallel for private(i) num_threads(nthreads) schedule(dynamic,n/16)
  for(i=0;i<n*n;i++)
  {
 	uo[i]=u0[i];
@@ -227,7 +227,7 @@ void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h
      //double t;
     // omp_set_num_threads(nthreads);
    // #pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n/16)
+    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n/16)
     for( i = 0; i < n; i++)
     {
      // #pragma omp parallel for private(j,idx) num_threads(nthreads)
@@ -357,7 +357,7 @@ void init(double *u, double *pebbles, int n)
   omp_set_num_threads(nthreads);
   //#pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n/16)
   
-  #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n/16)
+  #pragma omp parallel for private(i) num_threads(nthreads) schedule(dynamic,n/16)
   for(i = 0; i < n*n ; i++)
   {
       u[i] = f(pebbles[i], 0.0);
