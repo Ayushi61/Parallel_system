@@ -246,7 +246,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     //uc=un;
     //un=temp;
     omp_set_num_threads(nthreads);
-    #pragma omp parallel for private(i)
+    #pragma omp parallel for private(i) num_threads(nthreads)
     for(i=0;i<n*n;i++)
     {
 	uo[i]=uc[i];
