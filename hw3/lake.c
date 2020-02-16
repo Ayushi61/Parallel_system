@@ -180,31 +180,31 @@ int main(int argc, char *argv[])
  * * configuration and parameters, and runs them until end_time is reached.
  * *
  * *******************************/
-void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h, double end_time)
+void run_sim(double *un, double *uo, double *uc, double *pebbles, int n, double h, double end_time)
 {
   /* arrays used in the calculation */
-  double *un, *uc, *uo;// *temp;
+ // double *un, *uc, *uo;// *temp;
   /* time vars */
   double t, dt;
   int i, j, idx;
 
   /* allocate the calculation arrays */
-  un = (double*)malloc(sizeof(double) * n * n);
+ /* un = (double*)malloc(sizeof(double) * n * n);
   uc = (double*)malloc(sizeof(double) * n * n);
   uo = (double*)malloc(sizeof(double) * n * n);
-
+*/
   /* put the inital configurations into the calculation arrays */
  // memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
- //
- #pragma omp parallel for private(i) num_threads(nthreads)
+ /*omp_set_num_threads(nthreads);
+ #pragma omp parallel for private(i) schedule(dynamic,n/16) num_threads(nthreads)
  for(i=0;i<n*n;i++)
  {
 	uo[i]=u0[i];
 	uc[i]=u1[i];
 
   }
-
+*/
   /* start at t=0.0 */
   t = 0.;
   /* this is probably not ideal.  In principal, we should
@@ -224,8 +224,9 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* run a central finite differencing scheme to solve
  *      * the wave equation in 2D */
      //double t;
-    //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-    #pragma omp parallel for private(i,j,idx) num_threads(nthreads)
+    // omp_set_num_threads(nthreads);
+   // #pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
+    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n/16) num_threads(nthreads)
     for( i = 0; i < n; i++)
     {
      // #pragma omp parallel for private(j,idx) num_threads(nthreads)
@@ -256,8 +257,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     //u0=uc;
     //uc=un;
     //un=temp;
-    omp_set_num_threads(nthreads);
-    #pragma omp parallel for private(i) num_threads(nthreads)
+    //omp_set_num_threads(nthreads);
+    #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n/16)
     for(i=0;i<n*n;i++)
     {
 	uo[i]=uc[i];
@@ -268,7 +269,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   }
   /* cpy the last updated to the output array */
   //un=uc;
-  memcpy(u, un, sizeof(double) * n * n);
+//  memcpy(u, un, sizeof(double) * n * n);
 }
 
 /*****************************
@@ -352,7 +353,8 @@ int tpdt(double *t, double dt, double tf)
 void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
-  #pragma omp parallel for private(i,j,idx) num_threads(nthreads)
+  omp_set_num_threads(nthreads);
+  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n/16) num_threads(nthreads)
   for(i = 0; i < n ; i++)
   {
     for(j = 0; j < n ; j++)
