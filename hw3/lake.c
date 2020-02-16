@@ -218,6 +218,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
      //double t;
     for( i = 0; i < n; i++)
     {
+      #pragma omp parallel for private(j,idx) num_threads(nthreads)
       for( j = 0; j < n; j++)
       {
         idx = j + i * n;
