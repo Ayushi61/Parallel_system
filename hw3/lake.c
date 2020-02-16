@@ -356,19 +356,11 @@ void init(double *u, double *pebbles, int n)
   int i;//, j, idx;
   omp_set_num_threads(nthreads);
   //#pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n/16)
-
-  #pragma omp parallel num_threads(nthreads) //schedule(dynamic,n/16)
-  {
-  int id, i, Nthrds, istart, iend;
-  id = omp_get_thread_num();	
-  Nthrds = omp_get_num_threads();	
-  istart = id * n / Nthrds;	
-  iend = (id+1) * n / Nthrds;	
-  for(i=istart;i<iend;i++) 
-//  for(i = 0; i < n*n ; i++)
+  
+  #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n/16)
+  for(i = 0; i < n*n ; i++)
   {
       u[i] = f(pebbles[i], 0.0);
-  }
   }
 }
 
