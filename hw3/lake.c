@@ -183,7 +183,7 @@ int main(int argc, char *argv[])
 void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h, double end_time)
 {
   /* arrays used in the calculation */
-  double *un, *uc, *uo;
+  double *un, *uc, *uo;// *temp;
   /* time vars */
   double t, dt;
   int i, j, idx;
@@ -209,7 +209,6 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
  *                      * model.  The condition dt = h/2. should suffice, but 
  *                         * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
- // double *temp;
   /* loop until time >= end_time */
   while(1)
   {
@@ -246,12 +245,13 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     //u0=uc;
     //uc=un;
     //un=temp;
-    #pragma omp parallel for
+    omp_set_num_threads(nthreads);
+    #pragma omp parallel for private(i)
     for(i=0;i<n*n;i++)
-	{	
-		u0[i]=uc[i];
-		uc[i]=un[i];
-	}
+    {
+	u0[i]=uc[i];
+	uc[i]=un[i];		
+    }
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
