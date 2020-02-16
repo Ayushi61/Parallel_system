@@ -239,8 +239,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     }
 
     /* update the calculation arrays for the next time step */    
-    //memcpy(uo, uc, sizeof(double) * n * n);
-    //memcpy(uc, un, sizeof(double) * n * n);
+    memcpy(uo, uc, sizeof(double) * n * n);
+    memcpy(uc, un, sizeof(double) * n * n);
     //temp=u0;
     //u0=uc;
     //uc=un;
