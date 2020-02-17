@@ -225,6 +225,8 @@ void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h
  //printf("in openacc \n");
  //int k;
   #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
+ {
+   double *temp1;
   for(t=0;t<=end_time;t+=dt)
   {
      //printf("in for \n");
@@ -263,19 +265,20 @@ void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     //memcpy(uo, uc, sizeof(double) * n * n);
     //memcpy(uc, un, sizeof(double) * n * n);
-    /*temp=uo;
+    temp1=uo;
     uo=uc;
     uc=un;
-    un=temp;*/
+    un=temp1;
     //omp_set_num_threads(nthreads);
-    #pragma acc parallel loop// private(i) num_threads(nthreads) schedule(dynamic,n/16)
+  /*  #pragma acc parallel loop// private(i) num_threads(nthreads) schedule(dynamic,n/16)
     for(i=0;i<n*n;i++)
     {
 	uo[i]=uc[i];
 	uc[i]=un[i];		
-    }
+    }*/
     /* have we reached the end? */
    // if(!tpdt(&t,dt,end_time)) break;
+  }
   }
   //printf("exiting \n");
   #endif
