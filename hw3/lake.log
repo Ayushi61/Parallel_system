@@ -1,0 +1,4 @@
+running ./lake with (512 x 512) grid, until 4.000000, with 1 threads
+Initialization took 0.004786 seconds
+Simulation took 85.174193 seconds
+Init+Simulation took 85.178979 seconds
