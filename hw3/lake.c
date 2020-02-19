@@ -37,8 +37,6 @@
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
 #define _USE_MATH_DEFINES
-#define _OPENMP
-//#define _OPENACC
 /* Number of OpenMP threads */
 int nthreads;
 
@@ -72,8 +70,8 @@ int main(int argc, char *argv[])
   double *u_cpu, *pebs;
 
   /* u_err is used when calculating the 
- *    * error between one version of the code
- *       * and another. */
+  error between one version of the code
+  and another. */
   double *u_err;
 
   /* h is the size of each grid cell */
@@ -181,10 +179,10 @@ int main(int argc, char *argv[])
  * * configuration and parameters, and runs them until end_time is reached.
  * *
  * *******************************/
-void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h, double end_time)
+void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h, double end_time)
 {
   /* arrays used in the calculation */
-  double *un; //*uc, *uo, 
+  double *un, *uc, *uo; 
   double *temp;
   /* time vars */
   double t, dt;
@@ -192,111 +190,32 @@ void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h
 
   /* allocate the calculation arrays */
   un = (double*)malloc(sizeof(double) * n * n);
- /* uc = (double*)malloc(sizeof(double) * n * n);
+  uc = (double*)malloc(sizeof(double) * n * n);
   uo = (double*)malloc(sizeof(double) * n * n);
-*/
-  /* put the inital configurations into the calculation arrays */
- // memcpy(uo, u0, sizeof(double) * n * n);
- // memcpy(uc, u1, sizeof(double) * n * n);
- /*omp_set_num_threads(nthreads);
- #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n/16)
- for(i=0;i<n*n;i++)
- {
-	uo[i]=u0[i];
-	uc[i]=u1[i];
 
-  }*/
+  /* put the inital configurations into the calculation arrays */
+  memcpy(uo, u0, sizeof(double) * n * n);
+  memcpy(uc, u1, sizeof(double) * n * n);
 
   /* start at t=0.0 */
   t = 0.;
   /* this is probably not ideal.  In principal, we should
- *    * keep the time-step at the size determined by the 
- *       * CFL condition
- *          * 
- *             * dt = h / vel_max
- *                *
- *                   * where vel_max is the maximum velocity in the current
- *                      * model.  The condition dt = h/2. should suffice, but 
- *                         * be aware the possibility exists for madness and mayhem */
+   * keep the time-step at the size determined by the 
+   * CFL condition
+   * dt = h / vel_max
+   * where vel_max is the maximum velocity in the current
+   * model.  The condition dt = h/2. should suffice, but 
+   * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
   /* loop until time >= end_time */
 
- #ifdef _OPENACC
- //printf("in openacc \n");
- //int k;
-  #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-  for(t=0;t<=end_time;t+=dt)
-  {
-     //printf("in for \n");
-    /* run a central finite differencing scheme to solve
- *      * the wave equation in 2D */
-     //double t;
-    // omp_set_num_threads(nthreads);
-   // #pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-
-
-    
-    #pragma acc parallel loop gang// copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-    //#pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n/16)
-    for( i = 0; i < n; i++)
-    {
-     #pragma acc loop vector
-	// #pragma omp parallel for private(j,idx) num_threads(nthreads)
-      for( j = 0; j < n; j++)
-      {
-        idx = j + i * n;
-        
-        /* impose the u|_s = 0 boundary conditions */
-       	if( idx<2*n || idx>(n*n)-(2*n) || idx%n<=1 || idx%n>=n-2 )
-       	{
-          un[idx] = 0.;
-        }
-
-        /* otherwise do the FD scheme */
-        else
-        {
-		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
-
-        }
-
-      }
-    }
-    /* update the calculation arrays for the next time step */    
-    //memcpy(uo, uc, sizeof(double) * n * n);
-    //memcpy(uc, un, sizeof(double) * n * n);
-    /*temp=uo;
-    uo=uc;
-    uc=un;
-    un=temp;*/
-    //omp_set_num_threads(nthreads);
-    #pragma acc parallel loop// private(i) num_threads(nthreads) schedule(dynamic,n/16)
-    for(i=0;i<n*n;i++)
-    {
-	uo[i]=uc[i];
-	uc[i]=un[i];		
-    }
-    /* have we reached the end? */
-   // if(!tpdt(&t,dt,end_time)) break;
-  }
-  //printf("exiting \n");
-  #endif
- #ifdef _OPENMP
   while(1)
   {
 
     /* run a central finite differencing scheme to solve
- *      * the wave equation in 2D */
-     //double t;
-    // omp_set_num_threads(nthreads);
-   // #pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-
-
-    
-    //#pragma acc kernels loop copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n/16)
+     * the wave equation in 2D */
     for( i = 0; i < n; i++)
     {
-     // #pragma omp parallel for private(j,idx) num_threads(nthreads)
       for( j = 0; j < n; j++)
       {
         idx = j + i * n;
@@ -319,23 +238,14 @@ void run_sim(double *u, double *uo, double *uc, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     //memcpy(uo, uc, sizeof(double) * n * n);
     //memcpy(uc, un, sizeof(double) * n * n);
-    /*temp=uo;
+    temp=uo;
     uo=uc;
     uc=un;
-    un=temp;*/
-    //omp_set_num_threads(nthreads);
-    #pragma omp parallel for private(i) num_threads(nthreads) schedule(dynamic,n/16)
-    for(i=0;i<n*n;i++)
-    {
-	uo[i]=uc[i];
-	uc[i]=un[i];		
-    }
+    un=temp;
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
-  #endif
   /* cpy the last updated to the output array */
-  //un=uc;
   memcpy(u, uc, sizeof(double) * n * n);
 }
 
@@ -419,14 +329,14 @@ int tpdt(double *t, double dt, double tf)
 
 void init(double *u, double *pebbles, int n)
 {
-  int i;//, j, idx;
-  omp_set_num_threads(nthreads);
-  //#pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n/16)
-  
-  #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n/16)
-  for(i = 0; i < n*n ; i++)
+  int i, j, idx;
+  for(i = 0; i < n ; i++)
   {
-      u[i] = f(pebbles[i], 0.0);
+     for(j=0;j<n; j++)
+     {
+      idx=i*n+j;
+      u[idx] = f(pebbles[idx], 0.0);
+     }
   }
 }
 
