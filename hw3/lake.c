@@ -221,9 +221,10 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
 	
   #ifdef _OPENACC
    printf("open acc");
-   #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
+#pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
   for(t=0;t<=end_time;t+=dt)
-   {
+   
+{
 
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
@@ -233,7 +234,6 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
-      #pragma acc loop //vector
       for( j = 0; j < n; j++)
       {
         idx = j + i * n;
@@ -256,10 +256,12 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     /*memcpy(uo, uc, sizeof(double) * n * n);
     memcpy(uc, un, sizeof(double) * n * n);*/
-    temp=uo;
-    uo=uc;
-    uc=un;
-    un=temp;
+     #pragma acc parallel loop// private(i) num_threads(nthreads) schedule(dynamic,n/16)
+    for(i=0;i<n*n;i++)
+    {
+	uo[i]=uc[i];
+	uc[i]=un[i];		
+    }
     /* have we reached the end? */
    }
   #endif
@@ -392,7 +394,7 @@ void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
   omp_set_num_threads(nthreads);
-  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
+  #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
   for(i = 0; i < n ; i++)
   {
      for(j=0;j<n; j++)
