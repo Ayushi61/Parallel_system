@@ -236,17 +236,17 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
       }
     }
     /* update the calculation arrays for the next time step */    
-    //memcpy(uo, uc, sizeof(double) * n * n);
-    //memcpy(uc, un, sizeof(double) * n * n);
-    temp=uo;
+    memcpy(uo, uc, sizeof(double) * n * n);
+    memcpy(uc, un, sizeof(double) * n * n);
+    /*temp=uo;
     uo=uc;
     uc=un;
-    un=temp;
+    un=temp;*/
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
   /* cpy the last updated to the output array */
-  memcpy(u, uc, sizeof(double) * n * n);
+  memcpy(u, un, sizeof(double) * n * n);
 }
 
 /*****************************
