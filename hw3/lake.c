@@ -200,8 +200,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   #pragma omp parallel for private(i) num_threads(nthreads)// schedule(dynamic,n/16)
     for(i=0;i<n*n;i++)
     {
-	uo[i]=uc[i];
-	uc[i]=un[i];		
+	uo[i]=u0[i];
+	uc[i]=u1[i];		
     }
   /* start at t=0.0 */
   t = 0.;
