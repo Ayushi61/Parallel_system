@@ -222,8 +222,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   #ifdef _OPENACC
    printf("open acc");
    #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-  while(1)
-  {
+  for(t=0;t<=end_time;t+=dt)
+   {
 
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
@@ -261,7 +261,6 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     uc=un;
     un=temp;
     /* have we reached the end? */
-    if(!tpdt(&t,dt,end_time)) break;
    }
   #endif
   #ifdef _OPENMP
