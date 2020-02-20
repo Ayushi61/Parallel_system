@@ -199,7 +199,9 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* put the inital configurations into the calculation arrays */
   //memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
- #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
+#ifdef _OPENMP 
+#pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
+#endif
     for(i=0;i<n*n;i++)
     {
 	uo[i]=u0[i];
@@ -227,11 +229,11 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
      * the wave equation in 2D */
     //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
    // #pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n)
-    #pragma acc parallel loop gang
+    #pragma acc parallel loop// gang
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
-      #pragma acc loop vector
+      #pragma acc loop //vector
       for( j = 0; j < n; j++)
       {
         idx = j + i * n;
