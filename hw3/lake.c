@@ -36,8 +36,8 @@
 #include "./lake_util.h"
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
-//#define _OPENACC
-#define _OPENMP
+#define _OPENACC
+//#define _OPENMP
 #define _USE_MATH_DEFINES
 /* Number of OpenMP threads */
 int nthreads;
