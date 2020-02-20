@@ -37,8 +37,8 @@
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
 #define _USE_MATH_DEFINES
-#define _OPENACC
-//#define _OPENMP
+//#define _OPENACC
+#define _OPENMP
 /* Number of OpenMP threads */
 int nthreads;
 
