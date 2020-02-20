@@ -226,7 +226,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* loop until time >= end_time */
   #ifdef _OPENACC
   printf("openacc");
-//  #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
+  #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
   while(1) 
   {
 
@@ -234,8 +234,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
      * the wave equation in 2D */
     //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
     //#pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
-  //  #pragma acc parallel loop
-    #pragma acc kernels loop copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
+    #pragma acc parallel loop
+    //#pragma acc kernels loop copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
