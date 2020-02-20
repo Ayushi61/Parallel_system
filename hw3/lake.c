@@ -224,11 +224,12 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
    * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
   /* loop until time >= end_time */
+
+  
   #ifdef _OPENACC
   printf("openacc");
   #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-  
-  for(t=0;t<=end_time;t+=dt)
+  while(1)
   {
 
     /* run a central finite differencing scheme to solve
@@ -268,6 +269,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
 	uc[i]=un[i];		
     }    
     /* have we reached the end? */
+    if(!tpdt(&t,dt,end_time)) break;
   }
   #endif
   #ifdef _OPENMP
