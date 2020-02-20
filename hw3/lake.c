@@ -37,6 +37,8 @@
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
 #define _USE_MATH_DEFINES
+#define _OPENACC
+//#define _OPENMP
 /* Number of OpenMP threads */
 int nthreads;
 
@@ -187,7 +189,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* time vars */
   double t, dt;
   int i, j, idx;
-  
+  #ifdef _OPENMP
   omp_set_num_threads(nthreads);
   /* allocate the calculation arrays */
   un = (double*)malloc(sizeof(double) * n * n);
@@ -197,12 +199,13 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* put the inital configurations into the calculation arrays */
   //memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
-  #pragma omp parallel for private(i) num_threads(nthreads) schedule(dynamic,n)
+ #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
     for(i=0;i<n*n;i++)
     {
 	uo[i]=u0[i];
 	uc[i]=u1[i];		
     }
+ #endif
   /* start at t=0.0 */
   t = 0.;
   /* this is probably not ideal.  In principal, we should
@@ -214,13 +217,66 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
    * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
   /* loop until time >= end_time */
+	
+  #ifdef _OPENACC
+   printf("open acc");
+    un = (double*)malloc(sizeof(double) * n * n);
+
+   #pragma acc data copy(un[:n*n],u1[:n*n],u0[:n*n],pebbles[:n*n])
   while(1)
   {
 
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
     //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n)
+   // #pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n)
+    #pragma acc parallel loop gang
+    for( i = 0; i < n; i++)
+    {
+      //#pragma omp parallel for private(j,idx) num_threads(nthreads)
+      #pragma acc loop vector
+      for( j = 0; j < n; j++)
+      {
+        idx = j + i * n;
+        
+        /* impose the u|_s = 0 boundary conditions */
+       	if( idx<2*n || idx>(n*n)-(2*n) || idx%n<=1 || idx%n>=n-2 )
+       	{
+          un[idx] = 0.;
+        }
+
+        /* otherwise do the FD scheme */
+        else
+        {
+		un[idx] = 2 * u1[idx] - u0[idx] + VSQR * (dt * dt) * ((u1[idx-1] + u1[idx+1] + u1[idx + n] + u1[idx - n] + 0.25 * (u1[idx+n-1] + u1[idx+n+1] + u1[idx-n-1] + u1[idx-n+1]) + 0.125 * (u1[idx+2] + u1[idx-2] + u1[idx+2*n] + u1[idx-2*n])- 5.5 * u1[idx])/(h * h) + f(pebbles[idx], t)); 
+
+        }
+
+      }
+    }
+    /* update the calculation arrays for the next time step */    
+    /*memcpy(uo, uc, sizeof(double) * n * n);
+    memcpy(uc, un, sizeof(double) * n * n);*/
+    temp=u0;
+    u0=u1;
+    u1=un;
+    un=temp;
+    /* have we reached the end? */
+    if(!tpdt(&t,dt,end_time)) break;
+   }
+
+  memcpy(u, u1, sizeof(double) * n * n);
+  #endif
+  #ifdef _OPENMP
+  printf("openmp");
+  /* loop until time >= end_time */
+  while(1)
+  {
+
+    /* run a central finite differencing scheme to solve
+     * the wave equation in 2D */
+    //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
+    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
@@ -254,7 +310,10 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     if(!tpdt(&t,dt,end_time)) break;
   }
   /* cpy the last updated to the output array */
+
   memcpy(u, uc, sizeof(double) * n * n);
+
+  #endif
 }
 
 /*****************************
@@ -339,14 +398,10 @@ void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
   omp_set_num_threads(nthreads);
-  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n)
-  for(i = 0; i < n ; i++)
+  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
+   for(i = 0; i < n*n ; i++)
   {
-     for(j=0;j<n; j++)
-     {
-      idx=i*n+j;
-      u[idx] = f(pebbles[idx], 0.0);
-     }
+      u[i] = f(pebbles[i], 0.0);
   }
 }
 
