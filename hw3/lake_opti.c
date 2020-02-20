@@ -229,33 +229,41 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
   while(1) 
   {
-
+    int ii,jj;
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
     //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
     //#pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
     #pragma acc parallel loop
     //#pragma acc kernels loop copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-    for( i = 0; i < n; i++)
+
+       for(ii=0;ii<n;ii+=5)
+        {
+	for(jj=0;jj<n;jj+=5)
+	{
+    for( i = ii; i < min(n,ii+5); i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
-      for( j = 0; j < n; j++)
+      for( j =jj; j < min(n,jj+5); j++)
       {
+
+
         idx = j + i * n;
-     //  #pragma acc cache ( uc[idx- 2*n:idx+2*n + 1] ) 
+       //#pragma acc cache ( uc[idx- 2*n:idx+2*n + 1] ) 
         /* impose the u|_s = 0 boundary conditions */
        	if( idx<2*n || idx>(n*n)-(2*n) || idx%n<=1 || idx%n>=n-2 )
        	{
-          un[idx] = 0.;
+          un[i][j] = 0.;
         }
 
         /* otherwise do the FD scheme */
         else
         {
-		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
+		un[i][j] = 2 * uc[i][j] - uo[i][j] + VSQR * (dt * dt) * ((uc[i][j-1] + uc[i][j+1] + uc[i+1][j] + uc[i-n][j] + 0.25 * (uc[i+1][j-1] + uc[i+1][j+1] + uc[i-1][j-1] + uc[i-1][j+1]) + 0.125 * (uc[i][j+2] + uc[i][j+2] + uc[i+2][j] + uc[i-2][j])- 5.5 * uc[i][j])/(h * h) + f(pebbles[i][j], t)); 
 
         }
-
+	}
+	}
       }
     }
     /* update the calculation arrays for the next time step */    
