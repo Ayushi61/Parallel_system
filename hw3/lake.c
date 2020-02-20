@@ -36,9 +36,9 @@
 #include "./lake_util.h"
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
-#define _USE_MATH_DEFINES
 //#define _OPENACC
 #define _OPENMP
+#define _USE_MATH_DEFINES
 /* Number of OpenMP threads */
 int nthreads;
 
@@ -199,9 +199,9 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* put the inital configurations into the calculation arrays */
   //memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
-#ifdef _OPENMP 
-#pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
-#endif
+  #ifdef _OPENMP
+  #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
+  #endif
     for(i=0;i<n*n;i++)
     {
 	uo[i]=u0[i];
@@ -218,19 +218,15 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
    * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
   /* loop until time >= end_time */
-	
   #ifdef _OPENACC
-   printf("open acc");
-#pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-  for(t=0;t<=end_time;t+=dt)
-   
-{
+  printf("openacc");
+  while(1)
+  {
 
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
     //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-   // #pragma omp parallel for private(i,j,idx) num_threads(nthreads) schedule(dynamic,n)
-    #pragma acc parallel loop// gang
+    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
@@ -256,18 +252,16 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     /*memcpy(uo, uc, sizeof(double) * n * n);
     memcpy(uc, un, sizeof(double) * n * n);*/
-     #pragma acc parallel loop// private(i) num_threads(nthreads) schedule(dynamic,n/16)
-    for(i=0;i<n*n;i++)
-    {
-	uo[i]=uc[i];
-	uc[i]=un[i];		
-    }
+    temp=uo;
+    uo=uc;
+    uc=un;
+    un=temp;
     /* have we reached the end? */
-   }
+    if(!tpdt(&t,dt,end_time)) break;
+  }
   #endif
   #ifdef _OPENMP
-  printf("openmp");
-  /* loop until time >= end_time */
+ printf("openmp");
   while(1)
   {
 
@@ -394,7 +388,7 @@ void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
   omp_set_num_threads(nthreads);
-  #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
+  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
   for(i = 0; i < n ; i++)
   {
      for(j=0;j<n; j++)
