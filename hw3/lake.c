@@ -187,7 +187,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* time vars */
   double t, dt;
   int i, j, idx;
-
+  
+  omp_set_num_threads(nthreads);
   /* allocate the calculation arrays */
   un = (double*)malloc(sizeof(double) * n * n);
   uc = (double*)malloc(sizeof(double) * n * n);
@@ -208,14 +209,13 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
    * be aware the possibility exists for madness and mayhem */
   dt = h / 2.;
   /* loop until time >= end_time */
-  omp_set_num_threads(nthreads);
   while(1)
   {
 
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
-    #pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-    //#pragma omp parallel for private(i,j,idx) num_threads(nthreads)
+    //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
+    #pragma omp parallel for private(i,j,idx) num_threads(nthreads)
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
@@ -333,6 +333,8 @@ int tpdt(double *t, double dt, double tf)
 void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
+  omp_set_num_threads(nthreads);
+  #pragma omp parallel for private(i,j,idx) num_threads(nthreads)
   for(i = 0; i < n ; i++)
   {
      for(j=0;j<n; j++)
