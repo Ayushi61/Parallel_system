@@ -36,8 +36,8 @@
 #include "./lake_util.h"
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
-//#define _OPENACC
-#define _OPENMP
+#define _OPENACC
+//#define _OPENMP
 #define _USE_MATH_DEFINES
 /* Number of OpenMP threads */
 int nthreads;
@@ -236,7 +236,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
       for( j = 0; j < n; j++)
       {
         idx = j + i * n;
-        
+       #pragma acc cache ( uc[idx- 2*n:idx+2*n + 1] ) 
         /* impose the u|_s = 0 boundary conditions */
        	if( idx<2*n || idx>(n*n)-(2*n) || idx%n<=1 || idx%n>=n-2 )
        	{
