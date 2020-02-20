@@ -1,3 +1,9 @@
+/*****
+
+Single Author info:
+arajend4 Ayushi Rajendra Kumar
+
+****/
 /*************************************
  * * lake.c
  * *
@@ -36,8 +42,8 @@
 #include "./lake_util.h"
 #include <openacc.h>
 /* Probably not necessary but doesn't hurt */
-//#define _OPENACC
-#define _OPENMP
+#define _OPENACC
+//#define _OPENMP
 #define _USE_MATH_DEFINES
 /* Number of OpenMP threads */
 int nthreads;
@@ -192,24 +198,21 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   
   omp_set_num_threads(nthreads);
   /* allocate the calculation arrays */
-  un = (double*)malloc(sizeof(double) * 3*n * n);
-  uc = un + (n*n);
-//(double*)malloc(sizeof(double) * n * n);
-//(double*)malloc(sizeof(double) * n * n);
-  uo = uc+(n*n);
-//(double*)malloc(sizeof(double) * n * n);
+  un = (double*)malloc(sizeof(double) * n * n);
+  uc = (double*)malloc(sizeof(double) * n * n);
+  uo = (double*)malloc(sizeof(double) * n * n);
 
   /* put the inital configurations into the calculation arrays */
-  memcpy(uo, u0, sizeof(double) * n * n);
-  memcpy(uc, u1, sizeof(double) * n * n);
- /* #ifdef _OPENMP
+  //memcpy(uo, u0, sizeof(double) * n * n);
+ // memcpy(uc, u1, sizeof(double) * n * n);
+  #ifdef _OPENMP
   #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
   #endif
     for(i=0;i<n*n;i++)
     {
 	uo[i]=u0[i];
 	uc[i]=u1[i];		
-    }*/
+    }
   /* start at t=0.0 */
   t = 0.;
   /* this is probably not ideal.  In principal, we should
@@ -224,8 +227,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   #ifdef _OPENACC
   printf("openacc");
   #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
-  
-  for(t=0;t<=end_time;t+=dt)
+  while(1) 
   {
 
     /* run a central finite differencing scheme to solve
@@ -265,6 +267,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
 	uc[i]=un[i];		
     }    
     /* have we reached the end? */
+    if(!tpdt(&t,dt,end_time)) break;
   }
   #endif
   #ifdef _OPENMP
@@ -275,7 +278,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* run a central finite differencing scheme to solve
      * the wave equation in 2D */
     //#pragma omp parallel for collapse(2) private(i,j,idx) num_threads(nthreads)
-   // #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
+    #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
     for( i = 0; i < n; i++)
     {
       //#pragma omp parallel for private(j,idx) num_threads(nthreads)
@@ -299,12 +302,12 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
       }
     }
     /* update the calculation arrays for the next time step */    
-    memcpy(uo, uc, sizeof(double) * n * n);
-    memcpy(uc, un, sizeof(double) * n * n);
-  /*  temp=uo;
+    /*memcpy(uo, uc, sizeof(double) * n * n);
+    memcpy(uc, un, sizeof(double) * n * n);*/
+    temp=uo;
     uo=uc;
     uc=un;
-    un=temp;*/
+    un=temp;
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
@@ -395,7 +398,7 @@ void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
   omp_set_num_threads(nthreads);
-//  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
+  #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
   for(i = 0; i < n ; i++)
   {
      for(j=0;j<n; j++)

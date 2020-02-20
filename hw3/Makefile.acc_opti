@@ -5,7 +5,6 @@ all:
 	module load pgi64; \
 	pgcc -o lake_opti lake_opti.c -I./ -acc $(TA),time -fast -Minfo=accel -Minline -Msafeptr -Mnodepchk -lm
 
-
 clean:
-	rm -f *.o *~ *.dat *.png lake_opti.log lake
+	rm -f *.o *~ *.dat *.png lake.log lake
 
