@@ -189,7 +189,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* time vars */
   double t, dt;
   int i, j, idx;
-  #ifdef _OPENMP
+  
   omp_set_num_threads(nthreads);
   /* allocate the calculation arrays */
   un = (double*)malloc(sizeof(double) * n * n);
@@ -205,7 +205,6 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
 	uo[i]=u0[i];
 	uc[i]=u1[i];		
     }
- #endif
   /* start at t=0.0 */
   t = 0.;
   /* this is probably not ideal.  In principal, we should
@@ -220,9 +219,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
 	
   #ifdef _OPENACC
    printf("open acc");
-    un = (double*)malloc(sizeof(double) * n * n);
-
-   #pragma acc data copy(un[:n*n],u1[:n*n],u0[:n*n],pebbles[:n*n])
+   #pragma acc data copy(un[:n*n],uc[:n*n],uo[:n*n],pebbles[:n*n])
   while(1)
   {
 
@@ -248,7 +245,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
         /* otherwise do the FD scheme */
         else
         {
-		un[idx] = 2 * u1[idx] - u0[idx] + VSQR * (dt * dt) * ((u1[idx-1] + u1[idx+1] + u1[idx + n] + u1[idx - n] + 0.25 * (u1[idx+n-1] + u1[idx+n+1] + u1[idx-n-1] + u1[idx-n+1]) + 0.125 * (u1[idx+2] + u1[idx-2] + u1[idx+2*n] + u1[idx-2*n])- 5.5 * u1[idx])/(h * h) + f(pebbles[idx], t)); 
+		un[idx] = 2 * uc[idx] - uo[idx] + VSQR * (dt * dt) * ((uc[idx-1] + uc[idx+1] + uc[idx + n] + uc[idx - n] + 0.25 * (uc[idx+n-1] + uc[idx+n+1] + uc[idx-n-1] + uc[idx-n+1]) + 0.125 * (uc[idx+2] + uc[idx-2] + uc[idx+2*n] + uc[idx-2*n])- 5.5 * uc[idx])/(h * h) + f(pebbles[idx], t)); 
 
         }
 
@@ -257,15 +254,13 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     /*memcpy(uo, uc, sizeof(double) * n * n);
     memcpy(uc, un, sizeof(double) * n * n);*/
-    temp=u0;
-    u0=u1;
-    u1=un;
+    temp=uo;
+    uo=uc;
+    uc=un;
     un=temp;
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
    }
-
-  memcpy(u, u1, sizeof(double) * n * n);
   #endif
   #ifdef _OPENMP
   printf("openmp");
@@ -309,11 +304,9 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* have we reached the end? */
     if(!tpdt(&t,dt,end_time)) break;
   }
-  /* cpy the last updated to the output array */
-
-  memcpy(u, uc, sizeof(double) * n * n);
-
   #endif
+  /* cpy the last updated to the output array */
+  memcpy(u, uc, sizeof(double) * n * n);
 }
 
 /*****************************
@@ -399,9 +392,13 @@ void init(double *u, double *pebbles, int n)
   int i, j, idx;
   omp_set_num_threads(nthreads);
   #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
-   for(i = 0; i < n*n ; i++)
+  for(i = 0; i < n ; i++)
   {
-      u[i] = f(pebbles[i], 0.0);
+     for(j=0;j<n; j++)
+     {
+      idx=i*n+j;
+      u[idx] = f(pebbles[idx], 0.0);
+     }
   }
 }
 
