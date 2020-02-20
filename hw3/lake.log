@@ -1,4 +1,4 @@
 running ./lake_opti_ser with (1024 x 1024) grid, until 2.000000, with 1 threads
-Initialization took 0.030850 seconds
-Simulation took 380.025808 seconds
-Init+Simulation took 380.056658 seconds
+Initialization took 0.028829 seconds
+Simulation took 403.767221 seconds
+Init+Simulation took 403.796050 seconds

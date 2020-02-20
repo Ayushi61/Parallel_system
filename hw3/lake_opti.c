@@ -193,7 +193,8 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   omp_set_num_threads(nthreads);
   /* allocate the calculation arrays */
   un = (double*)malloc(sizeof(double) * 3*n * n);
-  uc = (double*)malloc(sizeof(double) * n * n);
+  uc = un + (n*n);
+//(double*)malloc(sizeof(double) * n * n);
 //(double*)malloc(sizeof(double) * n * n);
   uo = uc+(n*n);
 //(double*)malloc(sizeof(double) * n * n);
