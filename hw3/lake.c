@@ -195,9 +195,14 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   uo = (double*)malloc(sizeof(double) * n * n);
 
   /* put the inital configurations into the calculation arrays */
-  memcpy(uo, u0, sizeof(double) * n * n);
-  memcpy(uc, u1, sizeof(double) * n * n);
-
+  //memcpy(uo, u0, sizeof(double) * n * n);
+ // memcpy(uc, u1, sizeof(double) * n * n);
+  #pragma omp parallel for private(i) num_threads(nthreads) schedule(dynamic,n/16)
+    for(i=0;i<n*n;i++)
+    {
+	uo[i]=uc[i];
+	uc[i]=un[i];		
+    }
   /* start at t=0.0 */
   t = 0.;
   /* this is probably not ideal.  In principal, we should
