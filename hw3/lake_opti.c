@@ -198,10 +198,11 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   
   omp_set_num_threads(nthreads);
   /* allocate the calculation arrays */
-  un = (double*)malloc(sizeof(double) * n * n);
-  uc = (double*)malloc(sizeof(double) * n * n);
-  uo = (double*)malloc(sizeof(double) * n * n);
-
+  un = (double*)malloc(sizeof(double)*3 * n * n);
+  //uc = (double*)malloc(sizeof(double) * n * n);
+  //uo = (double*)malloc(sizeof(double) * n * n);
+   uc=un+n;
+   uo=un+2*n;
   /* put the inital configurations into the calculation arrays */
   //memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
@@ -264,7 +265,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /*memcpy(uo, uc, sizeof(double) * n * n);
     memcpy(uc, un, sizeof(double) * n * n);*/
 //     #pragma acc parallel loop// private(i) num_threads(nthreads) schedule(dynamic,n/16)
-    #pragma acc parallel present (uo[:n*n],uc[:n*n],un[:n*n])
+    #pragma acc parallel loop present (uo[:n*n],uc[:n*n],un[:n*n])
     for(i=0;i<n*n;i++)
     {
 	uo[i]=uc[i];

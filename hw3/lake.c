@@ -47,7 +47,7 @@ arajend4 Ayushi Rajendra Kumar
 #ifdef _OPENACC
 #include <openacc.h>
 #endif
-#ifdef _OPENMP
+#ifndef _OPENACC
 #include <omp.h>
 #endif
 int nthreads;
@@ -209,7 +209,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
   /* put the inital configurations into the calculation arrays */
   //memcpy(uo, u0, sizeof(double) * n * n);
  // memcpy(uc, u1, sizeof(double) * n * n);
-  #ifdef _OPENMP
+  #ifndef _OPENACC
   #pragma omp parallel for private(i) num_threads(nthreads) //schedule(dynamic,n)
   #endif
     for(i=0;i<n*n;i++)
@@ -277,7 +277,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     if(!tpdt(&t,dt,end_time)) break;
   }
   #endif
-  #ifdef _OPENMP
+  #ifndef _OPENACC
  printf("openmp");
   while(1)
   {
@@ -405,7 +405,7 @@ void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
   omp_set_num_threads(nthreads);
-  #ifdef _OPENMP
+  #ifndef _OPENACC
   #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
   #endif
   for(i = 0; i < n ; i++)
