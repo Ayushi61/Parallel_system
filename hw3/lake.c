@@ -263,7 +263,7 @@ void run_sim(double *u, double *u0, double *u1, double *pebbles, int n, double h
     /* update the calculation arrays for the next time step */    
     /*memcpy(uo, uc, sizeof(double) * n * n);
     memcpy(uc, un, sizeof(double) * n * n);*/
-     #pragma acc parallel loop present// private(i) num_threads(nthreads) schedule(dynamic,n/16)
+     #pragma acc parallel loop present (uo[:n*n],uc[:n*n],un[:n*n])// private(i) num_threads(nthreads) schedule(dynamic,n/16)
     for(i=0;i<n*n;i++)
     {
 	uo[i]=uc[i];
