@@ -1,4 +1,4 @@
-running ./lake_opti with (512 x 512) grid, until 4.000000, with 1 threads
-Initialization took 0.008033 seconds
-Simulation took 3.554424 seconds
-Init+Simulation took 3.562457 seconds
+running ./lake with (512 x 512) grid, until 4.000000, with 1 threads
+Initialization took 0.008034 seconds
+Simulation took 1.419221 seconds
+Init+Simulation took 1.427255 seconds

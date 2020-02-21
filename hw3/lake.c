@@ -37,15 +37,19 @@ arajend4 Ayushi Rajendra Kumar
 #include <string.h>
 #include <math.h>
 #include <sys/time.h>
-#include <omp.h>
 #include "./lake.h"
 #include "./lake_util.h"
-#include <openacc.h>
 /* Probably not necessary but doesn't hurt */
-#define _OPENACC
+//#define _OPENACC
 //#define _OPENMP
 #define _USE_MATH_DEFINES
 /* Number of OpenMP threads */
+#ifdef _OPENACC
+#include <openacc.h>
+#endif
+#ifdef _OPENMP
+#include <omp.h>
+#endif
 int nthreads;
 
 int main(int argc, char *argv[])
@@ -401,7 +405,9 @@ void init(double *u, double *pebbles, int n)
 {
   int i, j, idx;
   omp_set_num_threads(nthreads);
+  #ifdef _OPENMP
   #pragma omp parallel for private(i,j,idx) num_threads(nthreads) //schedule(dynamic,n)
+  #endif
   for(i = 0; i < n ; i++)
   {
      for(j=0;j<n; j++)
