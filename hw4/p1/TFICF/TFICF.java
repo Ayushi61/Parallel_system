@@ -187,11 +187,11 @@ public class TFICF {
 				String parse_word=line.nextToken();
 				if(!Pattern.matches("(^[a-zA-Z'()\\]\\.\"].*)",parse_word))
 					continue;
-				System.out.print("****************************" +parse_word);
+				//System.out.print("****************************" +parse_word);
 				String word=parse_word.replaceAll("[^a-zA-Z\\d-\u00C0-\u017F\\]\\[]*","");
 				if(word.isEmpty() || word.equals("-") || !Pattern.matches("(^[a-zA-Z'()\\]\"].*)",word))
 					continue;
-				System.out.println("  " +word);
+				//System.out.println("  " +word);
 				str=word+"@"+fileName;
 				//writing to the output file
 				context.write(new Text(str.toLowerCase()), new IntWritable(1));
@@ -261,8 +261,8 @@ public class TFICF {
 			ArrayList<String> doc=new ArrayList<>();
 			ArrayList<String> key1=new ArrayList<>();
 			while ( values1.hasNext()) {
-				docSize += Integer.valueOf((values1.next().toString()).split("=")[1]);
 				String value_str=values1.next().toString();
+				docSize += Integer.valueOf((value_str).split("=")[1]);
 		//		System.out.println("+++++++++++++++++"+value_str);
 				doc.add(value_str.split("=")[1]+"/"+String.valueOf(docSize));
 				key1.add(value_str.split("=")[0]+"@"+key.toString());
