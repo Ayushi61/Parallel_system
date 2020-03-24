@@ -189,7 +189,7 @@ public class TFICF {
 					continue;
 				System.out.print("****************************" +parse_word);
 				String word=parse_word.replaceAll("[^a-zA-Z\\d-\u00C0-\u017F\\]\\[]*","");
-				if(word.isEmpty() || word.equals("-"))
+				if(word.isEmpty() || word.equals("-") || !Pattern.matches("(^[a-zA-Z'()\\]\"].*)",parse_word))
 					continue;
 				System.out.println("  " +word);
 				str=word+"@"+fileName;
