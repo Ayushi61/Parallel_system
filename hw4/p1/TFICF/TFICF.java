@@ -99,17 +99,17 @@ public class TFICF {
 		// Set Input and output paths
 		FileInputFormat.addInputPath(wcJob, wcInputPath);
 		FileOutputFormat.setOutputPath(wcJob, wcOutputPath);
-//		wcJob.waitForCompletion(true);
+		wcJob.waitForCompletion(true);
 			
 		// Create and execute Document Size job
 		
 			/************ YOUR CODE HERE ************/
-/*		Job dsJob = Job.getInstance(conf, "DocSize");
-*/
-		// tell mapreduce what to look for in jar
-/*		dsJob.setJarByClass(TFICF.class);
+		Job dsJob = Job.getInstance(conf, "DocSize");
 
-*/
+		// tell mapreduce what to look for in jar
+		dsJob.setJarByClass(TFICF.class);
+
+
 		/*//set file input format
 		dsJob.setInputFormatClass(TextInputFormat.class);
 		dsJob.setOutputFormatClass(TextOutputFormat.class);
@@ -117,7 +117,7 @@ public class TFICF {
 
 
 		// Set mapper and reducer classes
-/*		dsJob.setMapperClass(DSMapper.class);
+		dsJob.setMapperClass(DSMapper.class);
                // dsJob.setCombinerClass(DSReducer.class);
 		dsJob.setReducerClass(DSReducer.class);
 		//output key value data type
@@ -159,7 +159,7 @@ public class TFICF {
 		*/
 			/************ YOUR CODE HERE ************/
 		// Return status to main
-	return wcJob.waitForCompletion(true) ? 0 : 1;
+	return dsJob.waitForCompletion(true) ? 0 : 1;
 
     }
 	
