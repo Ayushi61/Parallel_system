@@ -15,6 +15,7 @@ import java.io.IOException;
 import java.util.*;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import java.lang.Math;
 /*
  * Main class of the TFICF MapReduce implementation.
  * Author: Tyler Stocksdale
@@ -127,39 +128,42 @@ public class TFICF {
 		// Set Input and output paths
 		FileInputFormat.addInputPath(dsJob, dsInputPath);
 		FileOutputFormat.setOutputPath(dsJob, dsOutputPath);
-		//dsJob.waitForCompletion(true);
+		dsJob.waitForCompletion(true);
 
 
 		//Create and execute TFICF job
 		
 			/************ YOUR CODE HERE ************/
-/*		Job TFICFJob = Job.getInstance(conf, "DocSize");
-		// Set Input and output paths
-		FileInputFormat.addInputPath(TFICFJob, tficfInputPath);
-		FileOutputFormat.setOutputPath(TFICFJob, tficfOutputPath);
+		Job TFICFJob = Job.getInstance(conf, "TFICF");
+
 		// tell mapreduce what to look for in jar
 		TFICFJob.setJarByClass(TFICF.class);
 
 
 		//set file input format
-		TFICFJob.setInputFormatClass(TextInputFormat.class);
+	/*	TFICFJob.setInputFormatClass(TextInputFormat.class);
 		TFICFJob.setOutputFormatClass(TextOutputFormat.class);
-
+*/
+   		TFICFJob.setMapperClass(TFICFMapper.class);
+//		TFICFJob.setCombinerClass(TFICFReducer.class);
+                TFICFJob.setReducerClass(TFICFReducer.class);
 		//output key value data type
 
 		TFICFJob.setOutputKeyClass(Text.class);
-		TFICFJob.setOutputValueClass(IntWritable.class);
+		TFICFJob.setOutputValueClass(Text.class);
 
-		// Set mapper and reducer classes
-		TFICFJob.setMapperClass(TFICFMapper.class);
-		TFICFJob.setReducerClass(TFICFReducer.class);
-		TFICFJob.waitForCompletion(true);
+
+			
+		// Set Input and output paths
+		FileInputFormat.addInputPath(TFICFJob, tficfInputPath);
+		FileOutputFormat.setOutputPath(TFICFJob, tficfOutputPath);
+    		//TFICFJob.waitForCompletion(true);
 
 		//Return final job code , e.g. retrun tficfJob.waitForCompletion(true) ? 0 : 1
-		*/
+		
 			/************ YOUR CODE HERE ************/
 		// Return status to main
-	return dsJob.waitForCompletion(true) ? 0 : 1;
+	return TFICFJob.waitForCompletion(true) ? 0 : 1;
 
     }
 	
@@ -283,4 +287,104 @@ public class TFICF {
 
 		}
     }
+    /*
+	 * Rearranges the (key,value) pairs to have only the word as the key
+	 * 
+	 * Input:  ( (word@document) , (wordCount/docSize) )
+	 * Output: ( word , (document=wordCount/docSize) )
+	 */
+	public static class TFICFMapper extends Mapper<Object, Text, Text, Text> {
+
+		/************ YOUR CODE HERE ************/
+		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
+			StringTokenizer line = new StringTokenizer(value.toString());
+                        while (line.hasMoreTokens()) {
+                                String lineNext=line.nextToken();
+                                //System.out.println(lineNext);
+                                String doc=lineNext.split("@")[0];
+                                String word=lineNext.split("@")[1]+"="+line.nextToken();
+                                //System.out.println(doc+"doc:"+word+"word:");
+                                context.write(new Text(doc),new Text(word));
+			}	
+
+		}
+
+	}
+
+    /*
+	 * For each identical key (word), reduces the values (document=wordCount/docSize) into a 
+	 * the final TFICF value (TFICF). Along the way, calculates the total number of documents and 
+	 * the number of documents that contain the word.
+	 * 
+	 * Input:  ( word , (document=wordCount/docSize) )
+	 * Output: ( (document@word) , TFICF )
+	 *
+	 * numDocs = total number of documents
+	 * numDocsWithWord = number of documents containing word
+	 * TFICF = ln(wordCount/docSize + 1) * ln(numDocs/numDocsWithWord +1)
+	 *
+	 * Note: The output (key,value) pairs are sorted using TreeMap ONLY for grading purposes. For
+	 *       extremely large datasets, having a for loop iterate through all the (key,value) pairs 
+	 *       is highly inefficient!
+	 */
+	public static class TFICFReducer extends Reducer<Text, Text, Text, Text> {
+		
+		private static int numDocs;
+		private Map<Text, Text> tficfMap = new HashMap<>();
+		
+		// gets the numDocs value and stores it
+		protected void setup(Context context) throws IOException, InterruptedException {
+			Configuration conf = context.getConfiguration();
+			numDocs = Integer.parseInt(conf.get("numDocs"));
+		}
+				
+		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
+			
+			/************ YOUR CODE HERE ************/
+			//int docSize = 0;
+                        Iterator values1=values.iterator();
+			int numDocsWithWord=0;
+			ArrayList<Integer> wordCount=new ArrayList<>();
+			ArrayList<Integer> docSize=new ArrayList<>(); 
+			//ArrayList<Double> TFICF=new ArrayList();
+                        ArrayList<String> doc=new ArrayList<>();
+                        ArrayList<String> key1=new ArrayList<>();
+                        while ( values1.hasNext()) {
+                                String value_str=values1.next().toString();
+//`				System.out.println("doc size is : -----"+key.toString()+"=word"+ Integer.valueOf((value_str).split("=")[1].split("/")[1]));
+                                docSize.add(Integer.valueOf((value_str).split("=")[1].split("/")[1]));
+				wordCount.add(Integer.valueOf((value_str).split("=")[1].split("/")[0]));
+                //              System.out.println("+++++++++++++++++"+value_str);
+                                doc.add(value_str.split("=")[0]+"@"+key.toString());
+                                //key1.add(key.toString());
+				numDocsWithWord++;
+                        }
+                      //  System.out.println("+++++++++++++++++"+docSize+"key = "+ key.toString());
+                        //values1=values.iterator();
+                        //System.out.println(values1.hasNext()+"++++++++++");
+                        for(int i=0;i<numDocsWithWord;i++) {
+				double TFICF=Math.log((double)wordCount.get(i)/(double)docSize.get(i)+1)*Math.log((double)(numDocs+1)/(double)(numDocsWithWord+1));
+                                //System.out.println("---- "+values1.next().toString());
+                                //String key1 = (values1.next().toString()).split("=")[0]+"@"+key.toString();
+                                //System.out.println("key= "+key1);
+                                //String val= (values1.next().toString()).split("=")[1]+"/"+String.valueOf(docSize);
+                                //System.out.println("val= "+val);
+                                //context.write(new Text(key1.get(i)),new Text(doc.get(i)+String.valueOf(docSize)));
+				tficfMap.put(new Text(doc.get(i)), new Text(Double.toString(TFICF)));
+
+                        }
+		 
+			//Put the output (key,value) pair into the tficfMap instead of doing a context.write
+			//tficfMap.put(/*document@word*/, /*TFICF*/);
+		}
+		
+		// sorts the output (key,value) pairs that are contained in the tficfMap
+		protected void cleanup(Context context) throws IOException, InterruptedException {
+            Map<Text, Text> sortedMap = new TreeMap<Text, Text>(tficfMap);
+			for (Text key : sortedMap.keySet()) {
+                context.write(key, sortedMap.get(key));
+            }
+        }
+		
+    } 
 }
