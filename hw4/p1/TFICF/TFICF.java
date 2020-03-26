@@ -262,25 +262,26 @@ public class TFICF {
 		public void reduce(Text key, Iterable<Text> values, Context context) throws IOException, InterruptedException {
 			int docSize = 0;
 			Iterator values1=values.iterator();
-			ArrayList<String> doc=new ArrayList<>();
-			ArrayList<String> key1=new ArrayList<>();
+			//ArrayList<String> doc=new ArrayList<>();
+			//ArrayList<String> key1=new ArrayList<>();
+			Map<String,String> doc_key1=new HashMap<String,String>();
 			while ( values1.hasNext()) {
 				String value_str=values1.next().toString();
 				docSize += Integer.valueOf((value_str).split("=")[1]);
 		//		System.out.println("+++++++++++++++++"+value_str);
-				doc.add(value_str.split("=")[1]+"/");
-				key1.add(value_str.split("=")[0]+"@"+key.toString());
+				//doc.add(value_str.split("=")[1]+"/");
+				doc_key1.put(value_str.split("=")[0]+"@"+key.toString(),value_str.split("=")[1]+"/");
 			}
 			System.out.println("+++++++++++++++++"+docSize+"key = "+ key.toString());
 			//values1=values.iterator();
 			//System.out.println(values1.hasNext()+"++++++++++");
-			for(int i=0;i<doc.size();i++) {
+			for(String key2:doc_key1.keySet()){
 				//System.out.println("---- "+values1.next().toString());
 				//String key1 = (values1.next().toString()).split("=")[0]+"@"+key.toString();
 				//System.out.println("key= "+key1);
 				//String val= (values1.next().toString()).split("=")[1]+"/"+String.valueOf(docSize);
 				//System.out.println("val= "+val);
-				context.write(new Text(key1.get(i)),new Text(doc.get(i)+String.valueOf(docSize)));
+				context.write(new Text(key2),new Text(doc_key1.get(key2)+String.valueOf(docSize)));
 
 
 			}
