@@ -281,7 +281,7 @@ public class TFICF {
 				//System.out.println("key= "+key1);
 				//String val= (values1.next().toString()).split("=")[1]+"/"+String.valueOf(docSize);
 				//System.out.println("val= "+val);
-				context.write(new Text(key2+key.toString()),new Text(doc_key1.get(key2)+String.valueOf(docSize)));
+				context.write(new Text(key2+"@"+key.toString()),new Text(doc_key1.get(key2)+String.valueOf(docSize)));
 
 
 			}
