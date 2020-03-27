@@ -194,7 +194,7 @@ public class TFICF {
 				//System.out.print("****************************" +parse_word);
 				String word=parse_word.replaceAll("['.,\"(){}*=:;?!&]","");
 				
-				if(!Pattern.matches("(^[a-zA-Z)",parse_word))
+				if(!Pattern.matches("(^[a-zA-Z].*)",parse_word))
 					continue;
 				if(word.isEmpty() || word.equals("-") || !Pattern.matches("(^[a-zA-Z'()\\]\"].*)",word)  || word.equals("]"))
 					continue;
