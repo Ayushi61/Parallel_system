@@ -190,7 +190,7 @@ public class TFICF {
 				//getting input file name
 				String fileName = ((FileSplit) context.getInputSplit()).getPath().getName();
 				String parse_word=line.nextToken();
-				if(!Pattern.matches("(^[a-zA-Z'()\\]\\.\"?{}].*)",parse_word))
+				if(!Pattern.matches("(^[a-zA-Z'()\\]\\.\"{}*?].*)",parse_word))
 					continue;
 				//System.out.print("****************************" +parse_word);
 				String word=parse_word.replaceAll("['.,\"(){}*=:;?!&]","");
