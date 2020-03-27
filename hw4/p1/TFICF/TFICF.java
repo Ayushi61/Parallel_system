@@ -192,7 +192,7 @@ public class TFICF {
 				String parse_word=line.nextToken();
 
 				//System.out.print("****************************" +parse_word);
-				String word=parse_word.replaceAll("[{}*=:;?!()&]'.,\"","");
+				String word=parse_word.replaceAll("[\"{}*=:;?'.,!&]","");
 				
 				if(!Pattern.matches("(^[a-zA-Z'()\\]\\.\"{}*?].*)",word))
 			//	if(!Pattern.matches("^[a-zA-Z].*", parse_word))
