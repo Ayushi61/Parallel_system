@@ -90,7 +90,7 @@ public class TFICF {
 		/************ YOUR CODE HERE ************/
 		Job wcJob = Job.getInstance(conf, "WordCount");
 
-		// tell mapreduce what to look for in jar
+		// Set the TFICF class path
 		wcJob.setJarByClass(TFICF.class);
 
 		// Set mapper and reducer classes
@@ -98,7 +98,6 @@ public class TFICF {
 		wcJob.setCombinerClass(WCReducer.class);
 		wcJob.setReducerClass(WCReducer.class);
 		//output key value data type
-
 		wcJob.setOutputKeyClass(Text.class);
 		wcJob.setOutputValueClass(IntWritable.class);
 		// Set Input and output paths
@@ -111,7 +110,7 @@ public class TFICF {
 			/************ YOUR CODE HERE ************/
 		Job dsJob = Job.getInstance(conf, "DocSize");
 
-		// tell mapreduce what to look for in jar
+		// Set the TFICF class path
 		dsJob.setJarByClass(TFICF.class);
 
 
@@ -140,7 +139,7 @@ public class TFICF {
 			/************ YOUR CODE HERE ************/
 		Job TFICFJob = Job.getInstance(conf, "TFICF");
 
-		// tell mapreduce what to look for in jar
+		// Set the TFICF class path
 		TFICFJob.setJarByClass(TFICF.class);
 
 
@@ -163,8 +162,6 @@ public class TFICF {
 		FileOutputFormat.setOutputPath(TFICFJob, tficfOutputPath);
     		//TFICFJob.waitForCompletion(true);
 
-		//Return final job code , e.g. retrun tficfJob.waitForCompletion(true) ? 0 : 1
-		
 			/************ YOUR CODE HERE ************/
 		// Return status to main
 	return TFICFJob.waitForCompletion(true) ? 0 : 1;
@@ -187,7 +184,7 @@ public class TFICF {
 		String str="";
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
 
-			//ITERATE OVER ALL LINES
+			//iterate over each word in file
 			StringTokenizer line = new StringTokenizer(value.toString());
 			while (line.hasMoreTokens()) {
 				//getting input file name
@@ -239,7 +236,7 @@ public class TFICF {
 		
 		/************ YOUR CODE HERE ************/
 	public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-		//ITERATE OVER ALL LINES
+		//iterate over each word in file
 		StringTokenizer line = new StringTokenizer(value.toString());
 			while (line.hasMoreTokens()) {
 				String lineNext=line.nextToken();
