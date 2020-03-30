@@ -92,14 +92,32 @@ public class TFICF {
 		 * Map:    ( (word@document) , (1/docSize) )
 		 * Reduce: ( (word@document) , (wordCount/docSize) )
 		 */
-		JavaPairRDD<String,String> tfRDD = wordsRDD./**MAP**/(
+		JavaPairRDD<String,String> tfRDD = wordsRDD.mapValues(
 			
 			/************ YOUR CODE HERE ************/
+			new Function<Integer,String>(){
+				@Override  
+				public String call(Integer v1) throws Exception {
+					return ("1/"+v1);
+				}
+			}
 			
-		)./**REDUCE**/(
+		).reduceByKey(
 			
 			/************ YOUR CODE HERE ************/
-			
+			new Function2<String,String,String>(){
+				@Override
+                                public String call(String v1,String v2)
+				{
+					int v_split1=Integer.parseInt(v1.split("/")[0]);
+					int v_split2=Integer.parseInt(v2.split("/")[0]);
+					int wordCount=v_split1+v_split2;
+					String wordCntByDoc=Integer.toString(wordCount)+"/"+v1.split("/")[1];
+					return (wordCntByDoc);
+					
+
+				}
+			}
 		);
 		
 		//Print tfRDD contents
@@ -121,17 +139,51 @@ public class TFICF {
 		 * Reduce: ( word , (numDocsWithWord/document1,document2...) )
 		 * Map:    ( (word@document) , (numDocs/numDocsWithWord) )
 		 */
-		JavaPairRDD<String,String> icfRDD = tfRDD./**MAP**/(
+		JavaPairRDD<String,String> icfRDD = tfRDD.mapToPair(
 			
 			/************ YOUR CODE HERE ************/
+			new PairFunction<Tuple2<String,String>,String,String>(){
+				public Tuple2<String,String> call(Tuple2<String,String> pair1)
+				{
+					String key=pair1._1.split("@")[0];
+					String val=pair1._1.split("@")[1];
+					return( new Tuple2(key,"1/"+val));
+
+				}
+			}
 			
-		)./**REDUCE**/(
+		).reduceByKey(
 			
 			/************ YOUR CODE HERE ************/
+			new Function2<String,String,String>(){
+				public String call(String v1,String v2){
+					String v1_split=v1.split("/")[0];
+					String v2_split=v2.split("/")[0];
+					int num=Integer.parseInt(v1_split)+Integer.parseInt(v2_split);
+					String num_String=Integer.toString(num);
+					String valToRet=num_String+"/"+v1.split("/")[1]+","+v2.split("/")[1];
+					return (valToRet);
+				}
+			}
 			
-		)./**MAP**/(
+		).flatMapToPair(
 			
 			/************ YOUR CODE HERE ************/
+			new PairFlatMapFunction<Tuple2<String,String>,String, String>() {
+				public Iterable<Tuple2<String,String>> call(Tuple2<String,String> pair){
+					
+					String stringNumDocs=Long.toString(numDocs);
+					String val1=pair._2.split("/")[0];
+					String listDoc=pair._2.split("/")[1].split(",");
+					ArrayList mapRet=new ArrayList();
+					for(String docRet:listDoc)
+					{
+						mapRet.add(new Tuple2(pair._1+"@"+docRet,stringNumDocs+"/"+val1));
+					}
+					return(mapRet);
+						
+				}
+			}
 			
 		);
 		
@@ -168,26 +220,42 @@ public class TFICF {
 				public Tuple2<String,Double> call(Tuple2<String,String> x) {
 					double wordCount = Double.parseDouble(x._2.split("/")[0]);
 					double docSize = Double.parseDouble(x._2.split("/")[1]);
-					double TF = wordCount/docSize;
+					double TF = Math.log((double) wordCount/docSize + 1);
 					return new Tuple2(x._1, TF);
 				}
 			}
 		);
 		
-		JavaPairRDD<String,Double> idfFinalRDD = idfRDD./**MAP**/(
+		JavaPairRDD<String,Double> icfFinalRDD = icfRDD.mapToPair(
 			
 			/************ YOUR CODE HERE ************/
+			new PairFunction<Tuple2<String, Double>,String,Double>(){
+				public Tuple2<String,Double> call(Tuple2<String,String> pair){
+					double numDocs=Double.parseDouble(pair._2.split("/")[0]);
+					double numDocsWithWord=Double.parseDouble(pair._2.split("/")[1]);
+					double ICF =Math.log((double) (numDocs+1)/(numDocsWithWord+1));
+					return(new Tuple2(pair._1,ICF));
+					
+				}				
+			}
 			
 		);
 		
-		JavaPairRDD<String,Double> tficfRDD = tfFinalRDD.union(idfFinalRDD)./**REDUCE**/(
+		JavaPairRDD<String,Double> tficfRDD = tfFinalRDD.union(icfFinalRDD).reduceByKey(
 			
 			/************ YOUR CODE HERE ************/
+			new Function2<Double,Double,Double>(){
+				public Double call(Double v1, Double v2){
+					return(v1*v2);
+				}
+			}
 			
-		)./**MAP**/(
+		).mapToPair(
 			
 			/************ YOUR CODE HERE ************/
-			
+			new PairFunction<Tuple2<String,Double> call(Tuple2<String,Double> pair){
+				return(new Tuple2(pair._1.split("@")[1]+"@"+pair._1.split("@")[0],pair._2));
+			}
 		);
 		
 		//Print tficfRDD contents in sorted order
