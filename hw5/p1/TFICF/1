@@ -34,11 +34,11 @@ public class TFICF {
 		
 		// Get/set the number of documents (to be used in the ICF job)
 		long numDocs = filesRDD.count();
-		//System.out.println("Starting here");	
+		System.out.println("Starting here");	
 		//Print filesRDD contents
 		if (DEBUG) {
-		//	System.out.println("Inside debug");
-			List<Tuple2<String, String>> list = filesRDD.collect();
+			System.out.println("Inside debug");
+			//List<Tuple2<String, String>> list = filesRDD.collect();
 			System.out.println("------Contents of filesRDD------");
 			for (Tuple2<String, String> tuple : list) {
 				System.out.println("(" + tuple._1 + ") , (" + tuple._2.trim() + ")");
@@ -97,7 +97,7 @@ public class TFICF {
 			
 			/************ YOUR CODE HERE ************/
 			new Function<Integer,String>(){
-		//		@Override  
+				@Override  
 				public String call(Integer v1) throws Exception {
 					return ("1/"+v1);
 				}
@@ -113,9 +113,7 @@ public class TFICF {
 					int v_split1=Integer.parseInt(v1.split("/")[0]);
 					int v_split2=Integer.parseInt(v2.split("/")[0]);
 					int wordCount=v_split1+v_split2;
-//					System.out.println("wordcnt= "+ Integer.toString(wordCount));
 					String wordCntByDoc=Integer.toString(wordCount)+"/"+v1.split("/")[1];
-//					System.out.println("wordcntbyDoc= "+ wordCntByDoc);
 					return (wordCntByDoc);
 					
 
@@ -142,10 +140,10 @@ public class TFICF {
 		 * Reduce: ( word , (numDocsWithWord/document1,document2...) )
 		 * Map:    ( (word@document) , (numDocs/numDocsWithWord) )
 		 */
- 		JavaPairRDD<String,String> icfRDD = tfRDD.mapToPair(
-			
+	/*	JavaPairRDD<String,String> icfRDD = tfRDD.mapToPair(
+	*/		
 			/************ YOUR CODE HERE ************/
-			new PairFunction<Tuple2<String,String>,String,String>(){
+	/*		new PairFunction<Tuple2<String,String>,String,String>(){
 				public Tuple2<String,String> call(Tuple2<String,String> pair1)
 				{
 					String key=pair1._1.split("@")[0];
@@ -156,9 +154,9 @@ public class TFICF {
 			}
 			
 		).reduceByKey(
-			
+	*/		
 			/************ YOUR CODE HERE ************/
-			new Function2<String,String,String>(){
+	/*		new Function2<String,String,String>(){
 				public String call(String v1,String v2){
 					String v1_split=v1.split("/")[0];
 					String v2_split=v2.split("/")[0];
@@ -170,14 +168,14 @@ public class TFICF {
 			}
 			
 		).flatMapToPair(
-			
+	*/		
 			/************ YOUR CODE HERE ************/
-			new PairFlatMapFunction<Tuple2<String,String>,String, String>() {
+	/*		new PairFlatMapFunction<Tuple2<String,String>,String, String>() {
 				public Iterable<Tuple2<String,String>> call(Tuple2<String,String> pair){
 					
 					String stringNumDocs=Long.toString(numDocs);
 					String val1=pair._2.split("/")[0];
-					String[] listDoc=pair._2.split("/")[1].split(",");
+					String listDoc=pair._2.split("/")[1].split(",");
 					ArrayList mapRet=new ArrayList();
 					for(String docRet:listDoc)
 					{
@@ -189,9 +187,9 @@ public class TFICF {
 			}
 			
 		);
-		
+	*/	
 		//Print icfRDD contents
-		if (DEBUG) {
+	/*	if (DEBUG) {
 			List<Tuple2<String, String>> list = icfRDD.collect();
 			System.out.println("-------Contents of icfRDD-------");
 			for (Tuple2<String, String> tuple : list) {
@@ -199,7 +197,7 @@ public class TFICF {
 			}
 			System.out.println("--------------------------------");
 		}
-	
+	*/
 		/*
 		 * TF * ICF Job
 		 * Calculates final TFICF value from tfRDD and icfRDD
@@ -218,7 +216,7 @@ public class TFICF {
 		 * where ICF   = log( (Total numDocs in the corpus + 1) / (numDocsWithWord in the corpus + 1) )
 		 * where TFICF = TF * ICF
 		 */
-		JavaPairRDD<String,Double> tfFinalRDD = tfRDD.mapToPair(
+	/*	JavaPairRDD<String,Double> tfFinalRDD = tfRDD.mapToPair(
 			new PairFunction<Tuple2<String,String>,String,Double>() {
 				public Tuple2<String,Double> call(Tuple2<String,String> x) {
 					double wordCount = Double.parseDouble(x._2.split("/")[0]);
@@ -228,11 +226,11 @@ public class TFICF {
 				}
 			}
 		);
-		
-		JavaPairRDD<String,Double> icfFinalRDD = icfRDD.mapToPair(
-			
+	*/	
+	/*	JavaPairRDD<String,Double> icfFinalRDD = icfRDD.mapToPair(
+	*/		
 			/************ YOUR CODE HERE ************/
-			new PairFunction<Tuple2<String, String>,String,Double>(){
+	/*		new PairFunction<Tuple2<String, Double>,String,Double>(){
 				public Tuple2<String,Double> call(Tuple2<String,String> pair){
 					double numDocs=Double.parseDouble(pair._2.split("/")[0]);
 					double numDocsWithWord=Double.parseDouble(pair._2.split("/")[1]);
@@ -243,28 +241,26 @@ public class TFICF {
 			}
 			
 		);
-		
-		JavaPairRDD<String,Double> tficfRDD = tfFinalRDD.union(icfFinalRDD).reduceByKey(
-			
+	*/	
+	/*	JavaPairRDD<String,Double> tficfRDD = tfFinalRDD.union(icfFinalRDD).reduceByKey(
+	*/		
 			/************ YOUR CODE HERE ************/
-			new Function2<Double,Double,Double>(){
+	/*		new Function2<Double,Double,Double>(){
 				public Double call(Double v1, Double v2){
 					return(v1*v2);
 				}
 			}
 			
 		).mapToPair(
-			
+			*/
 			/************ YOUR CODE HERE ************/
-			new PairFunction<Tuple2<String,Double>, String,Double>(){
-				public Tuple2<String,Double>  call(Tuple2<String,Double> pair){
+		/*	new PairFunction<Tuple2<String,Double> call(Tuple2<String,Double> pair){
 				return(new Tuple2(pair._1.split("@")[1]+"@"+pair._1.split("@")[0],pair._2));
-				}
 			}
-		);
+		);*/
 		
 		//Print tficfRDD contents in sorted order
-		Map<String, Double> sortedMap = new TreeMap<>();
+	/*	Map<String, Double> sortedMap = new TreeMap<>();
 		List<Tuple2<String, Double>> list = tficfRDD.collect();
 		for (Tuple2<String, Double> tuple : list) {
 			sortedMap.put(tuple._1, tuple._2);
@@ -273,6 +269,6 @@ public class TFICF {
 		for (String key : sortedMap.keySet()) {
 			System.out.println(key + "\t" + sortedMap.get(key));
 		}
-		if(DEBUG) System.out.println("--------------------------------");	 
+		if(DEBUG) System.out.println("--------------------------------");	 */
 	}	
 }
