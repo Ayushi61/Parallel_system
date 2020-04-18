@@ -1,128 +1,125 @@
-2020-04-06 17:24:43,257 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Running Spark version 1.6.1
-2020-04-06 17:24:43,874 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(62)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
-2020-04-06 17:24:44,119 INFO  [main] spark.SecurityManager (Logging.scala:logInfo(58)) - Changing view acls to: arajend4
-2020-04-06 17:24:44,121 INFO  [main] spark.SecurityManager (Logging.scala:logInfo(58)) - Changing modify acls to: arajend4
-2020-04-06 17:24:44,122 INFO  [main] spark.SecurityManager (Logging.scala:logInfo(58)) - SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(arajend4); users with modify permissions: Set(arajend4)
-2020-04-06 17:24:45,067 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'sparkDriver' on port 45781.
-2020-04-06 17:24:45,691 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] slf4j.Slf4jLogger (Slf4jLogger.scala:applyOrElse(80)) - Slf4jLogger started
-2020-04-06 17:24:45,775 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] Remoting (Slf4jLogger.scala:apply$mcV$sp(74)) - Starting remoting
-2020-04-06 17:24:46,001 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-3] Remoting (Slf4jLogger.scala:apply$mcV$sp(74)) - Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@10.4.1.42:36727]
-2020-04-06 17:24:46,009 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'sparkDriverActorSystem' on port 36727.
-2020-04-06 17:24:46,031 INFO  [main] spark.SparkEnv (Logging.scala:logInfo(58)) - Registering MapOutputTracker
-2020-04-06 17:24:46,092 INFO  [main] spark.SparkEnv (Logging.scala:logInfo(58)) - Registering BlockManagerMaster
-2020-04-06 17:24:46,124 INFO  [main] storage.DiskBlockManager (Logging.scala:logInfo(58)) - Created local directory at /tmp/blockmgr-efab9ba1-ac31-4767-bde4-2f63f67538f9
-2020-04-06 17:24:46,191 INFO  [main] storage.MemoryStore (Logging.scala:logInfo(58)) - MemoryStore started with capacity 511.1 MB
-2020-04-06 17:24:46,354 INFO  [main] spark.SparkEnv (Logging.scala:logInfo(58)) - Registering OutputCommitCoordinator
-2020-04-06 17:24:46,687 INFO  [main] server.Server (Server.java:doStart(272)) - jetty-8.y.z-SNAPSHOT
-2020-04-06 17:24:46,747 INFO  [main] server.AbstractConnector (AbstractConnector.java:doStart(338)) - Started SelectChannelConnector@0.0.0.0:4040
-2020-04-06 17:24:46,749 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'SparkUI' on port 4040.
-2020-04-06 17:24:46,753 INFO  [main] ui.SparkUI (Logging.scala:logInfo(58)) - Started SparkUI at http://10.4.1.42:4040
-2020-04-06 17:24:46,793 INFO  [main] spark.HttpFileServer (Logging.scala:logInfo(58)) - HTTP File server directory is /tmp/spark-9e17e86d-7671-4396-af10-2a43b1b7d3fc/httpd-700de95b-8285-429c-b9e6-28f9ec826fdf
-2020-04-06 17:24:46,797 INFO  [main] spark.HttpServer (Logging.scala:logInfo(58)) - Starting HTTP Server
-2020-04-06 17:24:46,831 INFO  [main] server.Server (Server.java:doStart(272)) - jetty-8.y.z-SNAPSHOT
-2020-04-06 17:24:46,837 INFO  [main] server.AbstractConnector (AbstractConnector.java:doStart(338)) - Started SocketConnector@0.0.0.0:41873
-2020-04-06 17:24:46,838 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'HTTP file server' on port 41873.
-2020-04-06 17:24:46,874 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Added JAR file:/home/arajend4/hw4/Parallel_system/hw5/p1/TFICF/TFICF.jar at http://10.4.1.42:41873/jars/TFICF.jar with timestamp 1586208286873
-2020-04-06 17:24:46,997 INFO  [main] executor.Executor (Logging.scala:logInfo(58)) - Starting executor ID driver on host localhost
-2020-04-06 17:24:47,035 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 34577.
-2020-04-06 17:24:47,036 INFO  [main] netty.NettyBlockTransferService (Logging.scala:logInfo(58)) - Server created on 34577
-2020-04-06 17:24:47,038 INFO  [main] storage.BlockManagerMaster (Logging.scala:logInfo(58)) - Trying to register BlockManager
-2020-04-06 17:24:47,047 INFO  [dispatcher-event-loop-10] storage.BlockManagerMasterEndpoint (Logging.scala:logInfo(58)) - Registering block manager localhost:34577 with 511.1 MB RAM, BlockManagerId(driver, localhost, 34577)
-2020-04-06 17:24:47,054 INFO  [main] storage.BlockManagerMaster (Logging.scala:logInfo(58)) - Registered BlockManager
-2020-04-06 17:24:49,037 INFO  [main] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_0 stored as values in memory (estimated size 268.7 KB, free 268.7 KB)
-2020-04-06 17:24:49,105 INFO  [main] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_0_piece0 stored as bytes in memory (estimated size 22.0 KB, free 290.8 KB)
-2020-04-06 17:24:49,110 INFO  [dispatcher-event-loop-12] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_0_piece0 in memory on localhost:34577 (size: 22.0 KB, free: 511.1 MB)
-2020-04-06 17:24:49,114 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 0 from wholeTextFiles at TFICF.java:33
-2020-04-06 17:24:49,501 INFO  [main] input.FileInputFormat (FileInputFormat.java:listStatus(283)) - Total input paths to process : 3
-2020-04-06 17:24:49,524 INFO  [main] input.FileInputFormat (FileInputFormat.java:listStatus(283)) - Total input paths to process : 3
-2020-04-06 17:24:49,532 INFO  [main] input.CombineFileInputFormat (CombineFileInputFormat.java:createSplits(413)) - DEBUG: Terminated node allocation with : CompletedNodes: 1, size left: 33
-2020-04-06 17:24:49,546 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: count at TFICF.java:36
-2020-04-06 17:24:49,588 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 0 (count at TFICF.java:36) with 2 output partitions
-2020-04-06 17:24:49,589 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 0 (count at TFICF.java:36)
-2020-04-06 17:24:49,589 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List()
-2020-04-06 17:24:49,591 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List()
-2020-04-06 17:24:49,617 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 0 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:33), which has no missing parents
-2020-04-06 17:24:49,733 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_1 stored as values in memory (estimated size 2.5 KB, free 293.2 KB)
-2020-04-06 17:24:49,737 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_1_piece0 stored as bytes in memory (estimated size 1527.0 B, free 294.7 KB)
-2020-04-06 17:24:49,738 INFO  [dispatcher-event-loop-13] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_1_piece0 in memory on localhost:34577 (size: 1527.0 B, free: 511.1 MB)
-2020-04-06 17:24:49,740 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 1 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:49,759 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 0 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:33)
-2020-04-06 17:24:49,763 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 0.0 with 2 tasks
-2020-04-06 17:24:49,854 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 0.0 (TID 0, localhost, partition 1,PROCESS_LOCAL, 2255 bytes)
-2020-04-06 17:24:49,864 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 0.0 (TID 1, localhost, partition 0,ANY, 2312 bytes)
-2020-04-06 17:24:49,876 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 0.0 (TID 1)
-2020-04-06 17:24:49,876 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 0.0 (TID 0)
-2020-04-06 17:24:49,891 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Fetching http://10.4.1.42:41873/jars/TFICF.jar with timestamp 1586208286873
-2020-04-06 17:24:50,070 INFO  [Executor task launch worker-1] util.Utils (Logging.scala:logInfo(58)) - Fetching http://10.4.1.42:41873/jars/TFICF.jar to /tmp/spark-9e17e86d-7671-4396-af10-2a43b1b7d3fc/userFiles-75f6ef79-c833-4613-b135-2da3c2d20850/fetchFileTemp7038781541739459139.tmp
-2020-04-06 17:24:50,119 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Adding file:/tmp/spark-9e17e86d-7671-4396-af10-2a43b1b7d3fc/userFiles-75f6ef79-c833-4613-b135-2da3c2d20850/TFICF.jar to class loader
-2020-04-06 17:24:50,152 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
-2020-04-06 17:24:50,152 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
-2020-04-06 17:24:50,518 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 0.0 (TID 0). 2082 bytes result sent to driver
-2020-04-06 17:24:50,536 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 0.0 (TID 1). 2082 bytes result sent to driver
-2020-04-06 17:24:50,537 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 0.0 (TID 0) in 734 ms on localhost (1/2)
-2020-04-06 17:24:50,548 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 0.0 (TID 1) in 687 ms on localhost (2/2)
-2020-04-06 17:24:50,550 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 0 (count at TFICF.java:36) finished in 0.768 s
-2020-04-06 17:24:50,551 INFO  [task-result-getter-1] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 0.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:50,561 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 0 finished: count at TFICF.java:36, took 1.014540 s
-2020-04-06 17:24:50,584 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:41
-2020-04-06 17:24:50,587 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 1 (collect at TFICF.java:41) with 2 output partitions
-2020-04-06 17:24:50,587 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 1 (collect at TFICF.java:41)
-2020-04-06 17:24:50,588 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List()
-2020-04-06 17:24:50,588 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List()
-2020-04-06 17:24:50,590 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 1 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:33), which has no missing parents
-2020-04-06 17:24:50,597 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_2 stored as values in memory (estimated size 2.6 KB, free 297.3 KB)
-2020-04-06 17:24:50,601 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_2_piece0 stored as bytes in memory (estimated size 1566.0 B, free 298.8 KB)
-2020-04-06 17:24:50,602 INFO  [dispatcher-event-loop-2] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_2_piece0 in memory on localhost:34577 (size: 1566.0 B, free: 511.1 MB)
-2020-04-06 17:24:50,603 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 2 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:50,604 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 1 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:33)
-2020-04-06 17:24:50,604 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 1.0 with 2 tasks
-2020-04-06 17:24:50,608 INFO  [dispatcher-event-loop-4] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 1.0 (TID 2, localhost, partition 1,PROCESS_LOCAL, 2255 bytes)
-2020-04-06 17:24:50,610 INFO  [dispatcher-event-loop-4] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 1.0 (TID 3, localhost, partition 0,ANY, 2312 bytes)
-2020-04-06 17:24:50,611 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 1.0 (TID 3)
-2020-04-06 17:24:50,611 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 1.0 (TID 2)
-2020-04-06 17:24:50,621 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
-2020-04-06 17:24:50,621 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
-2020-04-06 17:24:50,786 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 1.0 (TID 2). 2184 bytes result sent to driver
-2020-04-06 17:24:50,794 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 1.0 (TID 2) in 187 ms on localhost (1/2)
-2020-04-06 17:24:50,830 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 1.0 (TID 3). 2279 bytes result sent to driver
-2020-04-06 17:24:50,839 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 1.0 (TID 3) in 230 ms on localhost (2/2)
-2020-04-06 17:24:50,840 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 1 (collect at TFICF.java:41) finished in 0.234 s
-2020-04-06 17:24:50,840 INFO  [task-result-getter-3] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 1.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:50,841 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 1 finished: collect at TFICF.java:41, took 0.256157 s
+2020-04-06 17:31:39,014 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Running Spark version 1.6.1
+2020-04-06 17:31:39,599 WARN  [main] util.NativeCodeLoader (NativeCodeLoader.java:<clinit>(62)) - Unable to load native-hadoop library for your platform... using builtin-java classes where applicable
+2020-04-06 17:31:39,787 INFO  [main] spark.SecurityManager (Logging.scala:logInfo(58)) - Changing view acls to: arajend4
+2020-04-06 17:31:39,788 INFO  [main] spark.SecurityManager (Logging.scala:logInfo(58)) - Changing modify acls to: arajend4
+2020-04-06 17:31:39,789 INFO  [main] spark.SecurityManager (Logging.scala:logInfo(58)) - SecurityManager: authentication disabled; ui acls disabled; users with view permissions: Set(arajend4); users with modify permissions: Set(arajend4)
+2020-04-06 17:31:40,382 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'sparkDriver' on port 40691.
+2020-04-06 17:31:40,894 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] slf4j.Slf4jLogger (Slf4jLogger.scala:applyOrElse(80)) - Slf4jLogger started
+2020-04-06 17:31:40,962 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] Remoting (Slf4jLogger.scala:apply$mcV$sp(74)) - Starting remoting
+2020-04-06 17:31:41,174 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] Remoting (Slf4jLogger.scala:apply$mcV$sp(74)) - Remoting started; listening on addresses :[akka.tcp://sparkDriverActorSystem@10.4.1.42:44741]
+2020-04-06 17:31:41,182 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'sparkDriverActorSystem' on port 44741.
+2020-04-06 17:31:41,197 INFO  [main] spark.SparkEnv (Logging.scala:logInfo(58)) - Registering MapOutputTracker
+2020-04-06 17:31:41,218 INFO  [main] spark.SparkEnv (Logging.scala:logInfo(58)) - Registering BlockManagerMaster
+2020-04-06 17:31:41,236 INFO  [main] storage.DiskBlockManager (Logging.scala:logInfo(58)) - Created local directory at /tmp/blockmgr-a954b52b-8934-4d17-8b88-250b47b108ee
+2020-04-06 17:31:41,259 INFO  [main] storage.MemoryStore (Logging.scala:logInfo(58)) - MemoryStore started with capacity 511.1 MB
+2020-04-06 17:31:41,344 INFO  [main] spark.SparkEnv (Logging.scala:logInfo(58)) - Registering OutputCommitCoordinator
+2020-04-06 17:31:41,584 INFO  [main] server.Server (Server.java:doStart(272)) - jetty-8.y.z-SNAPSHOT
+2020-04-06 17:31:41,663 INFO  [main] server.AbstractConnector (AbstractConnector.java:doStart(338)) - Started SelectChannelConnector@0.0.0.0:4040
+2020-04-06 17:31:41,665 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'SparkUI' on port 4040.
+2020-04-06 17:31:41,671 INFO  [main] ui.SparkUI (Logging.scala:logInfo(58)) - Started SparkUI at http://10.4.1.42:4040
+2020-04-06 17:31:41,712 INFO  [main] spark.HttpFileServer (Logging.scala:logInfo(58)) - HTTP File server directory is /tmp/spark-6d7338fc-cb39-494f-a51b-172c17170c51/httpd-58b3c268-9a25-4159-aed5-deaa79c02fcf
+2020-04-06 17:31:41,715 INFO  [main] spark.HttpServer (Logging.scala:logInfo(58)) - Starting HTTP Server
+2020-04-06 17:31:41,725 INFO  [main] server.Server (Server.java:doStart(272)) - jetty-8.y.z-SNAPSHOT
+2020-04-06 17:31:41,729 INFO  [main] server.AbstractConnector (AbstractConnector.java:doStart(338)) - Started SocketConnector@0.0.0.0:46163
+2020-04-06 17:31:41,729 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'HTTP file server' on port 46163.
+2020-04-06 17:31:41,749 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Added JAR file:/home/arajend4/hw4/Parallel_system/hw5/p1/TFICF/TFICF.jar at http://10.4.1.42:46163/jars/TFICF.jar with timestamp 1586208701748
+2020-04-06 17:31:41,845 INFO  [main] executor.Executor (Logging.scala:logInfo(58)) - Starting executor ID driver on host localhost
+2020-04-06 17:31:41,882 INFO  [main] util.Utils (Logging.scala:logInfo(58)) - Successfully started service 'org.apache.spark.network.netty.NettyBlockTransferService' on port 44385.
+2020-04-06 17:31:41,883 INFO  [main] netty.NettyBlockTransferService (Logging.scala:logInfo(58)) - Server created on 44385
+2020-04-06 17:31:41,884 INFO  [main] storage.BlockManagerMaster (Logging.scala:logInfo(58)) - Trying to register BlockManager
+2020-04-06 17:31:41,891 INFO  [dispatcher-event-loop-10] storage.BlockManagerMasterEndpoint (Logging.scala:logInfo(58)) - Registering block manager localhost:44385 with 511.1 MB RAM, BlockManagerId(driver, localhost, 44385)
+2020-04-06 17:31:41,897 INFO  [main] storage.BlockManagerMaster (Logging.scala:logInfo(58)) - Registered BlockManager
+2020-04-06 17:31:43,629 INFO  [main] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_0 stored as values in memory (estimated size 268.7 KB, free 268.7 KB)
+2020-04-06 17:31:43,689 INFO  [main] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_0_piece0 stored as bytes in memory (estimated size 22.0 KB, free 290.8 KB)
+2020-04-06 17:31:43,693 INFO  [dispatcher-event-loop-12] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_0_piece0 in memory on localhost:44385 (size: 22.0 KB, free: 511.1 MB)
+2020-04-06 17:31:43,696 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 0 from wholeTextFiles at TFICF.java:37
+2020-04-06 17:31:43,976 INFO  [main] input.FileInputFormat (FileInputFormat.java:listStatus(283)) - Total input paths to process : 3
+2020-04-06 17:31:43,990 INFO  [main] input.FileInputFormat (FileInputFormat.java:listStatus(283)) - Total input paths to process : 3
+2020-04-06 17:31:43,997 INFO  [main] input.CombineFileInputFormat (CombineFileInputFormat.java:createSplits(413)) - DEBUG: Terminated node allocation with : CompletedNodes: 1, size left: 33
+2020-04-06 17:31:44,009 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: count at TFICF.java:40
+2020-04-06 17:31:44,029 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 0 (count at TFICF.java:40) with 2 output partitions
+2020-04-06 17:31:44,029 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 0 (count at TFICF.java:40)
+2020-04-06 17:31:44,030 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List()
+2020-04-06 17:31:44,032 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List()
+2020-04-06 17:31:44,043 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 0 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:37), which has no missing parents
+2020-04-06 17:31:44,124 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_1 stored as values in memory (estimated size 2.5 KB, free 293.2 KB)
+2020-04-06 17:31:44,133 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_1_piece0 stored as bytes in memory (estimated size 1527.0 B, free 294.7 KB)
+2020-04-06 17:31:44,135 INFO  [dispatcher-event-loop-13] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_1_piece0 in memory on localhost:44385 (size: 1527.0 B, free: 511.1 MB)
+2020-04-06 17:31:44,136 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 1 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:44,140 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 0 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:37)
+2020-04-06 17:31:44,142 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 0.0 with 2 tasks
+2020-04-06 17:31:44,198 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 0.0 (TID 0, localhost, partition 1,PROCESS_LOCAL, 2255 bytes)
+2020-04-06 17:31:44,204 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 0.0 (TID 1, localhost, partition 0,ANY, 2312 bytes)
+2020-04-06 17:31:44,213 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 0.0 (TID 1)
+2020-04-06 17:31:44,213 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 0.0 (TID 0)
+2020-04-06 17:31:44,228 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Fetching http://10.4.1.42:46163/jars/TFICF.jar with timestamp 1586208701748
+2020-04-06 17:31:44,358 INFO  [Executor task launch worker-1] util.Utils (Logging.scala:logInfo(58)) - Fetching http://10.4.1.42:46163/jars/TFICF.jar to /tmp/spark-6d7338fc-cb39-494f-a51b-172c17170c51/userFiles-4c1f7dcd-9bdb-44cf-8904-bb5070f684c6/fetchFileTemp621337757890423736.tmp
+2020-04-06 17:31:44,375 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Adding file:/tmp/spark-6d7338fc-cb39-494f-a51b-172c17170c51/userFiles-4c1f7dcd-9bdb-44cf-8904-bb5070f684c6/TFICF.jar to class loader
+2020-04-06 17:31:44,420 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
+2020-04-06 17:31:44,421 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
+2020-04-06 17:31:44,697 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 0.0 (TID 0). 2082 bytes result sent to driver
+2020-04-06 17:31:44,698 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 0.0 (TID 1). 2082 bytes result sent to driver
+2020-04-06 17:31:44,715 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 0.0 (TID 1) in 511 ms on localhost (1/2)
+2020-04-06 17:31:44,716 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 0.0 (TID 0) in 542 ms on localhost (2/2)
+2020-04-06 17:31:44,718 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 0.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:44,722 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 0 (count at TFICF.java:40) finished in 0.562 s
+2020-04-06 17:31:44,731 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 0 finished: count at TFICF.java:40, took 0.720910 s
+2020-04-06 17:31:44,758 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:45
+2020-04-06 17:31:44,761 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 1 (collect at TFICF.java:45) with 2 output partitions
+2020-04-06 17:31:44,761 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 1 (collect at TFICF.java:45)
+2020-04-06 17:31:44,761 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List()
+2020-04-06 17:31:44,761 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List()
+2020-04-06 17:31:44,762 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 1 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:37), which has no missing parents
+2020-04-06 17:31:44,766 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_2 stored as values in memory (estimated size 2.6 KB, free 297.3 KB)
+2020-04-06 17:31:44,774 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_2_piece0 stored as bytes in memory (estimated size 1566.0 B, free 298.8 KB)
+2020-04-06 17:31:44,776 INFO  [dispatcher-event-loop-2] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_2_piece0 in memory on localhost:44385 (size: 1566.0 B, free: 511.1 MB)
+2020-04-06 17:31:44,778 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 2 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:44,778 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 1 (input MapPartitionsRDD[1] at wholeTextFiles at TFICF.java:37)
+2020-04-06 17:31:44,779 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 1.0 with 2 tasks
+2020-04-06 17:31:44,785 INFO  [dispatcher-event-loop-4] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 1.0 (TID 2, localhost, partition 1,PROCESS_LOCAL, 2255 bytes)
+2020-04-06 17:31:44,786 INFO  [dispatcher-event-loop-4] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 1.0 (TID 3, localhost, partition 0,ANY, 2312 bytes)
+2020-04-06 17:31:44,787 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 1.0 (TID 3)
+2020-04-06 17:31:44,788 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 1.0 (TID 2)
+2020-04-06 17:31:44,798 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
+2020-04-06 17:31:44,799 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
+2020-04-06 17:31:44,865 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 1.0 (TID 2). 2184 bytes result sent to driver
+2020-04-06 17:31:44,873 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 1.0 (TID 2) in 90 ms on localhost (1/2)
+2020-04-06 17:31:44,906 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 1.0 (TID 3). 2279 bytes result sent to driver
+2020-04-06 17:31:44,912 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 1.0 (TID 3) in 127 ms on localhost (2/2)
+2020-04-06 17:31:44,913 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 1 (collect at TFICF.java:45) finished in 0.132 s
+2020-04-06 17:31:44,913 INFO  [task-result-getter-3] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 1.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:44,914 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 1 finished: collect at TFICF.java:45, took 0.155151 s
 ------Contents of filesRDD------
 (hdfs://c41:9000/user/arajend4/input/doc1) , (Lorem ipsum dolor ipsum sit ipsum)
 (hdfs://c41:9000/user/arajend4/input/doc2) , (Vituperata incorrupte at ipsum pro quo)
 (hdfs://c41:9000/user/arajend4/input/doc3) , (Has persius disputationi id simul)
 --------------------------------
-2020-04-06 17:24:50,863 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:80
-2020-04-06 17:24:50,865 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 2 (collect at TFICF.java:80) with 2 output partitions
-2020-04-06 17:24:50,866 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 2 (collect at TFICF.java:80)
-2020-04-06 17:24:50,866 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List()
-2020-04-06 17:24:50,867 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List()
-2020-04-06 17:24:50,868 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 2 (MapPartitionsRDD[2] at flatMapToPair at TFICF.java:58), which has no missing parents
-2020-04-06 17:24:50,874 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_3 stored as values in memory (estimated size 2.9 KB, free 301.8 KB)
-2020-04-06 17:24:50,878 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_3_piece0 stored as bytes in memory (estimated size 1741.0 B, free 303.5 KB)
-2020-04-06 17:24:50,880 INFO  [dispatcher-event-loop-9] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_3_piece0 in memory on localhost:34577 (size: 1741.0 B, free: 511.1 MB)
-2020-04-06 17:24:50,881 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 3 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:50,882 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 2 (MapPartitionsRDD[2] at flatMapToPair at TFICF.java:58)
-2020-04-06 17:24:50,882 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 2.0 with 2 tasks
-2020-04-06 17:24:50,887 INFO  [dispatcher-event-loop-10] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 2.0 (TID 4, localhost, partition 1,PROCESS_LOCAL, 2255 bytes)
-2020-04-06 17:24:50,890 INFO  [dispatcher-event-loop-10] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 2.0 (TID 5, localhost, partition 0,ANY, 2312 bytes)
-2020-04-06 17:24:50,891 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 2.0 (TID 4)
-2020-04-06 17:24:50,891 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 2.0 (TID 5)
-2020-04-06 17:24:50,901 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
-2020-04-06 17:24:50,902 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
-2020-04-06 17:24:50,998 INFO  [Spark Context Cleaner] spark.ContextCleaner (Logging.scala:logInfo(58)) - Cleaned accumulator 1
-2020-04-06 17:24:51,018 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 2.0 (TID 4). 2298 bytes result sent to driver
-2020-04-06 17:24:51,021 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 2.0 (TID 4) in 136 ms on localhost (1/2)
-2020-04-06 17:24:51,022 INFO  [dispatcher-event-loop-15] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Removed broadcast_2_piece0 on localhost:34577 in memory (size: 1566.0 B, free: 511.1 MB)
-2020-04-06 17:24:51,028 INFO  [Spark Context Cleaner] spark.ContextCleaner (Logging.scala:logInfo(58)) - Cleaned accumulator 2
-2020-04-06 17:24:51,034 INFO  [dispatcher-event-loop-2] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Removed broadcast_1_piece0 on localhost:34577 in memory (size: 1527.0 B, free: 511.1 MB)
-2020-04-06 17:24:51,054 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 2.0 (TID 5). 2463 bytes result sent to driver
-2020-04-06 17:24:51,058 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 2.0 (TID 5) in 169 ms on localhost (2/2)
-2020-04-06 17:24:51,058 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 2 (collect at TFICF.java:80) finished in 0.175 s
-2020-04-06 17:24:51,059 INFO  [task-result-getter-1] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 2.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,060 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 2 finished: collect at TFICF.java:80, took 0.196656 s
+2020-04-06 17:31:44,934 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:84
+2020-04-06 17:31:44,937 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 2 (collect at TFICF.java:84) with 2 output partitions
+2020-04-06 17:31:44,937 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 2 (collect at TFICF.java:84)
+2020-04-06 17:31:44,937 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List()
+2020-04-06 17:31:44,938 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List()
+2020-04-06 17:31:44,939 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 2 (MapPartitionsRDD[2] at flatMapToPair at TFICF.java:62), which has no missing parents
+2020-04-06 17:31:44,945 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_3 stored as values in memory (estimated size 2.9 KB, free 301.8 KB)
+2020-04-06 17:31:44,949 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_3_piece0 stored as bytes in memory (estimated size 1742.0 B, free 303.5 KB)
+2020-04-06 17:31:44,951 INFO  [dispatcher-event-loop-9] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_3_piece0 in memory on localhost:44385 (size: 1742.0 B, free: 511.1 MB)
+2020-04-06 17:31:44,952 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 3 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:44,952 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 2 (MapPartitionsRDD[2] at flatMapToPair at TFICF.java:62)
+2020-04-06 17:31:44,952 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 2.0 with 2 tasks
+2020-04-06 17:31:44,956 INFO  [dispatcher-event-loop-10] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 2.0 (TID 4, localhost, partition 1,PROCESS_LOCAL, 2255 bytes)
+2020-04-06 17:31:44,958 INFO  [dispatcher-event-loop-10] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 2.0 (TID 5, localhost, partition 0,ANY, 2312 bytes)
+2020-04-06 17:31:44,959 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 2.0 (TID 4)
+2020-04-06 17:31:44,959 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 2.0 (TID 5)
+2020-04-06 17:31:44,965 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
+2020-04-06 17:31:44,967 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
+2020-04-06 17:31:45,024 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 2.0 (TID 4). 2298 bytes result sent to driver
+2020-04-06 17:31:45,029 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 2.0 (TID 4) in 75 ms on localhost (1/2)
+2020-04-06 17:31:45,103 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 2.0 (TID 5). 2463 bytes result sent to driver
+2020-04-06 17:31:45,107 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 2.0 (TID 5) in 150 ms on localhost (2/2)
+2020-04-06 17:31:45,107 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 2 (collect at TFICF.java:84) finished in 0.153 s
+2020-04-06 17:31:45,107 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 2.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,107 INFO  [dispatcher-event-loop-3] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Removed broadcast_2_piece0 on localhost:44385 in memory (size: 1566.0 B, free: 511.1 MB)
+2020-04-06 17:31:45,108 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 2 finished: collect at TFICF.java:84, took 0.172963 s
 ------Contents of wordsRDD------
 (Lorem@doc1) , (6)
 (ipsum@doc1) , (6)
@@ -142,57 +139,60 @@
 (id@doc3) , (5)
 (simul@doc3) , (5)
 --------------------------------
-2020-04-06 17:24:51,104 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:128
-2020-04-06 17:24:51,112 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Registering RDD 3 (mapValues at TFICF.java:96)
-2020-04-06 17:24:51,113 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 3 (collect at TFICF.java:128) with 2 output partitions
-2020-04-06 17:24:51,114 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 4 (collect at TFICF.java:128)
-2020-04-06 17:24:51,114 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List(ShuffleMapStage 3)
-2020-04-06 17:24:51,114 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List(ShuffleMapStage 3)
-2020-04-06 17:24:51,118 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ShuffleMapStage 3 (MapPartitionsRDD[3] at mapValues at TFICF.java:96), which has no missing parents
-2020-04-06 17:24:51,129 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_4 stored as values in memory (estimated size 4.1 KB, free 299.4 KB)
-2020-04-06 17:24:51,132 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_4_piece0 stored as bytes in memory (estimated size 2.2 KB, free 301.7 KB)
-2020-04-06 17:24:51,134 INFO  [dispatcher-event-loop-5] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_4_piece0 in memory on localhost:34577 (size: 2.2 KB, free: 511.1 MB)
-2020-04-06 17:24:51,135 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 4 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:51,137 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ShuffleMapStage 3 (MapPartitionsRDD[3] at mapValues at TFICF.java:96)
-2020-04-06 17:24:51,137 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 3.0 with 2 tasks
-2020-04-06 17:24:51,142 INFO  [dispatcher-event-loop-6] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 3.0 (TID 6, localhost, partition 1,PROCESS_LOCAL, 2244 bytes)
-2020-04-06 17:24:51,144 INFO  [dispatcher-event-loop-6] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 3.0 (TID 7, localhost, partition 0,ANY, 2301 bytes)
-2020-04-06 17:24:51,145 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 3.0 (TID 7)
-2020-04-06 17:24:51,145 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 3.0 (TID 6)
-2020-04-06 17:24:51,157 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
-2020-04-06 17:24:51,157 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
-2020-04-06 17:24:51,256 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 3.0 (TID 6). 2254 bytes result sent to driver
-2020-04-06 17:24:51,262 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 3.0 (TID 6) in 122 ms on localhost (1/2)
-2020-04-06 17:24:51,285 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 3.0 (TID 7). 2254 bytes result sent to driver
-2020-04-06 17:24:51,289 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 3.0 (TID 7) in 146 ms on localhost (2/2)
-2020-04-06 17:24:51,290 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ShuffleMapStage 3 (mapValues at TFICF.java:96) finished in 0.151 s
-2020-04-06 17:24:51,290 INFO  [task-result-getter-3] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 3.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,291 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - looking for newly runnable stages
-2020-04-06 17:24:51,292 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - running: Set()
-2020-04-06 17:24:51,293 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - waiting: Set(ResultStage 4)
-2020-04-06 17:24:51,294 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - failed: Set()
-2020-04-06 17:24:51,297 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 4 (ShuffledRDD[4] at reduceByKey at TFICF.java:106), which has no missing parents
-2020-04-06 17:24:51,302 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_5 stored as values in memory (estimated size 2.9 KB, free 304.5 KB)
-2020-04-06 17:24:51,306 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_5_piece0 stored as bytes in memory (estimated size 1728.0 B, free 306.2 KB)
-2020-04-06 17:24:51,308 INFO  [dispatcher-event-loop-12] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_5_piece0 in memory on localhost:34577 (size: 1728.0 B, free: 511.1 MB)
-2020-04-06 17:24:51,309 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 5 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:51,309 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 4 (ShuffledRDD[4] at reduceByKey at TFICF.java:106)
-2020-04-06 17:24:51,309 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 4.0 with 2 tasks
-2020-04-06 17:24:51,315 INFO  [dispatcher-event-loop-11] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 4.0 (TID 8, localhost, partition 0,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,316 INFO  [dispatcher-event-loop-11] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 4.0 (TID 9, localhost, partition 1,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,317 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 4.0 (TID 8)
-2020-04-06 17:24:51,317 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 4.0 (TID 9)
-2020-04-06 17:24:51,336 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,336 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,340 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 9 ms
-2020-04-06 17:24:51,340 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 9 ms
-2020-04-06 17:24:51,377 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 4.0 (TID 9). 1472 bytes result sent to driver
-2020-04-06 17:24:51,377 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 4.0 (TID 8). 1351 bytes result sent to driver
-2020-04-06 17:24:51,386 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 4.0 (TID 8) in 74 ms on localhost (1/2)
-2020-04-06 17:24:51,387 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 4.0 (TID 9) in 71 ms on localhost (2/2)
-2020-04-06 17:24:51,387 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 4.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,389 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 4 (collect at TFICF.java:128) finished in 0.078 s
-2020-04-06 17:24:51,391 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 3 finished: collect at TFICF.java:128, took 0.285632 s
+2020-04-06 17:31:45,118 INFO  [Spark Context Cleaner] spark.ContextCleaner (Logging.scala:logInfo(58)) - Cleaned accumulator 2
+2020-04-06 17:31:45,121 INFO  [dispatcher-event-loop-4] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Removed broadcast_1_piece0 on localhost:44385 in memory (size: 1527.0 B, free: 511.1 MB)
+2020-04-06 17:31:45,123 INFO  [Spark Context Cleaner] spark.ContextCleaner (Logging.scala:logInfo(58)) - Cleaned accumulator 1
+2020-04-06 17:31:45,162 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:132
+2020-04-06 17:31:45,170 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Registering RDD 3 (mapValues at TFICF.java:100)
+2020-04-06 17:31:45,171 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 3 (collect at TFICF.java:132) with 2 output partitions
+2020-04-06 17:31:45,172 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 4 (collect at TFICF.java:132)
+2020-04-06 17:31:45,172 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List(ShuffleMapStage 3)
+2020-04-06 17:31:45,172 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List(ShuffleMapStage 3)
+2020-04-06 17:31:45,174 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ShuffleMapStage 3 (MapPartitionsRDD[3] at mapValues at TFICF.java:100), which has no missing parents
+2020-04-06 17:31:45,181 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_4 stored as values in memory (estimated size 4.1 KB, free 299.4 KB)
+2020-04-06 17:31:45,185 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_4_piece0 stored as bytes in memory (estimated size 2.2 KB, free 301.7 KB)
+2020-04-06 17:31:45,187 INFO  [dispatcher-event-loop-5] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_4_piece0 in memory on localhost:44385 (size: 2.2 KB, free: 511.1 MB)
+2020-04-06 17:31:45,188 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 4 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:45,191 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ShuffleMapStage 3 (MapPartitionsRDD[3] at mapValues at TFICF.java:100)
+2020-04-06 17:31:45,191 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 3.0 with 2 tasks
+2020-04-06 17:31:45,197 INFO  [dispatcher-event-loop-6] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 3.0 (TID 6, localhost, partition 1,PROCESS_LOCAL, 2244 bytes)
+2020-04-06 17:31:45,200 INFO  [dispatcher-event-loop-6] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 3.0 (TID 7, localhost, partition 0,ANY, 2301 bytes)
+2020-04-06 17:31:45,202 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 3.0 (TID 7)
+2020-04-06 17:31:45,202 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 3.0 (TID 6)
+2020-04-06 17:31:45,211 INFO  [Executor task launch worker-1] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc3:0+33
+2020-04-06 17:31:45,211 INFO  [Executor task launch worker-0] rdd.WholeTextFileRDD (Logging.scala:logInfo(58)) - Input split: Paths:/user/arajend4/input/doc1:0+34,/user/arajend4/input/doc2:0+39
+2020-04-06 17:31:45,302 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 3.0 (TID 6). 2254 bytes result sent to driver
+2020-04-06 17:31:45,306 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 3.0 (TID 6) in 113 ms on localhost (1/2)
+2020-04-06 17:31:45,320 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 3.0 (TID 7). 2254 bytes result sent to driver
+2020-04-06 17:31:45,323 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 3.0 (TID 7) in 125 ms on localhost (2/2)
+2020-04-06 17:31:45,324 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ShuffleMapStage 3 (mapValues at TFICF.java:100) finished in 0.132 s
+2020-04-06 17:31:45,324 INFO  [task-result-getter-3] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 3.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,325 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - looking for newly runnable stages
+2020-04-06 17:31:45,326 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - running: Set()
+2020-04-06 17:31:45,327 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - waiting: Set(ResultStage 4)
+2020-04-06 17:31:45,328 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - failed: Set()
+2020-04-06 17:31:45,331 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 4 (ShuffledRDD[4] at reduceByKey at TFICF.java:110), which has no missing parents
+2020-04-06 17:31:45,338 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_5 stored as values in memory (estimated size 2.9 KB, free 304.5 KB)
+2020-04-06 17:31:45,341 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_5_piece0 stored as bytes in memory (estimated size 1728.0 B, free 306.2 KB)
+2020-04-06 17:31:45,343 INFO  [dispatcher-event-loop-11] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_5_piece0 in memory on localhost:44385 (size: 1728.0 B, free: 511.1 MB)
+2020-04-06 17:31:45,345 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 5 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:45,345 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 4 (ShuffledRDD[4] at reduceByKey at TFICF.java:110)
+2020-04-06 17:31:45,346 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 4.0 with 2 tasks
+2020-04-06 17:31:45,353 INFO  [dispatcher-event-loop-12] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 4.0 (TID 8, localhost, partition 0,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,354 INFO  [dispatcher-event-loop-12] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 4.0 (TID 9, localhost, partition 1,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,355 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 4.0 (TID 8)
+2020-04-06 17:31:45,355 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 4.0 (TID 9)
+2020-04-06 17:31:45,374 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,374 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,378 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 8 ms
+2020-04-06 17:31:45,378 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 7 ms
+2020-04-06 17:31:45,406 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 4.0 (TID 9). 1472 bytes result sent to driver
+2020-04-06 17:31:45,406 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 4.0 (TID 8). 1351 bytes result sent to driver
+2020-04-06 17:31:45,410 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 4.0 (TID 9) in 56 ms on localhost (1/2)
+2020-04-06 17:31:45,411 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 4.0 (TID 8) in 63 ms on localhost (2/2)
+2020-04-06 17:31:45,411 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 4 (collect at TFICF.java:132) finished in 0.064 s
+2020-04-06 17:31:45,411 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 4.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,413 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 3 finished: collect at TFICF.java:132, took 0.249860 s
 -------Contents of tfRDD--------
 (Lorem@doc1) , (1/6)
 (id@doc3) , (1/5)
@@ -210,60 +210,60 @@
 (at@doc2) , (1/6)
 (Vituperata@doc2) , (1/6)
 --------------------------------
-2020-04-06 17:24:51,420 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:195
-2020-04-06 17:24:51,429 INFO  [dag-scheduler-event-loop] spark.MapOutputTrackerMaster (Logging.scala:logInfo(58)) - Size of output statuses for shuffle 0 is 155 bytes
-2020-04-06 17:24:51,433 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Registering RDD 5 (mapToPair at TFICF.java:145)
-2020-04-06 17:24:51,433 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 4 (collect at TFICF.java:195) with 2 output partitions
-2020-04-06 17:24:51,433 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 7 (collect at TFICF.java:195)
-2020-04-06 17:24:51,433 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List(ShuffleMapStage 6)
-2020-04-06 17:24:51,434 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List(ShuffleMapStage 6)
-2020-04-06 17:24:51,435 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ShuffleMapStage 6 (MapPartitionsRDD[5] at mapToPair at TFICF.java:145), which has no missing parents
-2020-04-06 17:24:51,437 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_6 stored as values in memory (estimated size 3.2 KB, free 309.5 KB)
-2020-04-06 17:24:51,441 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_6_piece0 stored as bytes in memory (estimated size 1962.0 B, free 311.4 KB)
-2020-04-06 17:24:51,442 INFO  [dispatcher-event-loop-3] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_6_piece0 in memory on localhost:34577 (size: 1962.0 B, free: 511.1 MB)
-2020-04-06 17:24:51,443 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 6 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:51,444 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ShuffleMapStage 6 (MapPartitionsRDD[5] at mapToPair at TFICF.java:145)
-2020-04-06 17:24:51,444 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 6.0 with 2 tasks
-2020-04-06 17:24:51,446 INFO  [dispatcher-event-loop-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 6.0 (TID 10, localhost, partition 0,NODE_LOCAL, 1930 bytes)
-2020-04-06 17:24:51,447 INFO  [dispatcher-event-loop-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 6.0 (TID 11, localhost, partition 1,NODE_LOCAL, 1930 bytes)
-2020-04-06 17:24:51,448 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 6.0 (TID 11)
-2020-04-06 17:24:51,448 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 6.0 (TID 10)
-2020-04-06 17:24:51,452 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,452 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
-2020-04-06 17:24:51,453 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,454 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,459 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 6.0 (TID 10). 1375 bytes result sent to driver
-2020-04-06 17:24:51,463 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 6.0 (TID 10) in 18 ms on localhost (1/2)
-2020-04-06 17:24:51,467 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 6.0 (TID 11). 1375 bytes result sent to driver
-2020-04-06 17:24:51,469 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 6.0 (TID 11) in 23 ms on localhost (2/2)
-2020-04-06 17:24:51,469 INFO  [task-result-getter-3] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 6.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,470 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ShuffleMapStage 6 (mapToPair at TFICF.java:145) finished in 0.024 s
-2020-04-06 17:24:51,471 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - looking for newly runnable stages
-2020-04-06 17:24:51,471 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - running: Set()
-2020-04-06 17:24:51,471 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - waiting: Set(ResultStage 7)
-2020-04-06 17:24:51,471 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - failed: Set()
-2020-04-06 17:24:51,472 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 7 (MapPartitionsRDD[7] at flatMapToPair at TFICF.java:172), which has no missing parents
-2020-04-06 17:24:51,475 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_7 stored as values in memory (estimated size 3.4 KB, free 314.8 KB)
-2020-04-06 17:24:51,479 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_7_piece0 stored as bytes in memory (estimated size 2036.0 B, free 316.8 KB)
-2020-04-06 17:24:51,482 INFO  [dispatcher-event-loop-7] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_7_piece0 in memory on localhost:34577 (size: 2036.0 B, free: 511.1 MB)
-2020-04-06 17:24:51,483 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 7 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:51,483 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 7 (MapPartitionsRDD[7] at flatMapToPair at TFICF.java:172)
-2020-04-06 17:24:51,484 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 7.0 with 2 tasks
-2020-04-06 17:24:51,486 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 7.0 (TID 12, localhost, partition 0,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,488 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 7.0 (TID 13, localhost, partition 1,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,490 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 7.0 (TID 12)
-2020-04-06 17:24:51,490 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 7.0 (TID 13)
-2020-04-06 17:24:51,493 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,494 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,495 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,496 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,499 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 7.0 (TID 12). 1369 bytes result sent to driver
-2020-04-06 17:24:51,502 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 7.0 (TID 12) in 16 ms on localhost (1/2)
-2020-04-06 17:24:51,503 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 7.0 (TID 13). 1457 bytes result sent to driver
-2020-04-06 17:24:51,505 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 7.0 (TID 13) in 17 ms on localhost (2/2)
-2020-04-06 17:24:51,505 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 7.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,506 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 7 (collect at TFICF.java:195) finished in 0.021 s
-2020-04-06 17:24:51,507 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 4 finished: collect at TFICF.java:195, took 0.085462 s
+2020-04-06 17:31:45,440 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:199
+2020-04-06 17:31:45,445 INFO  [dag-scheduler-event-loop] spark.MapOutputTrackerMaster (Logging.scala:logInfo(58)) - Size of output statuses for shuffle 0 is 155 bytes
+2020-04-06 17:31:45,449 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Registering RDD 5 (mapToPair at TFICF.java:149)
+2020-04-06 17:31:45,449 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 4 (collect at TFICF.java:199) with 2 output partitions
+2020-04-06 17:31:45,450 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 7 (collect at TFICF.java:199)
+2020-04-06 17:31:45,450 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List(ShuffleMapStage 6)
+2020-04-06 17:31:45,450 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List(ShuffleMapStage 6)
+2020-04-06 17:31:45,451 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ShuffleMapStage 6 (MapPartitionsRDD[5] at mapToPair at TFICF.java:149), which has no missing parents
+2020-04-06 17:31:45,455 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_6 stored as values in memory (estimated size 3.2 KB, free 309.5 KB)
+2020-04-06 17:31:45,457 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_6_piece0 stored as bytes in memory (estimated size 1962.0 B, free 311.4 KB)
+2020-04-06 17:31:45,459 INFO  [dispatcher-event-loop-3] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_6_piece0 in memory on localhost:44385 (size: 1962.0 B, free: 511.1 MB)
+2020-04-06 17:31:45,460 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 6 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:45,461 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ShuffleMapStage 6 (MapPartitionsRDD[5] at mapToPair at TFICF.java:149)
+2020-04-06 17:31:45,461 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 6.0 with 2 tasks
+2020-04-06 17:31:45,464 INFO  [dispatcher-event-loop-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 6.0 (TID 10, localhost, partition 0,NODE_LOCAL, 1930 bytes)
+2020-04-06 17:31:45,464 INFO  [dispatcher-event-loop-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 6.0 (TID 11, localhost, partition 1,NODE_LOCAL, 1930 bytes)
+2020-04-06 17:31:45,465 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 6.0 (TID 10)
+2020-04-06 17:31:45,466 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 6.0 (TID 11)
+2020-04-06 17:31:45,470 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,471 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,473 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,473 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,478 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 6.0 (TID 10). 1375 bytes result sent to driver
+2020-04-06 17:31:45,481 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 6.0 (TID 10) in 18 ms on localhost (1/2)
+2020-04-06 17:31:45,485 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 6.0 (TID 11). 1375 bytes result sent to driver
+2020-04-06 17:31:45,487 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 6.0 (TID 11) in 22 ms on localhost (2/2)
+2020-04-06 17:31:45,487 INFO  [task-result-getter-3] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 6.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,487 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ShuffleMapStage 6 (mapToPair at TFICF.java:149) finished in 0.025 s
+2020-04-06 17:31:45,488 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - looking for newly runnable stages
+2020-04-06 17:31:45,488 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - running: Set()
+2020-04-06 17:31:45,488 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - waiting: Set(ResultStage 7)
+2020-04-06 17:31:45,488 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - failed: Set()
+2020-04-06 17:31:45,490 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 7 (MapPartitionsRDD[7] at flatMapToPair at TFICF.java:176), which has no missing parents
+2020-04-06 17:31:45,494 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_7 stored as values in memory (estimated size 3.4 KB, free 314.8 KB)
+2020-04-06 17:31:45,497 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_7_piece0 stored as bytes in memory (estimated size 2036.0 B, free 316.8 KB)
+2020-04-06 17:31:45,499 INFO  [dispatcher-event-loop-7] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_7_piece0 in memory on localhost:44385 (size: 2036.0 B, free: 511.1 MB)
+2020-04-06 17:31:45,500 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 7 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:45,501 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 2 missing tasks from ResultStage 7 (MapPartitionsRDD[7] at flatMapToPair at TFICF.java:176)
+2020-04-06 17:31:45,501 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 7.0 with 2 tasks
+2020-04-06 17:31:45,503 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 7.0 (TID 12, localhost, partition 0,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,505 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 7.0 (TID 13, localhost, partition 1,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,506 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 7.0 (TID 12)
+2020-04-06 17:31:45,506 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 7.0 (TID 13)
+2020-04-06 17:31:45,510 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,510 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
+2020-04-06 17:31:45,510 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,511 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,513 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 7.0 (TID 12). 1369 bytes result sent to driver
+2020-04-06 17:31:45,516 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 7.0 (TID 12) in 13 ms on localhost (1/2)
+2020-04-06 17:31:45,517 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 7.0 (TID 13). 1457 bytes result sent to driver
+2020-04-06 17:31:45,519 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 7.0 (TID 13) in 15 ms on localhost (2/2)
+2020-04-06 17:31:45,520 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 7 (collect at TFICF.java:199) finished in 0.017 s
+2020-04-06 17:31:45,520 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 7.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,521 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 4 finished: collect at TFICF.java:199, took 0.080475 s
 -------Contents of icfRDD-------
 (simul@doc3) , (3/1)
 (Has@doc3) , (3/1)
@@ -281,85 +281,85 @@
 (incorrupte@doc2) , (3/1)
 (id@doc3) , (3/1)
 --------------------------------
-2020-04-06 17:24:51,548 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:268
-2020-04-06 17:24:51,552 INFO  [dag-scheduler-event-loop] spark.MapOutputTrackerMaster (Logging.scala:logInfo(58)) - Size of output statuses for shuffle 0 is 155 bytes
-2020-04-06 17:24:51,554 INFO  [dag-scheduler-event-loop] spark.MapOutputTrackerMaster (Logging.scala:logInfo(58)) - Size of output statuses for shuffle 1 is 155 bytes
-2020-04-06 17:24:51,556 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Registering RDD 10 (union at TFICF.java:247)
-2020-04-06 17:24:51,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 5 (collect at TFICF.java:268) with 4 output partitions
-2020-04-06 17:24:51,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 11 (collect at TFICF.java:268)
-2020-04-06 17:24:51,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List(ShuffleMapStage 10)
-2020-04-06 17:24:51,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List(ShuffleMapStage 10)
-2020-04-06 17:24:51,559 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ShuffleMapStage 10 (UnionRDD[10] at union at TFICF.java:247), which has no missing parents
-2020-04-06 17:24:51,576 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_8 stored as values in memory (estimated size 4.4 KB, free 321.2 KB)
-2020-04-06 17:24:51,579 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_8_piece0 stored as bytes in memory (estimated size 2.5 KB, free 323.7 KB)
-2020-04-06 17:24:51,580 INFO  [dispatcher-event-loop-13] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_8_piece0 in memory on localhost:34577 (size: 2.5 KB, free: 511.1 MB)
-2020-04-06 17:24:51,581 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 8 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:51,582 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 4 missing tasks from ShuffleMapStage 10 (UnionRDD[10] at union at TFICF.java:247)
-2020-04-06 17:24:51,582 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 10.0 with 4 tasks
-2020-04-06 17:24:51,587 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 10.0 (TID 14, localhost, partition 0,NODE_LOCAL, 2039 bytes)
-2020-04-06 17:24:51,588 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 10.0 (TID 15, localhost, partition 1,NODE_LOCAL, 2039 bytes)
-2020-04-06 17:24:51,588 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 2.0 in stage 10.0 (TID 16, localhost, partition 2,NODE_LOCAL, 2039 bytes)
-2020-04-06 17:24:51,589 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 3.0 in stage 10.0 (TID 17, localhost, partition 3,NODE_LOCAL, 2039 bytes)
-2020-04-06 17:24:51,590 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 10.0 (TID 14)
-2020-04-06 17:24:51,590 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 10.0 (TID 15)
-2020-04-06 17:24:51,591 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Running task 2.0 in stage 10.0 (TID 16)
-2020-04-06 17:24:51,591 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Running task 3.0 in stage 10.0 (TID 17)
-2020-04-06 17:24:51,598 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,598 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,598 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,598 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
-2020-04-06 17:24:51,599 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,599 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
-2020-04-06 17:24:51,599 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
-2020-04-06 17:24:51,600 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,608 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 10.0 (TID 14). 1377 bytes result sent to driver
-2020-04-06 17:24:51,609 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 10.0 (TID 17). 1377 bytes result sent to driver
-2020-04-06 17:24:51,610 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 10.0 (TID 14) in 27 ms on localhost (1/4)
-2020-04-06 17:24:51,611 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 10.0 (TID 16). 1377 bytes result sent to driver
-2020-04-06 17:24:51,612 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 10.0 (TID 17) in 22 ms on localhost (2/4)
-2020-04-06 17:24:51,613 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 10.0 (TID 16) in 25 ms on localhost (3/4)
-2020-04-06 17:24:51,626 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 10.0 (TID 15). 1377 bytes result sent to driver
-2020-04-06 17:24:51,629 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 10.0 (TID 15) in 41 ms on localhost (4/4)
-2020-04-06 17:24:51,630 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 10.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,632 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ShuffleMapStage 10 (union at TFICF.java:247) finished in 0.048 s
-2020-04-06 17:24:51,632 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - looking for newly runnable stages
-2020-04-06 17:24:51,633 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - running: Set()
-2020-04-06 17:24:51,633 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - waiting: Set(ResultStage 11)
-2020-04-06 17:24:51,633 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - failed: Set()
-2020-04-06 17:24:51,635 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 11 (MapPartitionsRDD[12] at mapToPair at TFICF.java:256), which has no missing parents
-2020-04-06 17:24:51,639 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_9 stored as values in memory (estimated size 3.4 KB, free 327.1 KB)
-2020-04-06 17:24:51,642 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_9_piece0 stored as bytes in memory (estimated size 2011.0 B, free 329.1 KB)
-2020-04-06 17:24:51,644 INFO  [dispatcher-event-loop-7] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_9_piece0 in memory on localhost:34577 (size: 2011.0 B, free: 511.1 MB)
-2020-04-06 17:24:51,646 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 9 from broadcast at DAGScheduler.scala:1006
-2020-04-06 17:24:51,646 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 4 missing tasks from ResultStage 11 (MapPartitionsRDD[12] at mapToPair at TFICF.java:256)
-2020-04-06 17:24:51,647 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 11.0 with 4 tasks
-2020-04-06 17:24:51,649 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 11.0 (TID 18, localhost, partition 0,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,650 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 11.0 (TID 19, localhost, partition 1,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,651 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 2.0 in stage 11.0 (TID 20, localhost, partition 2,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,653 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 3.0 in stage 11.0 (TID 21, localhost, partition 3,NODE_LOCAL, 1941 bytes)
-2020-04-06 17:24:51,654 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 11.0 (TID 18)
-2020-04-06 17:24:51,654 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Running task 2.0 in stage 11.0 (TID 20)
-2020-04-06 17:24:51,654 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 11.0 (TID 19)
-2020-04-06 17:24:51,654 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 3.0 in stage 11.0 (TID 21)
-2020-04-06 17:24:51,660 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 4 blocks
-2020-04-06 17:24:51,660 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 3 non-empty blocks out of 4 blocks
-2020-04-06 17:24:51,661 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
-2020-04-06 17:24:51,660 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 3 non-empty blocks out of 4 blocks
-2020-04-06 17:24:51,661 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 3 non-empty blocks out of 4 blocks
-2020-04-06 17:24:51,661 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,662 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,664 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 11.0 (TID 18). 1316 bytes result sent to driver
-2020-04-06 17:24:51,661 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
-2020-04-06 17:24:51,667 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 11.0 (TID 20). 1430 bytes result sent to driver
-2020-04-06 17:24:51,670 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 11.0 (TID 20) in 19 ms on localhost (1/4)
-2020-04-06 17:24:51,670 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 11.0 (TID 18) in 22 ms on localhost (2/4)
-2020-04-06 17:24:51,671 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 11.0 (TID 21). 1381 bytes result sent to driver
-2020-04-06 17:24:51,672 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 11.0 (TID 21) in 20 ms on localhost (3/4)
-2020-04-06 17:24:51,673 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 11.0 (TID 19). 1526 bytes result sent to driver
-2020-04-06 17:24:51,674 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 11.0 (TID 19) in 24 ms on localhost (4/4)
-2020-04-06 17:24:51,675 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 11.0, whose tasks have all completed, from pool 
-2020-04-06 17:24:51,676 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 11 (collect at TFICF.java:268) finished in 0.028 s
-2020-04-06 17:24:51,677 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 5 finished: collect at TFICF.java:268, took 0.128427 s
+2020-04-06 17:31:45,549 INFO  [main] spark.SparkContext (Logging.scala:logInfo(58)) - Starting job: collect at TFICF.java:272
+2020-04-06 17:31:45,553 INFO  [dag-scheduler-event-loop] spark.MapOutputTrackerMaster (Logging.scala:logInfo(58)) - Size of output statuses for shuffle 0 is 155 bytes
+2020-04-06 17:31:45,555 INFO  [dag-scheduler-event-loop] spark.MapOutputTrackerMaster (Logging.scala:logInfo(58)) - Size of output statuses for shuffle 1 is 155 bytes
+2020-04-06 17:31:45,556 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Registering RDD 10 (union at TFICF.java:251)
+2020-04-06 17:31:45,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Got job 5 (collect at TFICF.java:272) with 4 output partitions
+2020-04-06 17:31:45,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Final stage: ResultStage 11 (collect at TFICF.java:272)
+2020-04-06 17:31:45,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Parents of final stage: List(ShuffleMapStage 10)
+2020-04-06 17:31:45,557 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Missing parents: List(ShuffleMapStage 10)
+2020-04-06 17:31:45,558 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ShuffleMapStage 10 (UnionRDD[10] at union at TFICF.java:251), which has no missing parents
+2020-04-06 17:31:45,572 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_8 stored as values in memory (estimated size 4.4 KB, free 321.2 KB)
+2020-04-06 17:31:45,576 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_8_piece0 stored as bytes in memory (estimated size 2.5 KB, free 323.7 KB)
+2020-04-06 17:31:45,577 INFO  [dispatcher-event-loop-13] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_8_piece0 in memory on localhost:44385 (size: 2.5 KB, free: 511.1 MB)
+2020-04-06 17:31:45,579 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 8 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:45,579 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 4 missing tasks from ShuffleMapStage 10 (UnionRDD[10] at union at TFICF.java:251)
+2020-04-06 17:31:45,580 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 10.0 with 4 tasks
+2020-04-06 17:31:45,584 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 10.0 (TID 14, localhost, partition 0,NODE_LOCAL, 2039 bytes)
+2020-04-06 17:31:45,585 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 10.0 (TID 15, localhost, partition 1,NODE_LOCAL, 2039 bytes)
+2020-04-06 17:31:45,586 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 2.0 in stage 10.0 (TID 16, localhost, partition 2,NODE_LOCAL, 2039 bytes)
+2020-04-06 17:31:45,586 INFO  [dispatcher-event-loop-14] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 3.0 in stage 10.0 (TID 17, localhost, partition 3,NODE_LOCAL, 2039 bytes)
+2020-04-06 17:31:45,587 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 10.0 (TID 14)
+2020-04-06 17:31:45,587 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 10.0 (TID 15)
+2020-04-06 17:31:45,588 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Running task 2.0 in stage 10.0 (TID 16)
+2020-04-06 17:31:45,588 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Running task 3.0 in stage 10.0 (TID 17)
+2020-04-06 17:31:45,596 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,596 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
+2020-04-06 17:31:45,600 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,600 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
+2020-04-06 17:31:45,600 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,601 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 2 blocks
+2020-04-06 17:31:45,601 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,601 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,606 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 10.0 (TID 14). 1377 bytes result sent to driver
+2020-04-06 17:31:45,608 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 10.0 (TID 14) in 27 ms on localhost (1/4)
+2020-04-06 17:31:45,611 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 10.0 (TID 15). 1377 bytes result sent to driver
+2020-04-06 17:31:45,612 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 10.0 (TID 17). 1377 bytes result sent to driver
+2020-04-06 17:31:45,614 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 10.0 (TID 16). 1377 bytes result sent to driver
+2020-04-06 17:31:45,614 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 10.0 (TID 15) in 30 ms on localhost (2/4)
+2020-04-06 17:31:45,617 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 10.0 (TID 17) in 30 ms on localhost (3/4)
+2020-04-06 17:31:45,619 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 10.0 (TID 16) in 33 ms on localhost (4/4)
+2020-04-06 17:31:45,619 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 10.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,620 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ShuffleMapStage 10 (union at TFICF.java:251) finished in 0.038 s
+2020-04-06 17:31:45,620 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - looking for newly runnable stages
+2020-04-06 17:31:45,620 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - running: Set()
+2020-04-06 17:31:45,620 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - waiting: Set(ResultStage 11)
+2020-04-06 17:31:45,620 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - failed: Set()
+2020-04-06 17:31:45,621 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting ResultStage 11 (MapPartitionsRDD[12] at mapToPair at TFICF.java:260), which has no missing parents
+2020-04-06 17:31:45,625 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_9 stored as values in memory (estimated size 3.4 KB, free 327.2 KB)
+2020-04-06 17:31:45,628 INFO  [dag-scheduler-event-loop] storage.MemoryStore (Logging.scala:logInfo(58)) - Block broadcast_9_piece0 stored as bytes in memory (estimated size 2011.0 B, free 329.1 KB)
+2020-04-06 17:31:45,630 INFO  [dispatcher-event-loop-7] storage.BlockManagerInfo (Logging.scala:logInfo(58)) - Added broadcast_9_piece0 in memory on localhost:44385 (size: 2011.0 B, free: 511.1 MB)
+2020-04-06 17:31:45,631 INFO  [dag-scheduler-event-loop] spark.SparkContext (Logging.scala:logInfo(58)) - Created broadcast 9 from broadcast at DAGScheduler.scala:1006
+2020-04-06 17:31:45,632 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Submitting 4 missing tasks from ResultStage 11 (MapPartitionsRDD[12] at mapToPair at TFICF.java:260)
+2020-04-06 17:31:45,632 INFO  [dag-scheduler-event-loop] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Adding task set 11.0 with 4 tasks
+2020-04-06 17:31:45,634 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 0.0 in stage 11.0 (TID 18, localhost, partition 0,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,635 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 1.0 in stage 11.0 (TID 19, localhost, partition 1,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,636 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 2.0 in stage 11.0 (TID 20, localhost, partition 2,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,637 INFO  [dispatcher-event-loop-8] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Starting task 3.0 in stage 11.0 (TID 21, localhost, partition 3,NODE_LOCAL, 1941 bytes)
+2020-04-06 17:31:45,638 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Running task 1.0 in stage 11.0 (TID 19)
+2020-04-06 17:31:45,638 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Running task 2.0 in stage 11.0 (TID 20)
+2020-04-06 17:31:45,638 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Running task 3.0 in stage 11.0 (TID 21)
+2020-04-06 17:31:45,638 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Running task 0.0 in stage 11.0 (TID 18)
+2020-04-06 17:31:45,642 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 3 non-empty blocks out of 4 blocks
+2020-04-06 17:31:45,642 INFO  [Executor task launch worker-3] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 0 ms
+2020-04-06 17:31:45,645 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 3 non-empty blocks out of 4 blocks
+2020-04-06 17:31:45,645 INFO  [Executor task launch worker-1] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,645 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 2 non-empty blocks out of 4 blocks
+2020-04-06 17:31:45,646 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Getting 3 non-empty blocks out of 4 blocks
+2020-04-06 17:31:45,646 INFO  [Executor task launch worker-2] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,646 INFO  [Executor task launch worker-0] storage.ShuffleBlockFetcherIterator (Logging.scala:logInfo(58)) - Started 0 remote fetches in 1 ms
+2020-04-06 17:31:45,647 INFO  [Executor task launch worker-3] executor.Executor (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 11.0 (TID 19). 1526 bytes result sent to driver
+2020-04-06 17:31:45,648 INFO  [task-result-getter-2] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 1.0 in stage 11.0 (TID 19) in 13 ms on localhost (1/4)
+2020-04-06 17:31:45,652 INFO  [Executor task launch worker-2] executor.Executor (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 11.0 (TID 18). 1316 bytes result sent to driver
+2020-04-06 17:31:45,653 INFO  [Executor task launch worker-1] executor.Executor (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 11.0 (TID 20). 1430 bytes result sent to driver
+2020-04-06 17:31:45,654 INFO  [task-result-getter-3] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 0.0 in stage 11.0 (TID 18) in 19 ms on localhost (2/4)
+2020-04-06 17:31:45,654 INFO  [Executor task launch worker-0] executor.Executor (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 11.0 (TID 21). 1381 bytes result sent to driver
+2020-04-06 17:31:45,655 INFO  [task-result-getter-1] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 2.0 in stage 11.0 (TID 20) in 19 ms on localhost (3/4)
+2020-04-06 17:31:45,657 INFO  [task-result-getter-0] scheduler.TaskSetManager (Logging.scala:logInfo(58)) - Finished task 3.0 in stage 11.0 (TID 21) in 20 ms on localhost (4/4)
+2020-04-06 17:31:45,657 INFO  [task-result-getter-0] scheduler.TaskSchedulerImpl (Logging.scala:logInfo(58)) - Removed TaskSet 11.0, whose tasks have all completed, from pool 
+2020-04-06 17:31:45,658 INFO  [dag-scheduler-event-loop] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - ResultStage 11 (collect at TFICF.java:272) finished in 0.024 s
+2020-04-06 17:31:45,659 INFO  [main] scheduler.DAGScheduler (Logging.scala:logInfo(58)) - Job 5 finished: collect at TFICF.java:272, took 0.109658 s
 -------Contents of tficfRDD-------
 doc1@Lorem	0.10684910910366296
 doc1@dolor	0.10684910910366296
@@ -377,42 +377,42 @@ doc3@id	0.12637567304702957
 doc3@persius	0.12637567304702957
 doc3@simul	0.12637567304702957
 --------------------------------
-2020-04-06 17:24:51,684 INFO  [Thread-3] spark.SparkContext (Logging.scala:logInfo(58)) - Invoking stop() from shutdown hook
-2020-04-06 17:24:51,740 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/metrics/json,null}
-2020-04-06 17:24:51,741 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/stage/kill,null}
-2020-04-06 17:24:51,743 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/api,null}
-2020-04-06 17:24:51,744 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/,null}
-2020-04-06 17:24:51,745 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/static,null}
-2020-04-06 17:24:51,746 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors/threadDump/json,null}
-2020-04-06 17:24:51,747 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors/threadDump,null}
-2020-04-06 17:24:51,748 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors/json,null}
-2020-04-06 17:24:51,749 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors,null}
-2020-04-06 17:24:51,750 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/environment/json,null}
-2020-04-06 17:24:51,751 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/environment,null}
-2020-04-06 17:24:51,752 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage/rdd/json,null}
-2020-04-06 17:24:51,753 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage/rdd,null}
-2020-04-06 17:24:51,754 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage/json,null}
-2020-04-06 17:24:51,754 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage,null}
-2020-04-06 17:24:51,755 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/pool/json,null}
-2020-04-06 17:24:51,756 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/pool,null}
-2020-04-06 17:24:51,757 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/stage/json,null}
-2020-04-06 17:24:51,757 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/stage,null}
-2020-04-06 17:24:51,759 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/json,null}
-2020-04-06 17:24:51,760 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages,null}
-2020-04-06 17:24:51,760 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs/job/json,null}
-2020-04-06 17:24:51,760 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs/job,null}
-2020-04-06 17:24:51,760 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs/json,null}
-2020-04-06 17:24:51,761 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs,null}
-2020-04-06 17:24:51,818 INFO  [Thread-3] ui.SparkUI (Logging.scala:logInfo(58)) - Stopped Spark web UI at http://10.4.1.42:4040
-2020-04-06 17:24:51,847 INFO  [dispatcher-event-loop-4] spark.MapOutputTrackerMasterEndpoint (Logging.scala:logInfo(58)) - MapOutputTrackerMasterEndpoint stopped!
-2020-04-06 17:24:51,862 INFO  [Thread-3] storage.MemoryStore (Logging.scala:logInfo(58)) - MemoryStore cleared
-2020-04-06 17:24:51,864 INFO  [Thread-3] storage.BlockManager (Logging.scala:logInfo(58)) - BlockManager stopped
-2020-04-06 17:24:51,867 INFO  [Thread-3] storage.BlockManagerMaster (Logging.scala:logInfo(58)) - BlockManagerMaster stopped
-2020-04-06 17:24:51,873 INFO  [dispatcher-event-loop-8] scheduler.OutputCommitCoordinator$OutputCommitCoordinatorEndpoint (Logging.scala:logInfo(58)) - OutputCommitCoordinator stopped!
-2020-04-06 17:24:51,881 INFO  [Thread-3] spark.SparkContext (Logging.scala:logInfo(58)) - Successfully stopped SparkContext
-2020-04-06 17:24:51,882 INFO  [Thread-3] util.ShutdownHookManager (Logging.scala:logInfo(58)) - Shutdown hook called
-2020-04-06 17:24:51,883 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-4] remote.RemoteActorRefProvider$RemotingTerminator (Slf4jLogger.scala:apply$mcV$sp(74)) - Shutting down remote daemon.
-2020-04-06 17:24:51,883 INFO  [Thread-3] util.ShutdownHookManager (Logging.scala:logInfo(58)) - Deleting directory /tmp/spark-9e17e86d-7671-4396-af10-2a43b1b7d3fc/httpd-700de95b-8285-429c-b9e6-28f9ec826fdf
-2020-04-06 17:24:51,885 INFO  [Thread-3] util.ShutdownHookManager (Logging.scala:logInfo(58)) - Deleting directory /tmp/spark-9e17e86d-7671-4396-af10-2a43b1b7d3fc
-2020-04-06 17:24:51,887 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] remote.RemoteActorRefProvider$RemotingTerminator (Slf4jLogger.scala:apply$mcV$sp(74)) - Remote daemon shut down; proceeding with flushing remote transports.
-2020-04-06 17:24:51,977 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-2] remote.RemoteActorRefProvider$RemotingTerminator (Slf4jLogger.scala:apply$mcV$sp(74)) - Remoting shut down.
+2020-04-06 17:31:45,667 INFO  [Thread-3] spark.SparkContext (Logging.scala:logInfo(58)) - Invoking stop() from shutdown hook
+2020-04-06 17:31:45,684 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/metrics/json,null}
+2020-04-06 17:31:45,684 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/stage/kill,null}
+2020-04-06 17:31:45,684 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/api,null}
+2020-04-06 17:31:45,685 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/,null}
+2020-04-06 17:31:45,685 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/static,null}
+2020-04-06 17:31:45,685 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors/threadDump/json,null}
+2020-04-06 17:31:45,686 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors/threadDump,null}
+2020-04-06 17:31:45,686 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors/json,null}
+2020-04-06 17:31:45,686 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/executors,null}
+2020-04-06 17:31:45,687 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/environment/json,null}
+2020-04-06 17:31:45,687 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/environment,null}
+2020-04-06 17:31:45,687 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage/rdd/json,null}
+2020-04-06 17:31:45,688 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage/rdd,null}
+2020-04-06 17:31:45,688 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage/json,null}
+2020-04-06 17:31:45,688 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/storage,null}
+2020-04-06 17:31:45,689 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/pool/json,null}
+2020-04-06 17:31:45,689 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/pool,null}
+2020-04-06 17:31:45,689 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/stage/json,null}
+2020-04-06 17:31:45,689 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/stage,null}
+2020-04-06 17:31:45,690 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages/json,null}
+2020-04-06 17:31:45,690 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/stages,null}
+2020-04-06 17:31:45,690 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs/job/json,null}
+2020-04-06 17:31:45,691 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs/job,null}
+2020-04-06 17:31:45,691 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs/json,null}
+2020-04-06 17:31:45,691 INFO  [Thread-3] handler.ContextHandler (ContextHandler.java:doStop(843)) - stopped o.s.j.s.ServletContextHandler{/jobs,null}
+2020-04-06 17:31:45,745 INFO  [Thread-3] ui.SparkUI (Logging.scala:logInfo(58)) - Stopped Spark web UI at http://10.4.1.42:4040
+2020-04-06 17:31:45,766 INFO  [dispatcher-event-loop-1] spark.MapOutputTrackerMasterEndpoint (Logging.scala:logInfo(58)) - MapOutputTrackerMasterEndpoint stopped!
+2020-04-06 17:31:45,781 INFO  [Thread-3] storage.MemoryStore (Logging.scala:logInfo(58)) - MemoryStore cleared
+2020-04-06 17:31:45,782 INFO  [Thread-3] storage.BlockManager (Logging.scala:logInfo(58)) - BlockManager stopped
+2020-04-06 17:31:45,784 INFO  [Thread-3] storage.BlockManagerMaster (Logging.scala:logInfo(58)) - BlockManagerMaster stopped
+2020-04-06 17:31:45,790 INFO  [dispatcher-event-loop-8] scheduler.OutputCommitCoordinator$OutputCommitCoordinatorEndpoint (Logging.scala:logInfo(58)) - OutputCommitCoordinator stopped!
+2020-04-06 17:31:45,794 INFO  [Thread-3] spark.SparkContext (Logging.scala:logInfo(58)) - Successfully stopped SparkContext
+2020-04-06 17:31:45,796 INFO  [Thread-3] util.ShutdownHookManager (Logging.scala:logInfo(58)) - Shutdown hook called
+2020-04-06 17:31:45,797 INFO  [Thread-3] util.ShutdownHookManager (Logging.scala:logInfo(58)) - Deleting directory /tmp/spark-6d7338fc-cb39-494f-a51b-172c17170c51/httpd-58b3c268-9a25-4159-aed5-deaa79c02fcf
+2020-04-06 17:31:45,798 INFO  [Thread-3] util.ShutdownHookManager (Logging.scala:logInfo(58)) - Deleting directory /tmp/spark-6d7338fc-cb39-494f-a51b-172c17170c51
+2020-04-06 17:31:45,809 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-3] remote.RemoteActorRefProvider$RemotingTerminator (Slf4jLogger.scala:apply$mcV$sp(74)) - Shutting down remote daemon.
+2020-04-06 17:31:45,812 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-3] remote.RemoteActorRefProvider$RemotingTerminator (Slf4jLogger.scala:apply$mcV$sp(74)) - Remote daemon shut down; proceeding with flushing remote transports.
+2020-04-06 17:31:45,864 INFO  [sparkDriverActorSystem-akka.actor.default-dispatcher-3] remote.RemoteActorRefProvider$RemotingTerminator (Slf4jLogger.scala:apply$mcV$sp(74)) - Remoting shut down.
