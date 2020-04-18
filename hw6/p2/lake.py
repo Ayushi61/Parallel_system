@@ -11,6 +11,12 @@ import PIL.Image
 
 def DisplayArray(a, fmt='jpeg', rng=[0,1]):
   """Display an array as a picture."""
+  #print("printing n " + str(N))
+  h=(float)(1)/N
+  f_c=open("lake_c.dat",'w')
+  for i in range(len(a)):
+	for j in range(len(a[i])):
+		f_c.write(str(i*h)+" "+str(j*h)+" " +str(a[i][j])+'\n')
   a = (a - rng[0])/float(rng[1] - rng[0])*255
   a = np.uint8(np.clip(a, 0, 255))
   with open("lake_py.jpg","w") as f:
