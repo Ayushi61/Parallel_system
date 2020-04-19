@@ -1,0 +1,35 @@
+[prun] Master compute host = c30
+[prun] Resource manager = slurm
+[prun] Launch cmd = mpiexec.hydra -bootstrap slurm ./mpi_sendrcv
+size of int is 4
+size of int is 4
+size of int is 4
+size of int is 4
+size of int is 4
+size of int is 4
+size of int is 4
+size of int is 4
+Hello from task 7 on c37!
+message sending prco number : 7
+Hello from task 4 on c34!
+message sending prco number : 4
+Hello from task 5 on c35!
+message sending prco number : 5
+Hello from task 0 on c30!
+Hello from task 6 on c36!
+message sending prco number : 6
+message sending prco number : 0
+received message is 0 from 4
+received message is 4 from 0
+Hello from task 3 on c33!
+message sending prco number : 3
+Hello from task 1 on c31!
+message sending prco number : 1
+received message is 7 from 3
+received message is 3 from 7
+received message is 1 from 5
+received message is 5 from 1
+Hello from task 2 on c32!
+message sending prco number : 2
+received message is 2 from 6
+received message is 6 from 2

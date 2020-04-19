@@ -1,0 +1,19 @@
+avg is 0.000819 and std is 0.001651 for process 6 size= 16 
+avg is 0.000369 and std is 0.000369 for process 6 size= 32 
+ERROR connecting: Connection timed out
+ERROR connecting: Connection timed out
+avg is 0.000873 and std is 0.001626 for process 1 size= 16 
+avg is 0.000612 and std is 0.000877 for process 1 size= 32 
+ERROR connecting: Connection timed out
+avg is 0.001017 and std is 0.002722 for process 3 size= 16 
+ERROR connecting: Connection timed out
+avg is 0.000872 and std is 0.001626 for process 5 size= 16 
+avg is 0.000712 and std is 0.000921 for process 5 size= 32 
+ERROR connecting: Connection timed out
+avg is 0.001015 and std is 0.002722 for process 7 size= 16 
+ERROR connecting: Connection timed out
+avg is 0.000823 and std is 0.001659 for process 2 size= 16 
+avg is 0.000369 and std is 0.000369 for process 2 size= 32 
+ERROR connecting: Connection timed out
+slurmstepd: error: *** JOB 185022 ON c53 CANCELLED AT 2020-02-05T20:51:59 ***
+Killed by signal 15.
