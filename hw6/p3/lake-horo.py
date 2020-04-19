@@ -91,14 +91,16 @@ num_iter = int(sys.argv[3])
 # Initial Conditions -- some rain drops hit a pond
 
 # Set everything to zero
-u_init  = np.zeros([N, N], dtype=np.float32)
-ut_init = np.zeros([N, N], dtype=np.float32)
+u_init  = np.zeros([N+3, N], dtype=np.float32)
+ut_init = np.zeros([N+3, N], dtype=np.float32)
 
 # Some rain drops hit a pond at random points
 for n in range(npebs):
   a,b = np.random.randint(0, N, 2)
-  u_init[a,b] = np.random.uniform()
-
+  if(hvd.rank()==0):
+  	u_init[a,b] = np.random.uniform()
+  else:
+	u_init[a+3,b] = np.random.uniform()
 # Parameters:
 # eps -- time resolution
 # damping -- wave damping
@@ -110,43 +112,43 @@ U  = tf.Variable(u_init)
 Ut = tf.Variable(ut_init)
 
 #recv 3 rows
-U_rcv0=tf.Variable(np.zeros([3,N],dtype=np.float32))
-Ut_rcv0=tf.Variable(np.zeros([3,N],dtype=np.float32))
-U_rcv1=tf.Variable(np.zeros([3,N],dtype=np.float32))
-Ut_rcv1=tf.Variable(np.zeros([3,N],dtype=np.float32))
+#U_rcv0=tf.Variable(np.zeros([3,N],dtype=np.float32))
+#Ut_rcv0=tf.Variable(np.zeros([3,N],dtype=np.float32))
+#U_rcv1=tf.Variable(np.zeros([3,N],dtype=np.float32))
+#Ut_rcv1=tf.Variable(np.zeros([3,N],dtype=np.float32))
 
 #communicate rows for calculations
-bcast=tf.group(tf.assign(U_rcv1,hvd.broadcast(U[N-3:N],0)),tf.assign(Ut_rcv1,hvd.broadcast(Ut[N-3:N],0)),tf.assign(U_rcv0,hvd.broadcast(U[0:3],1)),tf.assign(Ut_rcv0,hvd.broadcast(Ut[0:3],1)))
+bcast=tf.group(tf.assign(U[0:3],hvd.broadcast(U[N-3:N],0)),tf.assign(Ut[0:3],hvd.broadcast(Ut[N-3:N],0)),tf.assign(U[N-3:N],hvd.broadcast(U[0:3],1)),tf.assign(Ut[N-3:N],hvd.broadcast(Ut[0:3],1)))
 
 #combined results
-U_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
-Ut_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
+#U_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
+#Ut_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
 
 #concat
-concat0=tf.group(U_comb.assign(tf.concat([U,U_rcv0],0)),Ut_comb.assign(tf.concat([Ut,Ut_rcv0],0)))
-concat1=tf.group(U_comb.assign(tf.concat([U_rcv1,U],0)),Ut_comb.assign(tf.concat([Ut_rcv1,Ut],0)))
+#concat0=tf.group(U_comb.assign(tf.concat([U,U_rcv0],0)),Ut_comb.assign(tf.concat([Ut,Ut_rcv0],0)))
+#concat1=tf.group(U_comb.assign(tf.concat([U_rcv1,U],0)),Ut_comb.assign(tf.concat([Ut_rcv1,Ut],0)))
 
 
 
 
 # Discretized PDE update rules
-U_ = U_comb + eps * Ut_comb
-Ut_ = Ut_comb + eps * (laplace(U_comb) - damping * Ut_comb)
+U_ = U + eps * Ut
+Ut_ = Ut + eps * (laplace(U) - damping * Ut)
 
 
 
 # Operation to update the state
 step = tf.group(
-  U_comb.assign(U_),
-  Ut_comb.assign(Ut_))
+  U.assign(U_),
+  Ut.assign(Ut_))
 
 
 #sliced output n*n
-U_slice0=tf.group(U.assign(tf.slice(U_comb,[0,0],[N,N])))
-Ut_slice0=tf.group(Ut.assign(tf.slice(Ut_comb,[0,0],[N,N])))
+U_slice0=tf.group(U[0:N].assign(tf.slice(U,[0,0],[N,N])))
+Ut_slice0=tf.group(Ut[0:N].assign(tf.slice(Ut,[0,0],[N,N])))
 
-U_slice1=tf.group(U.assign(tf.slice(U_comb,[3,0],[N,N])))
-Ut_slice1=tf.group(Ut.assign(tf.slice(Ut_comb,[3,0],[N,N])))
+U_slice1=tf.group(U[3:N+3].assign(tf.slice(U,[3,0],[N,N])))
+Ut_slice1=tf.group(Ut[3:N+3].assign(tf.slice(Ut,[3,0],[N,N])))
 
 
 # Initialize state to initial conditions
@@ -159,10 +161,10 @@ start = time.time()
 for i in range(num_iter):
   # Step simulation
   bcast.run()
-  if hvd.rank()==0:
+  '''if hvd.rank()==0:
 	concat0.run()
   else:
-   	concat1.run()
+   	concat1.run()'''
   step.run({eps: 0.06, damping: 0.03})
   if hvd.rank()==0:
         U_slice0.run()
