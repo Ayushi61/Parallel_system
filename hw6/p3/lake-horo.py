@@ -168,8 +168,8 @@ for i in range(num_iter):
         U_slice0.run()
 	Ut_slice0.run()
   else:
-        U_slice0.run()
-	Ut_slice0.run()
+        U_slice1.run()
+	Ut_slice1.run()
 
 
 end = time.time()
