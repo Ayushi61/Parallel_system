@@ -1,9 +1,0 @@
-SHELL:=/bin/bash
-
-all:
-	module load pgi64; \
-	pgcc -o lake_opti lake_opti.c -I./ -mp -fast -Minfo=mp -Minline -Msafeptr -lm
-
-clean:
-	rm -f *.o *~ *.dat *.png lake.log lake
-
