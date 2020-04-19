@@ -183,7 +183,9 @@ public class TFICF {
 
 		String str="";
 		public void map(Object key, Text value, Context context) throws IOException, InterruptedException {
-
+			String[] keysplit=value.toString().split(" ");
+			int cnt=keysplit.length;
+			System.out.println("#####################"+cnt);
 			//iterate over each word in file
 			StringTokenizer line = new StringTokenizer(value.toString());
 			while (line.hasMoreTokens()) {
