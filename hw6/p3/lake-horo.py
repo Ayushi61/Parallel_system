@@ -111,22 +111,11 @@ damping = tf.placeholder(tf.float32, shape=())
 U  = tf.Variable(u_init)
 Ut = tf.Variable(ut_init)
 
-#recv 3 rows
-#U_rcv0=tf.Variable(np.zeros([3,N],dtype=np.float32))
-#Ut_rcv0=tf.Variable(np.zeros([3,N],dtype=np.float32))
-#U_rcv1=tf.Variable(np.zeros([3,N],dtype=np.float32))
-#Ut_rcv1=tf.Variable(np.zeros([3,N],dtype=np.float32))
 
 #communicate rows for calculations
 bcast=tf.group(tf.assign(U[0:3],hvd.broadcast(U[N-3:N],0)),tf.assign(Ut[0:3],hvd.broadcast(Ut[N-3:N],0)),tf.assign(U[N-3:N],hvd.broadcast(U[0:3],1)),tf.assign(Ut[N-3:N],hvd.broadcast(Ut[0:3],1)))
 
-#combined results
-#U_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
-#Ut_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
 
-#concat
-#concat0=tf.group(U_comb.assign(tf.concat([U,U_rcv0],0)),Ut_comb.assign(tf.concat([Ut,Ut_rcv0],0)))
-#concat1=tf.group(U_comb.assign(tf.concat([U_rcv1,U],0)),Ut_comb.assign(tf.concat([Ut_rcv1,Ut],0)))
 
 
 
@@ -161,10 +150,6 @@ start = time.time()
 for i in range(num_iter):
   # Step simulation
   bcast.run()
-  '''if hvd.rank()==0:
-	concat0.run()
-  else:
-   	concat1.run()'''
   step.run({eps: 0.06, damping: 0.03})
   if hvd.rank()==0:
         U_slice0.run()
