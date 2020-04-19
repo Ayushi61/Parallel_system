@@ -1,6 +1,0 @@
-[prun] Master compute host = c20
-[prun] Resource manager = slurm
-[prun] Launch cmd = mpiexec.hydra -bootstrap slurm ./mpi_hello
-Hello from task 1 on c20!
-Hello from task 0 on c20!
-MASTER: Number of MPI tasks is: 2
