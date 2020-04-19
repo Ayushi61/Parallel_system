@@ -124,7 +124,7 @@ Ut_comb=tf.Variable(np.zeros([N+3,N],dtype=np.float32))
 
 #concat
 concat0=tf.group(U_comb.assign(tf.concat([U,U_rcv0],0)),Ut_comb.assign(tf.concat([Ut,Ut_rcv0],0)))
-concat1=tf.group(U_comb.assign(tf.concat([U_rcv1,Ut],0)),Ut_comb.assign(tf.concat([Ut_rcv1,Ut],0)))
+concat1=tf.group(U_comb.assign(tf.concat([U_rcv1,U],0)),Ut_comb.assign(tf.concat([Ut_rcv1,Ut],0)))
 
 
 
