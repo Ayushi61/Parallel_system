@@ -1,9 +1,0 @@
-avg is 0.000771 and std is 0.000798 for process 3 size= 16 
-avg is 0.000469 and std is 0.000583 for process 3 size= 32 
-ERROR connecting: Connection timed out
-avg is 0.000768 and std is 0.000793 for process 1 size= 16 
-avg is 0.000466 and std is 0.000579 for process 1 size= 32 
-ERROR connecting: Connection timed out
-slurmstepd: error: *** JOB 185067 ON c54 CANCELLED AT 2020-02-05T23:10:41 ***
-Killed by signal 15.
-Killed by signal 15.
