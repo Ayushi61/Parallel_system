@@ -1,0 +1,27 @@
+Hostname: c21
+c21 and rank is 0
+ addr to mactch is c21
+ addr to mactch is c22
+numproc=2
+thread 1,30015
+30015 port num
+here rank is 0
+30014 port num
+here rank is 0
+ok till here
+ok till here
+checking--------------------- 
+checking--------------------- 
+checking barrier 32553
+inside server while
+rcvd!!!!!!! 1
+comm.portno-30014+1 is 1
+server got---> 1
+checking--------------------- 
+--> post checking barrier 1
+sending ack c22 
+entered client ---30014,c22
+Please enter the message: message is 0 to c22
+rcvd 
+contents of hostname is c21
+0 is rank global mpi

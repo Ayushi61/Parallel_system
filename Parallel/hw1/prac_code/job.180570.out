@@ -1,0 +1,15 @@
+[prun] Master compute host = c101
+[prun] Resource manager = slurm
+[prun] Launch cmd = mpiexec.hydra -bootstrap slurm ./mpi_sendrcv
+Hello from task 2 on c103!
+message sending prco number : 2
+Hello from task 0 on c101!
+message sending prco number : 0
+received message is 0 from 2
+received message is 2 from 0
+Hello from task 3 on c104!
+message sending prco number : 3
+Hello from task 1 on c102!
+message sending prco number : 1
+received message is 1 from 3
+received message is 3 from 1
