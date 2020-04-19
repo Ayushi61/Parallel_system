@@ -28,6 +28,7 @@ def DisplayArray(a,rank ,fmt='jpeg' ,rng=[0,1]):
   for i in range(len(a)):
 	for j in range(len(a[i])):
 		f_c.write(str(i*h)+" "+str(j*h)+" " +str(a[i][j])+'\n')
+  f_c.close()
   a = (a - rng[0])/float(rng[1] - rng[0])*255
   a = np.uint8(np.clip(a, 0, 255))
   with open("lake_py_%d.jpg" %(rank),"w") as f:
