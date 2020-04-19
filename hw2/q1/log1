@@ -1,0 +1,50 @@
+before init
+Hostname: c40
+ addr to mactch is c39
+c40 and rank is 1
+ addr to mactch is c40
+numproc=2
+30014 port num
+here rank is 1
+ok till here
+checking--------------------- 
+entered client ---30015,c39
+Please enter the message: message is 1 to c39
+inside server while
+rcvd 
+-461109320 recieved buffer_client
+rcvd!!!!!!! 0
+#####################is #################0
+server got---> 0
+checking--------------------- 
+-->post sleep 0 recieved buffer_client
+contents of hostname is c39
+1 is rank global mpi
+before init
+Hostname: c37
+c37 and rank is 0
+ addr to mactch is c37
+ addr to mactch is c38
+numproc=2
+thread 1,30015
+30015 port num
+here rank is 0
+30014 port num
+here rank is 0
+ok till here
+checking--------------------- 
+ok till here
+checking--------------------- 
+checking barrier 32603
+inside server while
+rcvd!!!!!!! 1
+comm.portno-30014+1 is 1
+server got---> 1
+checking--------------------- 
+--> post checking barrier 1
+sending ack c38 
+entered client ---30014,c38
+Please enter the message: message is 0 to c38
+rcvd 
+contents of hostname is c37
+0 is rank global mpi

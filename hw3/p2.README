@@ -1,0 +1,109 @@
+1)How/why does your optimization for removing memory copies work?
+--Answer---
+	Implementation of optimization of memcopy was done using circular pointer rotation. temp-<uo,uo<-uc,uc<-un,un<-temp. By doing this, we do not go about copying an array element by element, rather just rotate the pointers of the array.This improves the performance, but not to a great extent. Gives an optimization of only about 14 seconds as seen from the logs below. 
+	
+	--serial code with memcpy--
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 1 threads
+	Initialization took 0.033125 seconds
+	Simulation took 383.310276 seconds
+	Init+Simulation took 383.343401 seconds
+	
+	---serial code  with pointer rotation---
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 1 threads
+	Initialization took 0.030693 seconds
+	Simulation took 369.917033 seconds
+	Init+Simulation took 369.947726 seconds
+
+2) Does which loop you parallelized matter? Why or why not?
+--Answer--
+	Yes, the loop that is being parallelized matters. This is due to the fact that, if only inner loop is parallelized, then , for each iteration of outer loop, innter loop forks multiple threads and joins them. Apart from fork-join overhead, there is an extra delay of barrier on each iteration of outer loop, as inner loop has to wait for all the forks to join. Due to this, inner loop parallelization is the slowest. 
+	
+	Outer loop is the quickest as the this parallelization, includes the compiler vectorizing the inner loops as per its convinience, based on the number of threads running. 
+	
+	Collapse- parallizing both the loops-is not the most efficient, as collapse- turns 2 nested loops into 1 huge loop, with n*n number of threads. Depending on the number of threads the compiler has, work is distributed. The distributed work might consist of different chunk of the incomplete inner loops. In this case the compiler does not vectorize as it is not able to model the vectorization without the inner loop. Vectorization actually improves the computational performance. 
+	
+	Observations:
+	Min time- most optimal - Parallelize outer loop
+	Medium time -- Collapse- Both loops parallelization
+	Max time - least optimal -- Parallelize only inner loop
+	
+	---inner loop---
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.032093 seconds
+	Simulation took 61.202349 seconds
+	Init+Simulation took 61.234442 seconds
+	
+	--collapse both loops--
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.031712 seconds
+	Simulation took 33.740324 seconds
+	Init+Simulation took 33.772036 seconds
+	
+	--outer loop---
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.030424 seconds
+	Simulation took 23.234166 seconds
+	Init+Simulation took 23.264590 seconds
+	
+
+3)Does parallelizing both loops make a difference? Why or why not?
+--Answer---
+	Collapse- parallizing both the loops-is not the most efficient, as collapse- turns 2 nested loops into 1 huge loop, with n*n number of threads. Depending on the number of threads the compiler has, work is distributed. The distributed work might consist of different chunk of the incomplete inner loops. In this case the compiler does not vectorize as it is not able to model the vectorization without the inner loop. Vectorization actually improves the computational performance. 
+	All in all, parallizing both the loops though better than only inner loop, isnt better than outer loop parallelization
+	
+	--collapse both loops--
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.031712 seconds
+	Simulation took 33.740324 seconds
+	Init+Simulation took 33.772036 seconds
+	
+4)Why does parallelizing memory initializations matter?
+--Answer--
+	Parallelizing memory initializations gives an improvement of about 2 seconds. This improvement is less, as the memory initialization is not in continuous while loop. It is a one time initialization. However it initializes all the data. And as the number of data points increase, serial initialization can slow down the processor. Since initializations are independent of each other, parellelization can optimize the code considerably. 
+
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.034944 seconds
+	Simulation took 21.539801 seconds
+	Init+Simulation took 21.574745 seconds
+
+5) Does the scheduling type matter? Why or why not?
+--Answer--
+	Yes, the scheduling type matter. As noticed on running static vs dynamic, static was found to be more optimal in this case as all the calculations take the same amount of time to compute.
+	Dynamic scheduling would have been more optimal in cases where parallelized tasks took different amount of time to complete. Then dynamic scheduling would give the next set of work to the process that finishes 1st. 
+	In our case, since it takes about equal time for all calculations to complete, the latency added due to dynamic schedulings decision making is not hidden. As notices, dynamic scheduling is near static schduling at n/16 as it has 16 cores -16threads. Its the worst as chunk size increases. As increasing the chunk size makes it more static. Having to process n chunk size at a go is the worst performance scenario. As shown by the results below:
+	
+	Dynamic with chunk size =n -- more like serial
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.049262 seconds
+	Simulation took 337.676970 seconds
+	Init+Simulation took 337.726232 seconds
+	
+	Dynamic with chunk size =n/16- -more like static with 16 threads.
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.047776 seconds
+	Simulation took 22.461640 seconds
+	Init+Simulation took 22.509416 seconds
+	
+	Dynamic with chunk size =1- -more dynamic.
+	running ./lake with (1024 x 1024) grid, until 2.000000, with 16 threads
+	Initialization took 0.054138 seconds
+	Simulation took 24.150860 seconds
+	Init+Simulation took 24.204998 seconds
+	
+	
+6) This program is particularly easy to parallelize. Why?
+--Answer--
+	This program is fairly easy to parallelize due to the fact that 
+	1) no computation is dependent on the neigbouring computations value at a given point in time, 
+	2) nested loops are not dependent loops
+	3) Computations are simple, and the code is written in a format such that it can easily be converted to parallel code by adding directives.
+
+	
+7) (Optional) Can you think of other optimizations either in the code or the OpenMP directives that could further speed up the program? Include a thorough discussion of optimizations. If you'd like to implement these optimizations, please do so in separate files from the base code. You may also submit timings from demonstration runs showing the speedup.
+
+--Answer-- 
+	Other optimization -- Guided scheduling can result in slightly better optimization as it chooses for itself the best combination of chunks starting with big chunk size. 
+	Other optimizations that can be done are- allocating uc, un and uo together in 3*n*n array as seen in the code, so that they can access memory locations close to each other and cause cache hits. 
+	Another optimation that can be done is - use the u0,u1, functions directly from the function definition. This will avoid the 1st memcopy. 
+	
+

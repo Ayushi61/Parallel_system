@@ -1,0 +1,5 @@
+[prun] Master compute host = c21
+[prun] Resource manager = slurm
+[prun] Launch cmd = mpiexec.hydra -bootstrap slurm ./mpi_sendrcv
+message sending prco number : 1
+message sending prco number : 0
